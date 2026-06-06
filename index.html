@@ -27,7 +27,7 @@
 
     body {
       font-family: 'Inter', 'Segoe UI', sans-serif;
-      background: var(--bg);
+      background: #E0E3E6;
       color: var(--black);
       min-height: 100vh;
       padding: 0;
@@ -541,34 +541,73 @@
     }
     .btn-cancel:hover { background: var(--bg); }
 
-    /* ── Заголовок секции ── */
-    .section-header {
-      grid-column: 1 / -1;
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      padding: 20px 0 6px;
-      margin-top: 8px;
-      border-top: 1px solid var(--silver);
-    }
-    .section-header.first { border-top: none; padding-top: 4px; margin-top: 0; }
-    .sh-bar {
-      width: 4px;
-      height: 36px;
-      border-radius: 2px;
-      flex-shrink: 0;
-    }
-    .sh-title {
-      font-size: 0.65rem;
+    /* ── Блоки секций ── */
+    .section-block { padding: 24px 32px 36px; }
+    .section-block .grid { padding: 0; margin-top: 16px; }
+    .section-platinum { background: #E0E3E6; }
+    .section-graphite { background: #494C53; }
+    .section-black    { background: #1E1E1E; }
+
+    .section-tag {
+      font-size: 0.6rem;
       font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: 0.12em;
-      margin-bottom: 3px;
+      letter-spacing: 0.14em;
+      margin-bottom: 4px;
     }
-    .sh-desc {
-      font-size: 0.75rem;
-      color: var(--gray);
+    .section-platinum .section-tag { color: #929498; }
+    .section-graphite .section-tag { color: rgba(255,255,255,.45); }
+    .section-black    .section-tag { color: rgba(255,255,255,.35); }
+
+    .section-name {
+      font-size: 1.1rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: var(--black);
     }
+
+    /* Тёмные секции: переопределяем CSS-переменные (наследуются детьми) */
+    .section-graphite {
+      --black:    #FFFFFF;
+      --graphite: rgba(255,255,255,.75);
+      --gray:     rgba(255,255,255,.45);
+      --silver:   rgba(255,255,255,.12);
+      --bg:       rgba(255,255,255,.06);
+      --shadow:   0 1px 3px rgba(0,0,0,.25),0 4px 16px rgba(0,0,0,.2);
+      --red-bg:   rgba(230,30,20,.25);
+      --green-bg: rgba(0,186,56,.2);
+    }
+    .section-graphite .card { background: #5A5E68; border-color: rgba(255,255,255,.1); }
+    .section-graphite .card:hover { box-shadow: 0 2px 8px rgba(0,0,0,.2),0 8px 24px rgba(0,0,0,.2); }
+    .section-graphite .sentiment-item { background: rgba(255,255,255,.07); }
+    .section-graphite .sent-bidir-track { background: rgba(255,255,255,.15); }
+    .section-graphite .edit-btn { border-color: rgba(255,255,255,.2); color: rgba(255,255,255,.5); }
+    .section-graphite .info-btn { color: rgba(255,255,255,.4); }
+    .section-graphite .broker-chart-lbl { color: rgba(255,255,255,.5); }
+    .section-graphite .broker-kpi-lbl { color: rgba(255,255,255,.5); }
+    .section-graphite .broker-kpi-val span { color: rgba(255,255,255,.65); }
+    .section-graphite .broker-kpis { border-top-color: rgba(255,255,255,.12); }
+    .section-graphite .wl-head { border-bottom-color: rgba(255,255,255,.12); }
+    .section-graphite .macro-row:nth-child(even) { border-left-color: rgba(255,255,255,.08); }
+    .section-graphite .cpi-comment-box { background: rgba(255,255,255,.05); }
+    .section-graphite .stock-2col .wl-row { border-bottom-color: rgba(255,255,255,.07); }
+
+    .section-black {
+      --black:    #FFFFFF;
+      --graphite: rgba(255,255,255,.7);
+      --gray:     rgba(255,255,255,.4);
+      --silver:   rgba(255,255,255,.09);
+      --bg:       rgba(255,255,255,.04);
+      --shadow:   0 1px 3px rgba(0,0,0,.35),0 4px 16px rgba(0,0,0,.28);
+      --red-bg:   rgba(230,30,20,.2);
+      --green-bg: rgba(0,186,56,.15);
+    }
+    .section-black .card { background: #272727; border-color: rgba(255,255,255,.08); }
+    .section-black .card:hover { box-shadow: 0 2px 8px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.25); }
+    .section-black .sentiment-item { background: rgba(255,255,255,.05); }
+    .section-black .sent-bidir-track { background: rgba(255,255,255,.12); }
+    .section-black .edit-btn { border-color: rgba(255,255,255,.15); color: rgba(255,255,255,.4); }
+    .section-black .info-btn { color: rgba(255,255,255,.35); }
 
     @media (max-width: 700px) {
       .grid { padding: 0 16px 24px; }
@@ -609,17 +648,11 @@
   <span class="page-subtitle">Российский рынок и макроэкономика · июнь 2026</span>
 </div>
 
-<!-- ─── Карточки ────────────────────────────────────────────────── -->
-<div class="grid">
-
-  <!-- ═══ СЕКЦИЯ 1: РЫНОЧНЫЕ КОТИРОВКИ ═══ -->
-  <div class="section-header first">
-    <div class="sh-bar" style="background:#E61E14"></div>
-    <div>
-      <div class="sh-title" style="color:#E61E14">Рыночные котировки</div>
-      <div class="sh-desc">Живые данные · обновляются автоматически</div>
-    </div>
-  </div>
+<!-- ─── Секция 1: Рыночные котировки (Платиновый серый) ─────────── -->
+<section class="section-block section-platinum">
+  <div class="section-tag">01 / Рыночные котировки</div>
+  <div class="section-name">Живые данные</div>
+  <div class="grid">
 
   <!-- LIVE Watchlist -->
   <div class="card card-accent col-2">
@@ -825,17 +858,17 @@
     <div class="updated" id="macro-upd"></div>
   </div>
 
-  <!-- ═══ СЕКЦИЯ 2: ИНФЛЯЦИЯ И БРОКЕРЫ ═══ -->
-  <div class="section-header">
-    <div class="sh-bar" style="background:#FF6C36"></div>
-    <div>
-      <div class="sh-title" style="color:#FF6C36">Инфляция и брокеры</div>
-      <div class="sh-desc">Данные Росстат и ЦБ РФ · обновляются вручную</div>
-    </div>
   </div>
+</section>
+
+<!-- ─── Секция 2: Инфляция и брокеры (Финансовый графит) ────────── -->
+<section class="section-block section-graphite">
+  <div class="section-tag">02 / Инфляция и брокеры</div>
+  <div class="section-name">Данные вручную</div>
+  <div class="grid">
 
   <!-- График ИПЦ Росстат -->
-  <div class="card col-3" style="background:#f7f7f7">
+  <div class="card col-3">
     <div class="card-title" style="font-size:1rem;font-weight:700;color:#1E1E1E;text-transform:none;letter-spacing:0;margin-bottom:16px">
       Недельные темпы роста индекса потребительских цен, %
       <div style="display:flex;gap:6px;align-items:center">
@@ -846,7 +879,7 @@
         <button class="edit-btn" id="cpi-add-btn">+ Неделя</button>
       </div>
     </div>
-    <div style="height:320px;background:#fff;border-radius:4px;padding:8px 4px 4px"><canvas id="cpi-chart"></canvas></div>
+    <div style="height:320px;background:rgba(255,255,255,.08);border-radius:4px;padding:8px 4px 4px"><canvas id="cpi-chart"></canvas></div>
     <div style="display:flex;justify-content:space-between;align-items:center;margin-top:6px">
       <span style="font-size:0.75rem;color:#888">Источник: Росстат, Альфа-Инвестиции</span>
       <span style="font-size:0.75rem;color:#888" id="cpi-last"></span>
@@ -913,27 +946,28 @@
     </div>
   </div>
 
-  <!-- ═══ СЕКЦИЯ 3: БИЗНЕС-ПОКАЗАТЕЛИ ═══ -->
-  <div class="section-header">
-    <div class="sh-bar" style="background:#494C53"></div>
-    <div>
-      <div class="sh-title" style="color:#494C53">Бизнес-показатели</div>
-      <div class="sh-desc">В разработке · данные появятся позже</div>
-    </div>
   </div>
+</section>
+
+<!-- ─── Секция 3: Бизнес-показатели (Стратегический черный) ─────── -->
+<section class="section-block section-black">
+  <div class="section-tag">03 / Бизнес-показатели</div>
+  <div class="section-name">В разработке</div>
+  <div class="grid">
 
   <!-- Пустая карточка — раздел в разработке -->
-  <div class="card col-3" style="border:2px dashed var(--silver);background:transparent;box-shadow:none;display:flex;align-items:center;justify-content:center;min-height:160px">
+  <div class="card col-3" style="border:2px dashed rgba(255,255,255,.15);background:transparent;box-shadow:none;display:flex;align-items:center;justify-content:center;min-height:160px">
     <div style="text-align:center">
-      <div style="width:40px;height:40px;border-radius:10px;background:var(--bg);display:flex;align-items:center;justify-content:center;margin:0 auto 12px">
-        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="2" y="10" width="3" height="8" rx="1" fill="#B6B7BA"/><rect x="8" y="6" width="3" height="12" rx="1" fill="#B6B7BA"/><rect x="14" y="2" width="3" height="16" rx="1" fill="#B6B7BA"/></svg>
+      <div style="width:40px;height:40px;border-radius:10px;background:rgba(255,255,255,.07);display:flex;align-items:center;justify-content:center;margin:0 auto 12px">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="2" y="10" width="3" height="8" rx="1" fill="rgba(255,255,255,.4)"/><rect x="8" y="6" width="3" height="12" rx="1" fill="rgba(255,255,255,.4)"/><rect x="14" y="2" width="3" height="16" rx="1" fill="rgba(255,255,255,.4)"/></svg>
       </div>
-      <div style="font-size:0.88rem;font-weight:600;color:var(--graphite)">Данные появятся позже</div>
-      <div style="font-size:0.75rem;color:var(--gray);margin-top:4px">Раздел в разработке</div>
+      <div style="font-size:0.88rem;font-weight:600;color:rgba(255,255,255,.6)">Данные появятся позже</div>
+      <div style="font-size:0.75rem;color:rgba(255,255,255,.35);margin-top:4px">Раздел в разработке</div>
     </div>
   </div>
 
-</div>
+  </div>
+</section>
 
 <!-- ─── Справка по индикатору ─────────────────────────────────── -->
 <dialog id="help-dialog">
