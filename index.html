@@ -1,0 +1,2048 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Рыночная конъюнктура — Альфа Капитал</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --red:    #E61E14;
+      --red-bg: #FDF1F0;
+      --green:  #00BA38;
+      --green-bg: #EDFAF3;
+      --black:  #1E1E1E;
+      --graphite: #494C53;
+      --gray:   #929498;
+      --silver: #E0E3E6;
+      --bg:     #F3F4F5;
+      --white:  #FFFFFF;
+      --shadow: 0 1px 3px rgba(30,30,30,.06), 0 4px 16px rgba(30,30,30,.05);
+    }
+
+    body {
+      font-family: 'Inter', 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--black);
+      min-height: 100vh;
+      padding: 0;
+    }
+
+    /* ── Шапка ── */
+    header {
+      background: var(--white);
+      border-bottom: 1px solid var(--silver);
+      padding: 0 32px;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+    .logo-mark {
+      width: 36px;
+      height: 36px;
+      flex-shrink: 0;
+    }
+    .logo-name {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--black);
+      letter-spacing: -0.01em;
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .header-date {
+      font-size: 0.8rem;
+      color: var(--gray);
+    }
+    .header-clock {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--graphite);
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* ── Подзаголовок ── */
+    .page-header {
+      padding: 28px 32px 20px;
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+    }
+    .page-title {
+      font-size: 1.5rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: var(--black);
+    }
+    .page-subtitle {
+      font-size: 0.85rem;
+      color: var(--gray);
+    }
+
+    /* ── Сетка ── */
+    .grid {
+      display: grid;
+      gap: 16px;
+      padding: 0 32px 32px;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    }
+    .col-2 { grid-column: span 2; }
+    .col-3 { grid-column: span 3; }
+
+    /* ── Карточка ── */
+    .card {
+      background: var(--white);
+      border: 1px solid var(--silver);
+      border-radius: 16px;
+      padding: 20px 22px;
+      box-shadow: var(--shadow);
+      transition: box-shadow 0.2s;
+    }
+    .card:hover { box-shadow: 0 2px 8px rgba(30,30,30,.08), 0 8px 24px rgba(30,30,30,.08); }
+
+    .card-title {
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--gray);
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    /* ── Метрика ── */
+    .metric-row { display: flex; align-items: flex-end; gap: 10px; }
+    .metric-value {
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--black);
+      letter-spacing: -0.03em;
+      line-height: 1;
+      font-variant-numeric: tabular-nums;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 3px 8px;
+      border-radius: 8px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      white-space: nowrap;
+      margin-bottom: 2px;
+    }
+    .badge.up   { background: var(--green-bg); color: var(--green); }
+    .badge.down { background: var(--red-bg);   color: var(--red); }
+    .badge.flat { background: #F3F4F5;          color: var(--graphite); }
+
+    .metric-label {
+      font-size: 0.78rem;
+      color: var(--gray);
+      margin-top: 6px;
+    }
+
+    /* ── Разделитель акцентом ── */
+    .card-accent {
+      border-top: 3px solid var(--red);
+    }
+
+    /* ── Страх/Жадность ── */
+    .fg-wrap { display: flex; flex-direction: column; align-items: center; }
+    .fg-number {
+      font-size: 2.8rem;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      line-height: 1;
+      text-align: center;
+      margin-top: -4px;
+    }
+    .fg-label {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--gray);
+      margin-top: 4px;
+      text-align: center;
+    }
+
+    /* ── Макро таблица ── */
+    .macro-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+    }
+    .macro-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--bg);
+      gap: 8px;
+    }
+    .macro-row:nth-child(odd) { padding-right: 20px; }
+    .macro-row:nth-child(even) { padding-left: 20px; border-left: 1px solid var(--bg); }
+    .macro-name { font-size: 0.82rem; color: var(--graphite); }
+    .macro-val-wrap { display: flex; align-items: center; gap: 8px; }
+    .macro-val { font-size: 0.92rem; font-weight: 700; color: var(--black); font-variant-numeric: tabular-nums; }
+
+    /* ── График ── */
+    .chart-wrap { height: 130px; }
+
+    /* ── Метка обновления ── */
+    .updated { font-size: 0.68rem; color: #B6B7BA; margin-top: 8px; }
+
+    /* ── Watchlist-таблица ── */
+    .wl-table { width: 100%; }
+    .wl-head, .wl-row {
+      display: grid;
+      grid-template-columns: 1fr 120px 80px;
+      align-items: center;
+      gap: 12px;
+    }
+    .wl-head {
+      font-size: 0.68rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--gray);
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--silver);
+      margin-bottom: 2px;
+    }
+    .wl-head span:not(:first-child) { text-align: right; }
+    .wl-row {
+      padding: 9px 0;
+      border-bottom: 1px solid var(--bg);
+    }
+    .wl-row:last-child { border-bottom: none; padding-bottom: 0; }
+    .wl-name {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+      overflow: hidden;
+    }
+    .wl-ticker {
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--black);
+      white-space: nowrap;
+    }
+    .wl-subtitle {
+      font-size: 0.7rem;
+      color: var(--gray);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .wl-price {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--black);
+      font-variant-numeric: tabular-nums;
+      text-align: right;
+      white-space: nowrap;
+    }
+    .wl-chg { text-align: right; white-space: nowrap; }
+
+    /* ── Блок настроения рынка ── */
+    .sentiment-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 4px;
+    }
+    .sentiment-item {
+      background: var(--bg);
+      border-radius: 10px;
+      padding: 14px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .sentiment-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+    }
+    .sentiment-name {
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--gray);
+    }
+    .info-btn {
+      background: none;
+      border: none;
+      color: var(--gray);
+      cursor: pointer;
+      font-size: 1rem;
+      line-height: 1;
+      padding: 0;
+      flex-shrink: 0;
+      transition: color 0.15s;
+    }
+    .info-btn:hover { color: var(--red); }
+    .sentiment-value {
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: var(--black);
+      letter-spacing: -0.03em;
+      font-variant-numeric: tabular-nums;
+    }
+    .signal {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.78rem;
+      font-weight: 600;
+    }
+    .signal::before {
+      content: '●';
+      font-size: 0.6rem;
+    }
+    .signal.fear       { color: #E61E14; }
+    .signal.caution    { color: #FF6C36; }
+    .signal.neutral    { color: #F0B429; }
+    .signal.greed      { color: #00BA38; }
+    .signal.ex-greed   { color: #006D23; }
+
+    /* ── Визуалы индикаторов настроения ── */
+    .sent-big-num {
+      font-size: 1.9rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      font-variant-numeric: tabular-nums;
+      margin: 6px 0 10px;
+      line-height: 1;
+    }
+    /* Градиентная шкала (RVI) */
+    .sent-gradient-bar {
+      height: 8px;
+      border-radius: 4px;
+      background: linear-gradient(to right, #00BA38, #F0B429, #E61E14);
+      position: relative;
+      margin-bottom: 4px;
+    }
+    .sent-bar-marker {
+      position: absolute;
+      top: -4px;
+      width: 4px;
+      height: 16px;
+      background: var(--black);
+      border-radius: 2px;
+      border: 2px solid white;
+      transform: translateX(-50%);
+      transition: left 0.6s ease;
+      box-shadow: 0 1px 3px rgba(0,0,0,.2);
+    }
+    /* Двунаправленный бар (Момент, Спред) */
+    .sent-bidir-track {
+      height: 8px;
+      border-radius: 4px;
+      background: var(--silver);
+      position: relative;
+      margin-bottom: 4px;
+      overflow: hidden;
+    }
+    .sent-bidir-track::after {
+      content: '';
+      position: absolute;
+      left: 50%;
+      top: 0;
+      width: 2px;
+      height: 100%;
+      background: white;
+      z-index: 2;
+    }
+    .sent-bidir-fill {
+      position: absolute;
+      height: 100%;
+      top: 0;
+      border-radius: 4px;
+      transition: left 0.6s ease, width 0.6s ease, background 0.5s;
+    }
+    /* Подписи шкалы */
+    .sent-scale {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.66rem;
+      color: var(--gray);
+      margin-bottom: 8px;
+    }
+
+    /* ── Комментарий к ИПЦ ── */
+    .cpi-comment-box {
+      background: var(--bg);
+      border-radius: 8px;
+      border-left: 3px solid var(--red);
+      padding: 10px 14px;
+      margin-top: 12px;
+    }
+
+    /* ── Блок брокеров ── */
+    .broker-chart-lbl {
+      font-size: 0.69rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: var(--gray);
+      margin-bottom: 8px;
+    }
+    .broker-kpis {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      border-top: 1px solid var(--bg);
+      padding-top: 14px;
+      margin-top: 4px;
+    }
+    .broker-kpi { display: flex; flex-direction: column; gap: 3px; }
+    .broker-kpi-val {
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: var(--black);
+      letter-spacing: -0.02em;
+      line-height: 1;
+    }
+    .broker-kpi-val span { font-size: 0.82rem; font-weight: 600; color: var(--graphite); }
+    .broker-kpi-lbl { font-size: 0.72rem; color: var(--gray); }
+    .broker-kpi-period {
+      font-size: 0.78rem;
+      color: var(--graphite);
+      font-weight: 500;
+    }
+
+    /* ── 2-колонный грид для акций ── */
+    .stock-2col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0 28px;
+    }
+    .stock-2col .wl-head,
+    .stock-2col .wl-row { grid-template-columns: 1fr 80px 64px; gap: 8px; }
+    .stock-2col .wl-row { padding: 8px 0; }
+    .stock-2col .wl-ticker { font-size: 0.82rem; }
+    .stock-2col .wl-subtitle { font-size: 0.67rem; }
+    .stock-2col .wl-price { font-size: 0.88rem; }
+
+    /* ── Live-индикатор ── */
+    .live-dot {
+      display: inline-block;
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--green);
+      margin-right: 5px;
+      vertical-align: middle;
+      animation: pulse 2s infinite;
+    }
+    .live-dot.error { background: var(--gray); animation: none; }
+    .live-dot.loading { background: #F0B429; }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50%       { opacity: 0.5; transform: scale(0.85); }
+    }
+    .live-label { font-size: 0.68rem; color: var(--green); font-weight: 600; }
+    .live-label.error { color: var(--gray); }
+
+    /* ── Кнопки ── */
+    .edit-btn {
+      background: none;
+      border: 1px solid var(--silver);
+      border-radius: 7px;
+      color: var(--gray);
+      font-size: 0.68rem;
+      font-weight: 500;
+      padding: 3px 9px;
+      cursor: pointer;
+      transition: all 0.15s;
+      flex-shrink: 0;
+    }
+    .edit-btn:hover {
+      background: var(--red);
+      border-color: var(--red);
+      color: white;
+    }
+
+    /* ── Диалог ── */
+    dialog {
+      background: var(--white);
+      border: 1px solid var(--silver);
+      border-radius: 16px;
+      color: var(--black);
+      padding: 28px;
+      min-width: 340px;
+      max-width: 480px;
+      box-shadow: 0 8px 32px rgba(30,30,30,.15);
+    }
+    dialog::backdrop { background: rgba(30,30,30,.4); backdrop-filter: blur(4px); }
+    dialog h3 { font-size: 1rem; font-weight: 700; margin-bottom: 18px; }
+    dialog label { display: block; font-size: 0.75rem; font-weight: 600; color: var(--graphite); margin-bottom: 4px; margin-top: 14px; }
+    dialog input, dialog select {
+      width: 100%;
+      background: var(--bg);
+      border: 1px solid var(--silver);
+      border-radius: 9px;
+      color: var(--black);
+      padding: 9px 12px;
+      font-size: 0.9rem;
+      font-family: inherit;
+      transition: border-color 0.15s;
+    }
+    dialog input:focus, dialog select:focus {
+      outline: none;
+      border-color: var(--red);
+    }
+    .dialog-actions { display: flex; gap: 8px; margin-top: 22px; justify-content: flex-end; }
+    .btn-primary {
+      background: var(--red);
+      border: none;
+      border-radius: 9px;
+      color: white;
+      padding: 9px 20px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      font-family: inherit;
+      cursor: pointer;
+      transition: opacity 0.15s;
+    }
+    .btn-primary:hover { opacity: 0.88; }
+    .btn-cancel {
+      background: none;
+      border: 1px solid var(--silver);
+      border-radius: 9px;
+      color: var(--graphite);
+      padding: 9px 20px;
+      font-size: 0.88rem;
+      font-weight: 500;
+      font-family: inherit;
+      cursor: pointer;
+    }
+    .btn-cancel:hover { background: var(--bg); }
+
+    @media (max-width: 700px) {
+      .grid { padding: 0 16px 24px; }
+      header { padding: 0 16px; }
+      .page-header { padding: 20px 16px 14px; }
+      .col-2, .col-3 { grid-column: span 1; }
+      .macro-grid { grid-template-columns: 1fr; }
+      .macro-row:nth-child(even) { padding-left: 0; border-left: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ─── Шапка ─────────────────────────────────────────────────── -->
+<header>
+  <div class="logo">
+    <!-- Знак Альфа Капитал (SVG-интерпретация) -->
+    <svg class="logo-mark" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="11" cy="22" r="5"   fill="#E61E14"/>
+      <circle cx="20" cy="22" r="3.8" fill="#E61E14"/>
+      <circle cx="27.5" cy="22" r="2.8" fill="#E61E14"/>
+      <circle cx="11"  cy="14" r="3.8" fill="#E61E14"/>
+      <circle cx="19"  cy="13" r="2.8" fill="#E61E14"/>
+      <circle cx="16"  cy="20" r="2.2" fill="#E61E14" opacity=".5"/>
+      <circle cx="24.5" cy="16.5" r="1.8" fill="#E61E14" opacity=".5"/>
+    </svg>
+    <span class="logo-name">Альфа Капитал</span>
+  </div>
+  <div class="header-right">
+    <span class="header-date" id="hdate"></span>
+    <span class="header-clock" id="hclock"></span>
+  </div>
+</header>
+
+<!-- ─── Подзаголовок ────────────────────────────────────────────── -->
+<div class="page-header">
+  <span class="page-title">Рыночная конъюнктура</span>
+  <span class="page-subtitle">Российский рынок и макроэкономика</span>
+</div>
+
+<!-- ─── Карточки ────────────────────────────────────────────────── -->
+<div class="grid">
+
+  <!-- LIVE Watchlist -->
+  <div class="card card-accent col-2">
+    <div class="card-title">
+      Рыночные данные
+      <span><span class="live-dot" id="live-dot-main"></span><span class="live-label" id="live-label-main">live</span></span>
+    </div>
+    <div class="wl-table">
+      <div class="wl-head">
+        <span>Инструмент</span><span>Цена</span><span>% день</span>
+      </div>
+      <div class="wl-row">
+        <div class="wl-name">
+          <span class="wl-ticker">IMOEX</span>
+          <span class="wl-subtitle">МосБиржа</span>
+        </div>
+        <span class="wl-price" id="imoex-val">—</span>
+        <span class="wl-chg"><span class="badge flat" id="imoex-chg">…</span></span>
+      </div>
+      <div class="wl-row">
+        <div class="wl-name">
+          <span class="wl-ticker">USD/RUB</span>
+          <span class="wl-subtitle">Доллар</span>
+        </div>
+        <span class="wl-price" id="usdrub-val">—</span>
+        <span class="wl-chg"><span class="badge flat" id="usdrub-chg">…</span></span>
+      </div>
+      <div class="wl-row">
+        <div class="wl-name">
+          <span class="wl-ticker">BRENT $</span>
+          <span class="wl-subtitle">$/барр.</span>
+        </div>
+        <span class="wl-price" id="brent-val">—</span>
+        <span class="wl-chg"><span class="badge flat" id="brent-chg">…</span></span>
+      </div>
+      <div class="wl-row">
+        <div class="wl-name">
+          <span class="wl-ticker">BRENT ₽</span>
+          <span class="wl-subtitle">₽/барр.</span>
+        </div>
+        <span class="wl-price" id="brentrub-val">—</span>
+        <span class="wl-chg"><span class="badge flat" id="brentrub-chg">—</span></span>
+      </div>
+      <div class="wl-row">
+        <div class="wl-name">
+          <span class="wl-ticker">RGBI</span>
+          <span class="wl-subtitle">ОФЗ индекс</span>
+        </div>
+        <span class="wl-price" id="rgbi-val">—</span>
+        <span class="wl-chg"><span class="badge flat" id="rgbi-chg">…</span></span>
+      </div>
+    </div>
+    <div class="updated" id="live-upd">Загрузка…</div>
+  </div>
+
+
+  <!-- Индикаторы настроения рынка -->
+  <div class="card col-2">
+    <div class="card-title">
+      Индикаторы настроения рынка
+      <span><span class="live-dot" id="live-dot-sent"></span><span class="live-label" id="live-label-sent">live</span></span>
+    </div>
+    <div class="sentiment-grid">
+
+      <!-- RVI: градиентная шкала с маркером -->
+      <div class="sentiment-item">
+        <div class="sentiment-head">
+          <span class="sentiment-name">Волатильность RVI</span>
+          <button class="info-btn" onclick="showHelp('rvi')">ⓘ</button>
+        </div>
+        <div class="sent-big-num" id="rvi-val">—</div>
+        <div class="sent-gradient-bar">
+          <div class="sent-bar-marker" id="rvi-marker" style="left:50%"></div>
+        </div>
+        <div class="sent-scale"><span>Спокойно · 10</span><span>40 · Паника</span></div>
+        <div class="signal neutral" id="rvi-signal">Загрузка…</div>
+      </div>
+
+      <!-- Моментум: двунаправленный бар -->
+      <div class="sentiment-item">
+        <div class="sentiment-head">
+          <span class="sentiment-name">Импульс IMOEX (30 дн.)</span>
+          <button class="info-btn" onclick="showHelp('momentum')">ⓘ</button>
+        </div>
+        <div class="sent-big-num" id="mom-val">—</div>
+        <div class="sent-bidir-track">
+          <div class="sent-bidir-fill" id="mom-fill" style="left:50%;width:0"></div>
+        </div>
+        <div class="sent-scale"><span>Медведи −10%</span><span>+10% Быки</span></div>
+        <div class="signal neutral" id="mom-signal">Загрузка…</div>
+      </div>
+
+      <!-- Спред ОФЗ/ЦБ: двунаправленный бар -->
+      <div class="sentiment-item">
+        <div class="sentiment-head">
+          <span class="sentiment-name">Спред ОФЗ / ставка ЦБ</span>
+          <button class="info-btn" onclick="showHelp('spread')">ⓘ</button>
+        </div>
+        <div class="sent-big-num" id="spread-val">—</div>
+        <div class="sent-bidir-track">
+          <div class="sent-bidir-fill" id="spread-fill" style="left:50%;width:0"></div>
+        </div>
+        <div class="sent-scale"><span>Жадность ОФЗ&lt;ЦБ</span><span>ОФЗ&gt;ЦБ Страх</span></div>
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;flex-wrap:wrap">
+          <span style="font-size:0.7rem;color:var(--gray)">Ставка ЦБ:</span>
+          <span style="font-size:0.8rem;font-weight:700" id="cbrate-display">—%</span>
+          <button class="edit-btn" onclick="updateCBRate()" style="margin:0;padding:2px 7px">✏</button>
+          <span style="font-size:0.7rem;color:var(--gray)">ОФЗ 10л:</span>
+          <span style="font-size:0.8rem;font-weight:700" id="ofzrate-display">—%</span>
+          <button class="edit-btn" onclick="updateOFZRate()" style="margin:0;padding:2px 7px">✏</button>
+        </div>
+        <div class="signal neutral" id="spread-signal">Загрузка…</div>
+      </div>
+
+      <div class="sentiment-item">
+        <div class="sentiment-head">
+          <span class="sentiment-name">Индекс настроения</span>
+          <button class="info-btn" onclick="showHelp('composite')">ⓘ</button>
+        </div>
+        <div class="fg-wrap" style="margin-top:4px">
+          <canvas id="fg-canvas" width="180" height="100"></canvas>
+          <div class="fg-number" id="comp-val" style="color:#E61E14;font-size:2rem;font-weight:800;text-align:center;margin-top:-4px">—</div>
+        </div>
+        <div class="signal neutral" id="comp-signal" style="text-align:center">Загрузка…</div>
+      </div>
+
+    </div>
+    <div class="updated" id="sent-upd"></div>
+  </div>
+
+  <!-- Акции — watchlist -->
+  <div class="card col-3">
+    <div class="card-title">
+      Акции
+      <span><span class="live-dot" id="live-dot-stocks"></span><span class="live-label" id="live-label-stocks">live</span></span>
+    </div>
+    <div id="stocks-inner" style="color:var(--gray);font-size:.85rem">Загрузка…</div>
+    <div class="updated" id="stocks-upd"></div>
+  </div>
+
+  <!-- График ИПЦ Росстат -->
+  <div class="card col-3" style="background:#f7f7f7">
+    <div class="card-title" style="font-size:1rem;font-weight:700;color:#1E1E1E;text-transform:none;letter-spacing:0;margin-bottom:16px">
+      Недельные темпы роста индекса потребительских цен, %
+      <div style="display:flex;gap:6px;align-items:center">
+        <span class="updated" style="display:flex;align-items:center;gap:4px">
+          Год.: <b id="cpi-annual-display" style="color:var(--red)">5,39%</b>
+          <button class="edit-btn" onclick="editCPIAnnual()" style="margin:0;padding:1px 6px">✏</button>
+        </span>
+        <button class="edit-btn" id="cpi-add-btn">+ Неделя</button>
+      </div>
+    </div>
+    <div style="height:320px;background:#fff;border-radius:4px;padding:8px 4px 4px"><canvas id="cpi-chart"></canvas></div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-top:6px">
+      <span style="font-size:0.75rem;color:#888">Источник: Росстат, Альфа-Инвестиции</span>
+      <span style="font-size:0.75rem;color:#888" id="cpi-last"></span>
+    </div>
+    <!-- Комментарий к последним данным -->
+    <div class="cpi-comment-box" id="cpi-comment-box" style="display:none">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+        <span style="font-size:0.68rem;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--gray)">Последние данные</span>
+        <button class="edit-btn" onclick="editCPIComment()" style="margin:0">✏ Изменить</button>
+      </div>
+      <p id="cpi-comment-text" style="font-size:0.82rem;color:var(--black);line-height:1.55;margin:0"></p>
+    </div>
+  </div>
+
+  <!-- Показатели брокеров (ЦБ РФ) -->
+  <div class="card col-3">
+    <div class="card-title">
+      Показатели брокеров
+      <span style="font-size:.75rem;color:var(--gray);font-weight:400;text-transform:none;letter-spacing:0">I кв. 2026 · ЦБ РФ</span>
+    </div>
+
+    <!-- 3 графика -->
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px;margin-bottom:16px;min-width:0">
+      <div style="min-width:0">
+        <div class="broker-chart-lbl">Нетто-взносы ФЛ, млрд руб.</div>
+        <div style="height:165px;position:relative;width:100%"><canvas id="bc-inflow"></canvas></div>
+      </div>
+      <div style="min-width:0">
+        <div class="broker-chart-lbl">Инвесторы с активами, млн чел.</div>
+        <div style="height:165px;position:relative;width:100%"><canvas id="bc-clients"></canvas></div>
+      </div>
+      <div style="min-width:0">
+        <div class="broker-chart-lbl">Структура портфелей ФЛ, 1к26</div>
+        <div style="height:165px;position:relative;width:100%"><canvas id="bc-donut"></canvas></div>
+      </div>
+    </div>
+
+    <!-- Ключевые показатели -->
+    <div class="broker-kpis">
+      <div class="broker-kpi">
+        <div class="broker-kpi-val">13,3 <span>трлн руб.</span></div>
+        <div class="broker-kpi-lbl">портфели физлиц</div>
+        <span class="badge up" style="font-size:.72rem;margin-top:2px">+25% г/г · +9% к/к</span>
+      </div>
+      <div class="broker-kpi">
+        <div class="broker-kpi-val">5,8 <span>млн чел.</span></div>
+        <div class="broker-kpi-lbl">инвесторов с активами</div>
+        <span class="badge up" style="font-size:.72rem;margin-top:2px">+18% г/г · +6% к/к</span>
+      </div>
+      <div class="broker-kpi">
+        <div class="broker-kpi-val">910 <span>млрд руб.</span></div>
+        <div class="broker-kpi-lbl">нетто-взносы в 1к26</div>
+        <span class="badge" style="font-size:.72rem;margin-top:2px;background:rgba(230,30,20,.1);color:#E61E14">↑ рекорд с 2021</span>
+      </div>
+      <div class="broker-kpi">
+        <div class="broker-kpi-val">2,3 <span>млн руб.</span></div>
+        <div class="broker-kpi-lbl">средний счёт ФЛ</div>
+        <span class="badge up" style="font-size:.72rem;margin-top:2px">+6% г/г · +3% к/к</span>
+      </div>
+    </div>
+
+    <div class="updated" style="margin-top:10px">
+      Источник: Банк России · Обзор ключевых показателей брокеров за I квартал 2026 года
+    </div>
+  </div>
+
+  <!-- Тренд IMOEX — широкая карточка -->
+  <div class="card col-2">
+    <div class="card-title">
+      Динамика IMOEX
+      <button class="edit-btn" onclick="openEdit('chart')">+ Точка</button>
+    </div>
+    <div class="chart-wrap">
+      <canvas id="trend-chart"></canvas>
+    </div>
+    <div class="updated" id="chart-upd"></div>
+  </div>
+
+  <!-- Макро — широкая карточка -->
+  <div class="card col-3">
+    <div class="card-title">
+      Макроэкономика
+      <button class="edit-btn" onclick="openEdit('macro')">Изменить</button>
+    </div>
+    <div class="macro-grid">
+      <div class="macro-row">
+        <span class="macro-name">USD / RUB</span>
+        <div class="macro-val-wrap">
+          <span class="macro-val" id="m-usdrub">89.5</span>
+          <span class="badge flat" id="m-usdrub-chg">0.0%</span>
+        </div>
+      </div>
+      <div class="macro-row">
+        <span class="macro-name">Нефть Brent, $/барр.</span>
+        <div class="macro-val-wrap">
+          <span class="macro-val" id="m-brent">82.4</span>
+          <span class="badge down" id="m-brent-chg">−1.1%</span>
+        </div>
+      </div>
+      <div class="macro-row">
+        <span class="macro-name">EUR / RUB</span>
+        <div class="macro-val-wrap">
+          <span class="macro-val" id="m-eurrub">97.2</span>
+          <span class="badge flat" id="m-eurrub-chg">0.0%</span>
+        </div>
+      </div>
+      <div class="macro-row">
+        <span class="macro-name">Золото, $/унц.</span>
+        <div class="macro-val-wrap">
+          <span class="macro-val" id="m-gold">2 340</span>
+          <span class="badge up" id="m-gold-chg">+0.6%</span>
+        </div>
+      </div>
+      <div class="macro-row">
+        <span class="macro-name">Ключевая ставка ЦБ, %</span>
+        <div class="macro-val-wrap">
+          <span class="macro-val" id="m-rate">16.0</span>
+          <span class="badge flat" id="m-rate-chg">без изм.</span>
+        </div>
+      </div>
+      <div class="macro-row">
+        <span class="macro-name">Инфляция (г/г), %</span>
+        <div class="macro-val-wrap">
+          <span class="macro-val" id="m-inflation">7.8</span>
+          <span class="badge down" id="m-inflation-chg">↓ 0.1 пп</span>
+        </div>
+      </div>
+    </div>
+    <div class="updated" id="macro-upd"></div>
+  </div>
+
+</div>
+
+<!-- ─── Справка по индикатору ─────────────────────────────────── -->
+<dialog id="help-dialog">
+  <h3 id="help-title" style="margin-bottom:14px;font-size:1rem"></h3>
+  <div id="help-body" style="font-size:.875rem;line-height:1.65;color:var(--graphite)"></div>
+  <div class="dialog-actions">
+    <button class="btn-primary" onclick="document.getElementById('help-dialog').close()">Понятно</button>
+  </div>
+</dialog>
+
+<!-- ─── Диалог ──────────────────────────────────────────────────── -->
+<dialog id="edit-dialog">
+  <h3 id="dialog-title">Обновить данные</h3>
+  <div id="dialog-fields"></div>
+  <div class="dialog-actions">
+    <button class="btn-cancel" onclick="document.getElementById('edit-dialog').close()">Отмена</button>
+    <button class="btn-primary" onclick="saveEdit()">Сохранить</button>
+  </div>
+</dialog>
+
+<script>
+// ─── Live-индикатор ───────────────────────────────────────────────────
+function setLive(dotId, labelId, status) {
+  const dot = document.getElementById(dotId);
+  const lbl = document.getElementById(labelId);
+  if (!dot || !lbl) return;
+  if (status === 'loading') {
+    dot.className = 'live-dot loading'; lbl.className = 'live-label'; lbl.textContent = 'обновление…';
+  } else if (status === 'ok') {
+    dot.className = 'live-dot'; lbl.className = 'live-label'; lbl.textContent = 'live';
+  } else {
+    dot.className = 'live-dot error'; lbl.className = 'live-label error'; lbl.textContent = 'нет связи';
+  }
+}
+
+// Обновить карточку значениями
+function applyCard(valId, chgId, updId, value, changePct, updText) {
+  document.getElementById(valId).textContent =
+    value.toLocaleString('ru-RU', { maximumFractionDigits: 2 });
+  const b = document.getElementById(chgId);
+  const sign = changePct >= 0 ? '+' : '';
+  b.textContent = `${sign}${changePct.toFixed(2)}%`;
+  b.className = 'badge ' + (changePct > 0 ? 'up' : changePct < 0 ? 'down' : 'flat');
+  document.getElementById(updId).textContent = updText;
+}
+
+// ─── Запрос с таймаутом ───────────────────────────────────────────────
+async function get(url, ms = 20000) {
+  const ctrl = new AbortController();
+  setTimeout(() => ctrl.abort(), ms);
+  const r = await fetch(url, { signal: ctrl.signal });
+  if (!r.ok) throw new Error('HTTP ' + r.status);
+  return r.json();
+}
+
+// MOEX ISS: columns/data → объект
+function moexParse(json, section) {
+  try {
+    const cols = json[section].columns;
+    const row  = json[section].data[0];
+    if (!row) return null;
+    return Object.fromEntries(cols.map((c, i) => [c, row[i]]));
+  } catch { return null; }
+}
+
+// ─── Все запросы параллельно, берём что придёт ────────────────────────
+async function fetchLive() {
+  setLive('live-dot-main', 'live-label-main', 'loading');
+
+  const AO = 'https://api.allorigins.win/raw?url=';
+  const CP = 'https://corsproxy.io/?';
+  const now = new Date().toLocaleTimeString('ru-RU', { hour:'2-digit', minute:'2-digit' });
+
+  // Ближайший фьючерс Brent
+  const codes = ['F','G','H','J','K','M','N','Q','U','V','X','Z'];
+  const nd = new Date();
+  let bm = nd.getMonth() + 1 + (nd.getDate() > 15 ? 2 : 1);
+  let by = nd.getFullYear();
+  if (bm > 12) { bm -= 12; by += 1; }
+  const brId = 'BR' + codes[bm - 1] + String(by).slice(-1);
+
+  // URL'ы для каждого источника
+  const YF_ALL = 'https://query2.finance.yahoo.com/v7/finance/quote?symbols=IRUS,USDRUB=X,BZ=F';
+  const MX_I  = 'https://iss.moex.com/iss/engines/stock/markets/index/securities/IMOEX.json?iss.meta=off&iss.only=marketdata&marketdata.columns=SECID,CURRENTVALUE,LASTTOPREVPRICE,CLOSEPRICE,UPDATETIME';
+  const MX_RG = 'https://iss.moex.com/iss/engines/stock/markets/index/securities/RGBI.json?iss.meta=off&iss.only=marketdata&marketdata.columns=SECID,CURRENTVALUE,LASTTOPREVPRICE,CLOSEPRICE';
+  const MX_U  = 'https://iss.moex.com/iss/engines/currency/markets/selt/securities/USD000UTSTOM.json?iss.meta=off';
+  const CBR_URL = 'https://www.cbr-xml-daily.ru/daily_json.js';
+  const MX_B  = `https://iss.moex.com/iss/engines/futures/markets/forts/securities/${brId}.json?iss.meta=off&iss.only=marketdata&marketdata.columns=SECID,LAST,LASTTOPREVPRICE,SYSTIME`;
+
+  // Запускаем всё параллельно
+  const [yfRes, mxIRes, mxURes, mxBRes, cpYfRes, mxIDRes, mxUDRes, mxBDRes, cbrRes, mxRGRes] = await Promise.allSettled([
+    get(YF_ALL),
+    get(AO + encodeURIComponent(MX_I)),
+    get(AO + encodeURIComponent(MX_U)),
+    get(AO + encodeURIComponent(MX_B)),
+    get(CP + encodeURIComponent(YF_ALL)),
+    get(MX_I),
+    get(MX_U),
+    get(MX_B),
+    get(CBR_URL),
+    get(MX_RG),   // RGBI напрямую
+  ]);
+
+  // Разбираем результаты
+  const yfData = yfRes.status === 'fulfilled' ? yfRes.value : null;
+  const cpData = cpYfRes.status === 'fulfilled' ? cpYfRes.value : null;
+  const yfAny  = yfData || cpData;
+  const yfMap  = Object.fromEntries((yfAny?.quoteResponse?.result || []).map(r => [r.symbol, r]));
+
+  // MOEX: прямой запрос (localhost) приоритет над прокси
+  const iRow = moexParse((mxIDRes.status === 'fulfilled' ? mxIDRes.value : null)
+    || (mxIRes.status === 'fulfilled' ? mxIRes.value : null), 'marketdata');
+  const bRow = moexParse((mxBDRes.status === 'fulfilled' ? mxBDRes.value : null)
+    || (mxBRes.status === 'fulfilled' ? mxBRes.value : null), 'marketdata');
+
+  // USD/RUB: CBR РФ (приоритет) → MOEX SELT
+  const cbrData = cbrRes.status === 'fulfilled' ? cbrRes.value : null;
+  const cbrUSD  = cbrData?.Valute?.USD;
+  const uRaw    = (mxUDRes.status === 'fulfilled' ? mxUDRes.value : null)
+                || (mxURes.status === 'fulfilled' ? mxURes.value : null);
+  const uMkt    = moexParse(uRaw, 'marketdata');
+  const uSec    = moexParse(uRaw, 'securities');
+  const moexU   = uMkt?.LAST ?? uMkt?.WAPRICE ?? uMkt?.OPENPERIODPRICE
+                ?? uSec?.PREVPRICE ?? uSec?.PREVWAPRICE ?? null;
+
+  let uVal, uChg, uSrc;
+  if (moexU != null) {
+    uVal = moexU;
+    uChg = uMkt?.LASTTOPREVPRICE ?? 0;
+    uSrc = 'MOEX SELT';
+  } else if (cbrUSD != null) {
+    uVal = cbrUSD.Value;
+    uChg = cbrUSD.Previous ? ((cbrUSD.Value - cbrUSD.Previous) / cbrUSD.Previous * 100) : 0;
+    uSrc = 'ЦБ РФ';
+  } else {
+    uVal = null; uChg = 0; uSrc = '';
+  }
+
+  // Выбираем лучший источник для каждого показателя
+  function bestVal(moexVal, yfSym) {
+    if (moexVal != null) return moexVal;
+    return yfMap[yfSym]?.regularMarketPrice ?? null;
+  }
+  function bestChg(moexChg, yfSym) {
+    if (moexChg != null) return moexChg;
+    return yfMap[yfSym]?.regularMarketChangePercent ?? 0;
+  }
+
+  const iVal = bestVal(iRow?.CURRENTVALUE, 'IRUS');
+  // Считаем % вручную если LASTTOPREVPRICE = 0 или null
+  let iChgRaw = iRow?.LASTTOPREVPRICE;
+  if (!iChgRaw && iRow?.CLOSEPRICE && iRow?.CURRENTVALUE) {
+    iChgRaw = (iRow.CURRENTVALUE - iRow.CLOSEPRICE) / iRow.CLOSEPRICE * 100;
+  }
+  const iChg = iChgRaw ?? yfMap['IRUS']?.regularMarketChangePercent ?? 0;
+  const bVal = bestVal(bRow?.LAST, 'BZ=F');
+  const bChg = bestChg(bRow?.LASTTOPREVPRICE, 'BZ=F');
+
+  // Применяем значения к строкам списка
+  function setRow(valId, chgId, val, chg) {
+    if (val == null) return;
+    document.getElementById(valId).textContent =
+      val.toLocaleString('ru-RU', { maximumFractionDigits: 2 });
+    const b = document.getElementById(chgId);
+    b.textContent = (chg >= 0 ? '+' : '') + chg.toFixed(2) + '%';
+    b.className = 'badge ' + (chg > 0 ? 'up' : chg < 0 ? 'down' : 'flat');
+  }
+
+  // RGBI
+  const rgRow = mxRGRes.status === 'fulfilled' ? moexParse(mxRGRes.value, 'marketdata') : null;
+  const rgVal = rgRow?.CURRENTVALUE ?? null;
+  let rgChg = rgRow?.LASTTOPREVPRICE;
+  if (!rgChg && rgRow?.CLOSEPRICE && rgRow?.CURRENTVALUE)
+    rgChg = (rgRow.CURRENTVALUE - rgRow.CLOSEPRICE) / rgRow.CLOSEPRICE * 100;
+
+  setRow('imoex-val',  'imoex-chg',  iVal,  iChg);
+  setRow('usdrub-val', 'usdrub-chg', uVal,  uChg);
+  setRow('brent-val',  'brent-chg',  bVal,  bChg);
+  setRow('rgbi-val',   'rgbi-chg',   rgVal, rgChg ?? 0);
+
+  // Brent в рублях = Brent($) × USD/RUB
+  if (bVal != null && uVal != null) {
+    const bRub    = bVal * uVal;
+    const bRubChg = ((1 + bChg / 100) * (1 + uChg / 100) - 1) * 100;
+    setRow('brentrub-val', 'brentrub-chg', bRub, bRubChg);
+  }
+
+  // Единый live-индикатор и время обновления
+  const anyOk = iVal != null || uVal != null || bVal != null;
+  setLive('live-dot-main', 'live-label-main', anyOk ? 'ok' : 'error');
+  document.getElementById('live-upd').textContent =
+    anyOk ? 'Обновлено · ' + now : 'Нет данных';
+}
+
+fetchLive();
+setInterval(fetchLive, 60_000);
+
+// ─── Watchlist акций ──────────────────────────────────────────────────
+const WATCHLIST = [
+  ['SBER', 'Сбербанк'],   ['NVTK', 'Новатэк'],
+  ['T',    'Т-Банк'],     ['ROSN', 'Роснефть'],
+  ['YDEX', 'Яндекс'],     ['GMKN', 'Норникель'],
+  ['OZON', 'Ozon'],       ['PHOR', 'ФосАгро'],
+  ['HEAD', 'HeadHunter'], ['UPRO', 'Юнипро'],
+  ['AFLT', 'Аэрофлот'],   ['CNRU', 'Циан'],
+];
+
+function buildStockTable() {
+  const half = WATCHLIST.length / 2;
+  const left  = WATCHLIST.slice(0, half);
+  const right = WATCHLIST.slice(half);
+
+  function rows(list) {
+    return list.map(([id, name]) => `
+      <div class="wl-row">
+        <div class="wl-name">
+          <span class="wl-ticker">${id}</span>
+          <span class="wl-subtitle">${name}</span>
+        </div>
+        <span class="wl-price" id="sp-${id}">—</span>
+        <span class="wl-chg"><span class="badge flat" id="sc-${id}">…</span></span>
+      </div>`).join('');
+  }
+
+  const hdr = `<div class="wl-head"><span>Акция</span><span>Цена</span><span>% день</span></div>`;
+  document.getElementById('stocks-inner').innerHTML =
+    `<div class="stock-2col">
+      <div class="wl-table">${hdr}${rows(left)}</div>
+      <div class="wl-table">${hdr}${rows(right)}</div>
+    </div>`;
+}
+
+async function fetchStocks() {
+  setLive('live-dot-stocks', 'live-label-stocks', 'loading');
+  const url = 'https://iss.moex.com/iss/engines/stock/markets/shares/boards/TQBR/securities.json' +
+              '?iss.meta=off&iss.only=marketdata&marketdata.columns=SECID,LAST,LASTTOPREVPRICE';
+  try {
+    const json = await get(url);
+    const cols = json.marketdata.columns;
+    const data = json.marketdata.data;
+    const iId   = cols.indexOf('SECID');
+    const iLast = cols.indexOf('LAST');
+    const iChg  = cols.indexOf('LASTTOPREVPRICE');
+
+    const map = {};
+    data.forEach(r => { map[r[iId]] = { last: r[iLast], chg: r[iChg] }; });
+
+    const now = new Date().toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' });
+    let anyOk = false;
+
+    WATCHLIST.forEach(([id]) => {
+      const d = map[id];
+      const pe = document.getElementById(`sp-${id}`);
+      const ce = document.getElementById(`sc-${id}`);
+      if (!pe || !ce) return;
+      if (!d || d.last == null) { pe.textContent = '—'; ce.textContent = '—'; ce.className = 'badge flat'; return; }
+      pe.textContent = d.last.toLocaleString('ru-RU', { maximumFractionDigits: 2 });
+      const c = d.chg || 0;
+      ce.textContent = (c >= 0 ? '+' : '') + c.toFixed(2) + '%';
+      ce.className = 'badge ' + (c > 0 ? 'up' : c < 0 ? 'down' : 'flat');
+      anyOk = true;
+    });
+
+    setLive('live-dot-stocks', 'live-label-stocks', anyOk ? 'ok' : 'error');
+    document.getElementById('stocks-upd').textContent = 'Обновлено · ' + now;
+  } catch(e) {
+    setLive('live-dot-stocks', 'live-label-stocks', 'error');
+    document.getElementById('stocks-upd').textContent = e.message;
+  }
+}
+
+buildStockTable();
+fetchStocks();
+setInterval(fetchStocks, 60_000);
+
+// ─── Индикаторы настроения рынка ──────────────────────────────────────
+
+// Ставка ЦБ (хранится вручную)
+let cbRate = parseFloat(localStorage.getItem('ak-cbrate') || '14.5');
+document.getElementById('cbrate-display').textContent = cbRate.toFixed(1) + '%';
+function updateCBRate() {
+  const v = parseFloat(prompt('Текущая ключевая ставка ЦБ, %:', cbRate));
+  if (!isNaN(v)) { cbRate = v; localStorage.setItem('ak-cbrate', v); document.getElementById('cbrate-display').textContent = v.toFixed(1) + '%'; fetchSentiment(); }
+}
+function updateOFZRate() {
+  const cur = parseFloat(localStorage.getItem('ak-ofzrate') || '0');
+  const v = parseFloat(prompt('Доходность ОФЗ 10 лет, % (смотри на iss.moex.com или ru.investing.com):', cur || ''));
+  if (!isNaN(v) && v > 0) {
+    localStorage.setItem('ak-ofzrate', v);
+    document.getElementById('ofzrate-display').textContent = v.toFixed(1) + '%';
+    fetchSentiment();
+  }
+}
+
+// Устанавливает сигнал (название + CSS-класс)
+function setSignal(elId, cls, text) {
+  const el = document.getElementById(elId);
+  el.className = 'signal ' + cls;
+  el.textContent = text;
+}
+
+// Нормализует значение в шкалу 0-100
+function norm(val, min, max) { return Math.max(0, Math.min(100, (val - min) / (max - min) * 100)); }
+
+// Текст и класс по баллу 0-100
+function scoreSignal(score) {
+  if (score < 25)  return ['fear',    'Крайний страх'];
+  if (score < 45)  return ['caution', 'Страх'];
+  if (score < 55)  return ['neutral', 'Нейтрально'];
+  if (score < 75)  return ['greed',   'Жадность'];
+  return                  ['ex-greed','Крайняя жадность'];
+}
+
+async function fetchSentiment() {
+  setLive('live-dot-sent', 'live-label-sent', 'loading');
+  const now = new Date().toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' });
+  const scores = [];
+
+  // 1. RVI ─────────────────────────────────────────────────────────────
+  try {
+    const rviUrl = 'https://iss.moex.com/iss/engines/stock/markets/index/securities/RVI.json?iss.meta=off&iss.only=marketdata&marketdata.columns=SECID,CURRENTVALUE,LASTTOPREVPRICE';
+    const rviJson = await get(rviUrl);
+    const rviRow = moexParse(rviJson, 'marketdata');
+    const rvi = rviRow?.CURRENTVALUE;
+    if (rvi != null) {
+      document.getElementById('rvi-val').textContent = rvi.toFixed(1);
+      // Маркер на шкале 10–40
+      const markerPct = Math.max(0, Math.min(100, (rvi - 10) / 30 * 100));
+      document.getElementById('rvi-marker').style.left = markerPct + '%';
+      const rviScore = norm(rvi, 40, 10);
+      scores.push(rviScore);
+      const [cls, lbl] = scoreSignal(rviScore);
+      setSignal('rvi-signal', cls, lbl);
+    }
+  } catch {}
+
+  // 2. IMOEX Momentum (30 дней) ────────────────────────────────────────
+  try {
+    const d35 = new Date(); d35.setDate(d35.getDate() - 35);
+    const fromStr = d35.toISOString().slice(0,10);
+    const momUrl = `https://iss.moex.com/iss/engines/stock/markets/index/securities/IMOEX/candles.json?iss.meta=off&interval=24&candles.columns=end,close&from=${fromStr}`;
+    const momJson = await get(momUrl);
+    const candles = momJson?.candles?.data || [];
+    if (candles.length >= 2) {
+      const newest = candles[candles.length - 1][1];
+      const oldest = candles[0][1];
+      const mom = (newest - oldest) / oldest * 100;
+      document.getElementById('mom-val').textContent = (mom >= 0 ? '+' : '') + mom.toFixed(1) + '%';
+      // Двунаправленный бар: центр=0, ±10% = полная ширина одной стороны
+      const halfPct = Math.min(50, Math.abs(mom) / 10 * 50);
+      const fill = document.getElementById('mom-fill');
+      if (mom >= 0) {
+        fill.style.left = '50%'; fill.style.width = halfPct + '%'; fill.style.background = '#00BA38';
+      } else {
+        fill.style.left = (50 - halfPct) + '%'; fill.style.width = halfPct + '%'; fill.style.background = '#E61E14';
+      }
+      const momScore = norm(mom, -10, 10);
+      scores.push(momScore);
+      const [cls, lbl] = scoreSignal(momScore);
+      setSignal('mom-signal', cls, lbl);
+    }
+  } catch {}
+
+  // 3. Спред ОФЗ / ставка ЦБ ───────────────────────────────────────────
+  function applySpread(ofzYield) {
+    const spread = ofzYield - cbRate;
+    document.getElementById('spread-val').textContent = (spread >= 0 ? '+' : '') + spread.toFixed(1) + '%';
+    const halfPct = Math.min(50, Math.abs(spread) / 6 * 50);
+    const fill = document.getElementById('spread-fill');
+    if (spread <= 0) {
+      fill.style.left = (50 - halfPct) + '%'; fill.style.width = halfPct + '%'; fill.style.background = '#00BA38';
+    } else {
+      fill.style.left = '50%'; fill.style.width = halfPct + '%'; fill.style.background = '#E61E14';
+    }
+    const spreadScore = norm(-spread, -6, 6);
+    scores.push(spreadScore);
+    const [cls, lbl] = scoreSignal(spreadScore);
+    setSignal('spread-signal', cls, lbl + (spread < 0 ? ' · ждут снижения ставки' : ' · премия за риск'));
+  }
+
+  // Сначала пробуем MOEX G-curve API
+  let ofzFromApi = null;
+  try {
+    const gcUrl = 'https://iss.moex.com/iss/statistics/engines/stock/markets/bonds/bondization.json?iss.meta=off&iss.only=bondization&bondization.columns=DTPNT,YIELD';
+    const gcJson = await get(gcUrl, 8000);
+    const gcRows = gcJson?.bondization?.data || [];
+    let bestRow = null, bestDiff = 999;
+    gcRows.forEach(r => {
+      const diff = Math.abs(r[0] - 10);
+      if (diff < bestDiff) { bestDiff = diff; bestRow = r; }
+    });
+    if (bestRow && bestRow[1] > 0) ofzFromApi = bestRow[1];
+  } catch {}
+
+  // Приоритет: API → ручное значение
+  const ofzManual = parseFloat(localStorage.getItem('ak-ofzrate') || '0');
+  const ofzYield  = ofzFromApi ?? (ofzManual > 0 ? ofzManual : null);
+
+  if (ofzYield) {
+    applySpread(ofzYield);
+    document.getElementById('ofzrate-display').textContent = ofzYield.toFixed(1) + '%';
+  } else {
+    setSignal('spread-signal', 'neutral', 'Введите доходность ОФЗ 10л вручную →');
+    document.getElementById('ofzrate-display').textContent = ofzManual > 0 ? ofzManual.toFixed(1) + '%' : '—%';
+  }
+
+  // 4. Составной индикатор ─────────────────────────────────────────────
+  if (scores.length > 0) {
+    const composite = scores.reduce((a, b) => a + b, 0) / scores.length;
+    renderGauge(composite);
+    const [cls, lbl] = scoreSignal(composite);
+    setSignal('comp-signal', cls, lbl + ' (' + Math.round(composite) + '/100)');
+  }
+
+  setLive('live-dot-sent', 'live-label-sent', scores.length > 0 ? 'ok' : 'error');
+  document.getElementById('sent-upd').textContent = scores.length > 0 ? 'Обновлено · ' + now : 'Нет данных';
+}
+
+fetchSentiment();
+setInterval(fetchSentiment, 300_000); // обновляем каждые 5 мин
+
+// ─── Справка по индикаторам ───────────────────────────────────────────
+const HELP_TEXTS = {
+  rvi: {
+    title: 'RVI — Индекс волатильности Мосбиржи',
+    body: `
+      <p><b>Что это:</b> Аналог американского VIX. Рассчитывается на основе цен опционов на индекс IMOEX и показывает ожидаемую волатильность рынка на ближайшие 30 дней.</p>
+      <br>
+      <p><b>Как интерпретировать:</b></p>
+      <ul style="margin:8px 0 0 18px;display:flex;flex-direction:column;gap:4px">
+        <li><b style="color:#00BA38">RVI &lt; 20</b> — Спокойный рынок, инвесторы уверены. Сигнал жадности.</li>
+        <li><b style="color:#F0B429">RVI 20–30</b> — Умеренный страх, повышенная осторожность.</li>
+        <li><b style="color:#FF6C36">RVI 30–40</b> — Высокий страх. Рынок нестабилен.</li>
+        <li><b style="color:#E61E14">RVI &gt; 40</b> — Паника. Экстремальный страх.</li>
+      </ul>
+      <br>
+      <p><b>Когда растёт:</b> при падении рынка, геополитической напряжённости, неожиданных новостях.</p>
+      <p style="margin-top:8px"><b>Исторический диапазон:</b> для Мосбиржи обычно 15–60.</p>`
+  },
+  momentum: {
+    title: 'Импульс IMOEX — 30-дневный моментум',
+    body: `
+      <p><b>Что это:</b> Процентное изменение индекса МосБиржи за последние 30 торговых дней. Показывает силу тренда.</p>
+      <br>
+      <p><b>Как интерпретировать:</b></p>
+      <ul style="margin:8px 0 0 18px;display:flex;flex-direction:column;gap:4px">
+        <li><b style="color:#00BA38">&gt; +5%</b> — Бычий тренд, рынок в режиме роста. Сигнал жадности.</li>
+        <li><b style="color:#F0B429">от −5% до +5%</b> — Нейтральный рынок, боковое движение.</li>
+        <li><b style="color:#E61E14">&lt; −5%</b> — Медвежий тренд. Инвесторы выходят из акций. Страх.</li>
+      </ul>
+      <br>
+      <p><b>Важно:</b> Моментум — опережающий индикатор. Устойчивый рост привлекает новых покупателей, усиливая жадность. Затяжное падение вызывает панические продажи.</p>`
+  },
+  spread: {
+    title: 'Спред ОФЗ / Ключевая ставка ЦБ',
+    body: `
+      <p><b>Что это:</b> Разница между доходностью 10-летних ОФЗ (государственных облигаций) и ключевой ставкой ЦБ РФ.</p>
+      <br>
+      <p><b>Как интерпретировать:</b></p>
+      <ul style="margin:8px 0 0 18px;display:flex;flex-direction:column;gap:4px">
+        <li><b style="color:#00BA38">Отрицательный (ОФЗ &lt; ставки ЦБ)</b> — Рынок ожидает снижения ставки. Облигации уже торгуются по будущим низким ставкам. Оптимизм, жадность.</li>
+        <li><b style="color:#F0B429">Близко к нулю</b> — Нейтральный сигнал. Рынок не уверен в направлении ставки.</li>
+        <li><b style="color:#E61E14">Положительный (ОФЗ &gt; ставки ЦБ)</b> — Рынок требует премию за риск. Инвесторы не доверяют регулятору или ждут ужесточения. Страх.</li>
+      </ul>
+      <br>
+      <p><b>Пример:</b> Ставка ЦБ 21%, доходность ОФЗ 15% → спред −6% → рынок уверен в сильном снижении ставки.</p>
+      <p style="margin-top:8px;color:var(--gray);font-size:.8rem">Ставку ЦБ нужно обновлять вручную после каждого заседания.</p>`
+  },
+  composite: {
+    title: 'Индекс настроения рынка (0–100)',
+    body: `
+      <p><b>Что это:</b> Составной индикатор, объединяющий RVI, моментум и спред ОФЗ в единую шкалу от 0 до 100.</p>
+      <br>
+      <p><b>Шкала:</b></p>
+      <ul style="margin:8px 0 0 18px;display:flex;flex-direction:column;gap:4px">
+        <li><b style="color:#E61E14">0–25</b> — Крайний страх. Исторически — момент для покупок.</li>
+        <li><b style="color:#FF6C36">25–45</b> — Страх. Инвесторы осторожны.</li>
+        <li><b style="color:#F0B429">45–55</b> — Нейтральный рынок.</li>
+        <li><b style="color:#7ED56F">55–75</b> — Жадность. Рынок уверен в росте.</li>
+        <li><b style="color:#00BA38">75–100</b> — Крайняя жадность. Рынок перегрет, возможна коррекция.</li>
+      </ul>
+      <br>
+      <p><b>Методология:</b> среднее арифметическое нормализованных значений RVI, 30-дневного моментума и спреда ОФЗ (каждый компонент переведён в шкалу 0–100).</p>
+      <p style="margin-top:8px;color:var(--gray);font-size:.8rem">Чем больше компонентов доступно, тем точнее индекс.</p>`
+  }
+};
+
+function showHelp(key) {
+  const h = HELP_TEXTS[key];
+  if (!h) return;
+  document.getElementById('help-title').textContent = h.title;
+  document.getElementById('help-body').innerHTML = h.body;
+  document.getElementById('help-dialog').showModal();
+}
+
+// ─── График недельной инфляции (Росстат) ──────────────────────────────
+const CPI_STORAGE = 'ak-cpi-v4'; // v4 = дефляция апр/май 2026 исправлена
+// Приближённые данные по паттерну графика Альфа-Инвестиции
+// Ключевые пики и дефляция совпадают с реальными данными Росстат
+// ⚠️ Точные данные вводить вручную каждую среду в 19:00
+const CPI_SEED = [
+  // ── сен–дек 2023 ──
+  ['06.09.23',0.22],['13.09.23',0.13],['20.09.23',0.14],['27.09.23',0.21],
+  ['04.10.23',0.23],['11.10.23',0.15],['18.10.23',0.27],['25.10.23',0.14],
+  ['01.11.23',0.28],['08.11.23',0.28],['15.11.23',0.20],['22.11.23',0.23],['29.11.23',0.26],
+  ['06.12.23',0.22],['13.12.23',0.30],['20.12.23',0.29],['27.12.23',0.30],
+  // ── 2024 ──
+  ['10.01.24',0.08],['17.01.24',0.12],['24.01.24',0.21],['31.01.24',0.08],
+  ['07.02.24',0.18],['14.02.24',0.13],['21.02.24',0.11],['28.02.24',0.09],
+  ['06.03.24',0.09],['13.03.24',0.11],['20.03.24',0.08],['27.03.24',0.12],
+  ['03.04.24',0.16],['10.04.24',0.42],['17.04.24',0.32],['24.04.24',0.16],
+  ['02.05.24',0.17],['08.05.24',0.10],['15.05.24',0.08],['22.05.24',0.04],['29.05.24',0.03],
+  ['05.06.24',0.12],['12.06.24',0.17],['19.06.24',0.12],['26.06.24',0.07],
+  ['03.07.24',0.11],['10.07.24',0.08],['17.07.24',0.08],['24.07.24',0.04],['31.07.24',0.04],
+  ['07.08.24',0.04],['14.08.24',0.65],['21.08.24',0.14],['28.08.24',0.04],
+  ['04.09.24',0.06],['11.09.24',0.07],['18.09.24',0.07],['25.09.24',0.08],
+  ['02.10.24',0.20],['09.10.24',0.22],['16.10.24',0.23],['23.10.24',0.27],['30.10.24',0.22],
+  ['06.11.24',0.36],['13.11.24',0.20],['20.11.24',0.37],['27.11.24',0.45],
+  ['04.12.24',0.35],['11.12.24',0.45],['18.12.24',0.50],['25.12.24',0.60],
+  // ── 2025 ──
+  ['01.01.25',0.52],['15.01.25',0.67],['22.01.25',0.35],['29.01.25',0.25],
+  ['05.02.25',0.23],['12.02.25',0.27],['19.02.25',0.46],['26.02.25',0.28],
+  ['05.03.25',0.20],['12.03.25',0.17],['19.03.25',0.12],['26.03.25',0.15],
+  ['02.04.25',0.09],['09.04.25',0.10],['16.04.25',0.06],['23.04.25',0.04],['30.04.25',0.06],
+  ['07.05.25',0.10],['14.05.25',0.09],['21.05.25',0.06],['28.05.25',0.10],
+  // Июнь 2025: пик 0.80 → дефляция (лето, сезонные овощи)
+  ['04.06.25',0.80],['11.06.25',0.10],['18.06.25',-0.20],['25.06.25',-0.10],
+  ['02.07.25',0.02],['09.07.25',-0.02],['16.07.25',0.00],['23.07.25',0.01],['30.07.25',0.02],
+  ['06.08.25',0.03],['13.08.25',0.03],['20.08.25',0.05],['27.08.25',0.04],
+  ['03.09.25',0.05],['10.09.25',0.06],['17.09.25',0.08],['24.09.25',0.04],
+  ['01.10.25',0.10],['08.10.25',0.22],['15.10.25',0.20],['22.10.25',0.25],['29.10.25',0.22],
+  ['05.11.25',0.36],['12.11.25',0.26],['19.11.25',0.20],['26.11.25',0.20],
+  ['03.12.25',0.29],['10.12.25',0.35],['17.12.25',0.20],['24.12.25',0.20],
+  // ── 2026 ──
+  // Январь 2026: пик 1.30 (подтверждён пресс-релизом)
+  ['07.01.26',1.30],['14.01.26',0.40],['21.01.26',0.35],['28.01.26',0.26],
+  ['04.02.26',0.50],['11.02.26',0.17],['18.02.26',0.23],['25.02.26',0.20],
+  ['04.03.26',0.20],['11.03.26',0.11],['18.03.26',0.20],['25.03.26',0.20],
+  ['01.04.26',0.27],['08.04.26',0.19],['15.04.26',0.15],['22.04.26',-0.04],['29.04.26',0.10],
+  ['04.05.26',0.16],['12.05.26',-0.03],['18.05.26',0.10],['25.05.26',0.07],
+  ['01.06.26',0.15], // подтверждено: Росстат 03.06.2026, предыдущая неделя 0,07%
+];
+
+// Значение годовой инфляции (обновляется вручную или через кнопку)
+let cpiAnnual = localStorage.getItem('ak-cpi-annual') || '5,39%';
+
+// Plugin: выделяет последние 52 недели (= 12 мес.) на CPI-графике
+const cpiHighlightPlugin = {
+  id: 'cpiHighlight',
+  afterDraw(chart) {
+    const { ctx, chartArea, data } = chart;
+    const n = data.datasets[0].data.length;
+    if (n < 10) return;
+
+    const weeks  = Math.min(52, n);
+    const start  = n - weeks;
+    const bandW  = chartArea.width / n;
+    const leftX  = chartArea.left + start * bandW;
+    const rightX = chartArea.right;
+    const topY   = chartArea.top + 2;
+    const botY   = chartArea.bottom;
+
+    const NEUTRAL = '#494C53'; // Финансовый графит
+
+    ctx.save();
+
+    // Полупрозрачная заливка
+    ctx.fillStyle = 'rgba(73,76,83,0.05)';
+    ctx.fillRect(leftX, topY, rightX - leftX, botY - topY);
+
+    // Граница — тонкая штриховая
+    ctx.strokeStyle = '#929498';
+    ctx.lineWidth = 1.5;
+    ctx.setLineDash([4, 3]);
+    ctx.strokeRect(leftX + 1, topY + 1, rightX - leftX - 2, botY - topY - 2);
+    ctx.setLineDash([]);
+
+    // Левый ярлык
+    ctx.font = '9px Inter, sans-serif';
+    ctx.fillStyle = '#929498';
+    ctx.textAlign = 'left';
+    ctx.fillText('← 12 мес. в расчёте', leftX + 5, topY + 13);
+
+    // Годовая инфляция (вверху справа)
+    ctx.textAlign = 'right';
+    ctx.font = '9px Inter, sans-serif';
+    ctx.fillStyle = NEUTRAL;
+    ctx.fillText('Годовая инфляция', rightX - 7, topY + 13);
+    ctx.font = 'bold 16px Inter, sans-serif';
+    ctx.fillText(cpiAnnual, rightX - 7, topY + 32);
+
+    ctx.restore();
+  }
+};
+
+let cpiData    = JSON.parse(localStorage.getItem(CPI_STORAGE)       || 'null') || CPI_SEED;
+const CPI_CMT  = 'ak-cpi-comment';
+let cpiComment = JSON.parse(localStorage.getItem(CPI_CMT) || 'null') || {
+  text: 'ИНФЛЯЦИЯ В РФ С 26 МАЯ ПО 1 ИЮНЯ УСКОРИЛАСЬ ДО 0,15% С 0,07% НЕДЕЛЕЙ РАНЕЕ — РОССТАТ · ГОДОВАЯ ИНФЛЯЦИЯ НА 1 ИЮНЯ ВЫРОСЛА ДО 5,39% С 5,33% НА 25 МАЯ — РАСЧЁТЫ ИФ',
+  date: '03.06.2026'
+};
+let cpiChart = null;
+
+function saveCPI()     { localStorage.setItem(CPI_STORAGE, JSON.stringify(cpiData)); }
+function saveCPICmt()  { localStorage.setItem(CPI_CMT,     JSON.stringify(cpiComment)); }
+
+function boldNumbers(str) {
+  // Выделяем жирным числовые значения с % или без (0,15% · 5,39% · 0,07% и т.д.)
+  return str.replace(/(\d+[.,]\d+\s*%?)/g, '<b>$1</b>');
+}
+
+function renderCPIComment() {
+  const box  = document.getElementById('cpi-comment-box');
+  const text = document.getElementById('cpi-comment-text');
+  if (cpiComment.text) {
+    box.style.display = '';
+    const full = cpiComment.date
+      ? `<span style="color:var(--gray);font-size:0.75rem">${cpiComment.date}</span>&ensp;${boldNumbers(cpiComment.text)}`
+      : boldNumbers(cpiComment.text);
+    text.innerHTML = full;
+  } else {
+    box.style.display = 'none';
+  }
+}
+
+function editCPIAnnual() {
+  const v = prompt('Годовая инфляция (например 5,39%):', cpiAnnual);
+  if (!v) return;
+  cpiAnnual = v.trim();
+  localStorage.setItem('ak-cpi-annual', cpiAnnual);
+  renderCPI();
+}
+
+function editCPIComment() {
+  const t = prompt('Текст комментария:', cpiComment.text);
+  if (t === null) return;
+  const d = prompt('Дата публикации (например 03.06.2026):', cpiComment.date || '');
+  cpiComment = { text: t, date: d || '' };
+  saveCPICmt();
+  renderCPIComment();
+}
+
+const MONTHS_RU = ['','янв','фев','мар','апр','май','июн','июл','авг','сен','окт','ноя','дек'];
+
+function renderCPI() {
+  const ctx = document.getElementById('cpi-chart').getContext('2d');
+  if (cpiChart) cpiChart.destroy();
+
+  const rawLabels = cpiData.map(([d]) => d);
+  const values    = cpiData.map(([, v]) => v);
+  const colors    = values.map(v => v < 0 ? 'rgba(230,30,20,0.35)' : '#E61E14');
+
+  // Подпись оси X: каждые ~3 месяца, полное название + год (стиль Альфа)
+  const MONTHS_FULL = ['','Январь','Февраль','Март','Апрель','Май','Июнь',
+                       'Июль','Август','Сентябрь','Октябрь','Ноябрь','Декабрь'];
+  const QUARTERLY = new Set([1, 4, 7, 10]);
+  const axisLabels = rawLabels.map((lbl) => {
+    const parts = lbl.split('.');
+    const dd = parseInt(parts[0]), mm = parseInt(parts[1]), yy = parseInt(parts[2]);
+    if (dd <= 7 && QUARTERLY.has(mm))
+      return [MONTHS_FULL[mm], String(2000 + yy)]; // массив = две строки в Chart.js
+    return '';
+  });
+
+  // Находим индексы пиков для подписей значений (топ ~8 значений)
+  const threshold = values.reduce((a,b) => a + Math.abs(b), 0) / values.length * 2.5;
+  const peakIndices = new Set(
+    values.map((v,i) => ({v: Math.abs(v), i}))
+          .sort((a,b) => b.v - a.v)
+          .slice(0, 8)
+          .filter(x => x.v >= threshold || x.v >= 0.45)
+          .map(x => x.i)
+  );
+
+  document.getElementById('cpi-annual-display').textContent = cpiAnnual;
+
+  cpiChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: axisLabels,
+      datasets: [{
+        data: values,
+        backgroundColor: colors,
+        borderRadius: 0,
+        barPercentage: 0.75,
+        categoryPercentage: 1.0,
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      onHover: (e, el) => { e.native.target.style.cursor = el.length ? 'pointer' : 'default'; },
+      onClick(event, elements) {
+        if (!elements.length) return;
+        const idx   = elements[0].index;
+        const date  = rawLabels[idx];
+        const cur   = cpiData[idx][1];
+        const input = prompt(`Неделя: ${date}\nТекущее значение: ${cur.toFixed(2)}%\n\nВведи новое значение:`, cur.toFixed(2));
+        if (input === null) return;
+        const val = parseFloat(input.replace(',', '.'));
+        if (isNaN(val)) return;
+        cpiData[idx][1] = val;
+        saveCPI();
+        renderCPI();
+      },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            title: (items) => rawLabels[items[0].dataIndex],
+            label: (item) => ` ${item.raw.toFixed(2)}%  ✏ клик для изменения`,
+          }
+        }
+      },
+      scales: {
+        x: {
+          grid:   { display: false },
+          border: { display: false },
+          ticks: {
+            color: '#929498',
+            font:  { size: 10, family: 'Inter' },
+            maxRotation: 0,
+            minRotation: 0,
+            autoSkip: false,
+            padding: 4,
+            callback: function(val, index) {
+              return axisLabels[index] || undefined;
+            }
+          }
+        },
+        y: {
+          min: -0.2,
+          max: Math.max(1.4, Math.max(...values) + 0.1),
+          grid:   { color: '#E8E8E8', lineWidth: 1 },
+          border: { display: false },
+          ticks: {
+            color: '#666',
+            font:  { size: 11, family: 'Inter' },
+            stepSize: 0.2,
+            callback: v => v.toFixed(1).replace('.', ',')
+          }
+        }
+      }
+    },
+    plugins: [cpiHighlightPlugin, {
+      id: 'peakLabels',
+      afterDatasetsDraw(chart) {
+        const { ctx, scales } = chart;
+        chart.data.datasets[0].data.forEach((val, i) => {
+          if (!peakIndices.has(i) || val == null) return;
+          const x = scales.x.getPixelForIndex(i);
+          const y = scales.y.getPixelForValue(val);
+          const above = val >= 0;
+          ctx.save();
+          ctx.font = 'bold 11px Inter, sans-serif';
+          ctx.fillStyle = '#1E1E1E';
+          ctx.textAlign = 'center';
+          ctx.fillText(
+            val.toFixed(1).replace('.', ','),
+            x,
+            above ? y - 6 : y + 14
+          );
+          ctx.restore();
+        });
+      }
+    }]
+  });
+
+  const last = cpiData[cpiData.length - 1];
+  document.getElementById('cpi-last').textContent = `Последнее: ${last[0]} · ${last[1].toFixed(2)}%`;
+  renderCPIComment();
+}
+
+renderCPI();
+
+// Добавить новую неделю
+document.getElementById('cpi-add-btn').addEventListener('click', () => {
+  const date = prompt('Дата (дд.мм.гг), например 11.06.26:');
+  if (!date) return;
+  const val = parseFloat(prompt('Значение %, например 0.15:'));
+  if (isNaN(val)) return;
+  cpiData.push([date.trim(), val]);
+  saveCPI();
+  renderCPI();
+});
+
+// ─── Показатели брокеров (ЦБ РФ, I квартал 2026) ────────────────────────
+
+// Плагин для текста в центре бублика
+const donutCenterPlugin = {
+  id: 'donutCenter',
+  beforeDraw(chart) {
+    if (chart.config.type !== 'doughnut') return;
+    if (!chart.chartArea) return;
+    const { ctx, chartArea: { left, top, right, bottom } } = chart;
+    const cx = (left + right) / 2, cy = (top + bottom) / 2;
+    ctx.save();
+    ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    ctx.font = 'bold 13px Inter, sans-serif';
+    ctx.fillStyle = '#1E1E1E';
+    ctx.fillText('13,3', cx, cy - 8);
+    ctx.font = '10px Inter, sans-serif';
+    ctx.fillStyle = '#929498';
+    ctx.fillText('трлн руб.', cx, cy + 8);
+    ctx.restore();
+  }
+};
+
+function renderBrokerCharts() {
+  // Защита: ждём пока canvas получат размеры
+  if (!document.getElementById('bc-inflow')) return;
+  const BASE_OPTS = { responsive: true, maintainAspectRatio: false, animation: { duration: 500 } };
+  const X_TICK  = { color: '#929498', font: { size: 9, family: 'Inter' }, maxRotation: 0 };
+  const Y_TICK  = { color: '#929498', font: { size: 9, family: 'Inter' } };
+  const GRID_Y  = { color: '#F3F4F5' };
+
+  // ── 1. Нетто-взносы ─────────────────────────────────────────────────
+  const ifLabels = ['1к24','2к24','3к24','4к24','1к25','2к25','3к25','4к25','1к26'];
+  const ifData   = [249, 299, 476, 737, 471, 574, 872, 626, 910];
+  new Chart(document.getElementById('bc-inflow').getContext('2d'), {
+    type: 'bar',
+    data: {
+      labels: ifLabels,
+      datasets: [{
+        data: ifData,
+        backgroundColor: ifData.map((_, i) => i === ifData.length - 1 ? '#E61E14' : 'rgba(230,30,20,0.45)'),
+        borderRadius: 3,
+        barPercentage: 0.72,
+      }]
+    },
+    options: {
+      ...BASE_OPTS,
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: i => ' ' + i.raw + ' млрд руб.' } }
+      },
+      scales: {
+        x: { grid: { display: false }, ticks: X_TICK },
+        y: { grid: GRID_Y, ticks: { ...Y_TICK, callback: v => v } }
+      }
+    }
+  });
+
+  // ── 2. Инвесторы с активами ─────────────────────────────────────────
+  const clLabels = ['2к23','3к23','4к23','1к24','2к24','3к24','4к24','1к25','2к25','3к25','4к25','1к26'];
+  const clData   = [4.2, 4.5, 4.5, 4.7, 4.7, 4.7, 4.9, 4.9, 5.1, 5.3, 5.5, 5.8];
+  new Chart(document.getElementById('bc-clients').getContext('2d'), {
+    type: 'line',
+    data: {
+      labels: clLabels,
+      datasets: [{
+        label: 'Инвесторов с активами',
+        data: clData,
+        borderColor: '#E61E14',
+        backgroundColor: 'rgba(230,30,20,0.07)',
+        borderWidth: 2,
+        pointRadius: 3,
+        pointBackgroundColor: '#E61E14',
+        tension: 0.35,
+        fill: true,
+      }]
+    },
+    options: {
+      ...BASE_OPTS,
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: i => ' ' + i.raw + ' млн чел.' } }
+      },
+      scales: {
+        x: { grid: { display: false }, ticks: X_TICK },
+        y: {
+          grid: GRID_Y,
+          ticks: { ...Y_TICK, callback: v => v.toFixed(1) + ' млн', stepSize: 0.5 },
+          min: 4.0,
+        }
+      }
+    }
+  });
+
+  // ── 3. Структура портфелей — бублик ─────────────────────────────────
+  const donutPlugin = {
+    id: 'donutText',
+    afterDraw(chart) {
+      if (chart.config.type !== 'doughnut' || !chart.chartArea) return;
+      const { ctx, chartArea: { left, top, right, bottom } } = chart;
+      const cx = (left + right) / 2, cy = (top + bottom) / 2;
+      ctx.save();
+      ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      ctx.font = 'bold 13px Inter, sans-serif'; ctx.fillStyle = '#1E1E1E';
+      ctx.fillText('13,3', cx, cy - 8);
+      ctx.font = '10px Inter, sans-serif'; ctx.fillStyle = '#929498';
+      ctx.fillText('трлн руб.', cx, cy + 8);
+      ctx.restore();
+    }
+  };
+
+  new Chart(document.getElementById('bc-donut').getContext('2d'), {
+    type: 'doughnut',
+    data: {
+      labels: ['Облигации РФ', 'Акции РФ', 'БПИФ / Паи', 'Иностр. активы', 'Деньги и прочее'],
+      datasets: [{
+        data: [36, 24, 19, 14, 7],
+        backgroundColor: ['#E61E14', '#1E62D2', '#00BA38', '#F0B429', '#B6B7BA'],
+        borderWidth: 2,
+        borderColor: '#ffffff',
+        hoverOffset: 6,
+      }]
+    },
+    options: {
+      ...BASE_OPTS,
+      cutout: '58%',
+      plugins: {
+        legend: {
+          position: 'right',
+          labels: {
+            font: { size: 9, family: 'Inter' },
+            color: '#494C53',
+            boxWidth: 10,
+            padding: 7,
+          }
+        },
+        tooltip: { callbacks: { label: i => ' ' + i.label + ': ' + i.raw + '%' } }
+      }
+    },
+    plugins: [donutPlugin]
+  });
+}
+
+// Откладываем до после отрисовки DOM
+setTimeout(renderBrokerCharts, 50);
+
+// ─── Часы ──────────────────────────────────────────────────────────────
+function tick() {
+  const now = new Date();
+  document.getElementById('hdate').textContent =
+    now.toLocaleDateString('ru-RU', { day:'numeric', month:'long', year:'numeric' });
+  document.getElementById('hclock').textContent =
+    now.toLocaleTimeString('ru-RU', { hour:'2-digit', minute:'2-digit', second:'2-digit' });
+}
+tick(); setInterval(tick, 1000);
+
+// ─── Состояние ────────────────────────────────────────────────────────
+const state = JSON.parse(localStorage.getItem('ak-dashboard') || 'null') || {
+  fg:    { val: 62 },
+  macro: {
+    usdrub:    { val:'89.5',  chg:'0.0%',     dir:'flat' },
+    eurrub:    { val:'97.2',  chg:'0.0%',     dir:'flat' },
+    brent:     { val:'82.4',  chg:'−1.1%',    dir:'down' },
+    rate:      { val:'16.0',  chg:'без изм.', dir:'flat' },
+    inflation: { val:'7.8',   chg:'↓ 0.1 пп', dir:'down' },
+    gold:      { val:'2 340', chg:'+0.6%',    dir:'up'   },
+  },
+  trend: {
+    labels: ['1','2','3','4','5','6','7','8','9','10'],
+    data:   [3050,3080,3110,3090,3130,3150,3140,3160,3175,3180]
+  },
+  updated: {}
+};
+function save() { localStorage.setItem('ak-dashboard', JSON.stringify(state)); }
+
+// ─── Рендер индексов ─────────────────────────────────────────────────
+function renderIndex(key) {
+  const s = state[key];
+  document.getElementById(`${key}-val`).textContent = s.val;
+  const b = document.getElementById(`${key}-chg`);
+  b.textContent = s.chg; b.className = 'badge ' + s.dir;
+  const u = document.getElementById(`${key}-upd`);
+  u.textContent = state.updated[key] ? 'Обновлено: ' + state.updated[key] : '';
+}
+
+// ─── Циферблат настроения (теперь питается от составного индикатора) ──
+function drawGauge(v) {
+  const canvas = document.getElementById('fg-canvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  ctx.clearRect(0, 0, 180, 100);
+  const cx = 90, cy = 95, r = 72;
+
+  ctx.beginPath();
+  ctx.arc(cx, cy, r, Math.PI, 0);
+  ctx.lineWidth = 12; ctx.strokeStyle = '#F3F4F5'; ctx.stroke();
+
+  const gr = ctx.createLinearGradient(18, 0, 162, 0);
+  [[0,'#E61E14'],[0.25,'#FF6C36'],[0.5,'#F0B429'],[0.75,'#7ED56F'],[1,'#00BA38']]
+    .forEach(([p, c]) => gr.addColorStop(p, c));
+
+  const angle = Math.PI + (v / 100) * Math.PI;
+  ctx.beginPath();
+  ctx.arc(cx, cy, r, Math.PI, angle);
+  ctx.lineWidth = 12; ctx.strokeStyle = gr; ctx.stroke();
+
+  ctx.beginPath();
+  ctx.moveTo(cx, cy);
+  ctx.lineTo(cx + 52 * Math.cos(angle), cy + 52 * Math.sin(angle));
+  ctx.lineWidth = 2.5; ctx.strokeStyle = '#1E1E1E'; ctx.lineCap = 'round'; ctx.stroke();
+  ctx.beginPath();
+  ctx.arc(cx, cy, 5, 0, Math.PI * 2);
+  ctx.fillStyle = '#1E1E1E'; ctx.fill();
+
+  // Подписи шкалы
+  [['Страх', Math.PI + 0.15, -1], ['Нейтр.', Math.PI + Math.PI/2, 0], ['Жадность', 2*Math.PI - 0.15, 1]]
+    .forEach(([lbl, a, align]) => {
+      const x = cx + 65 * Math.cos(a);
+      const y = cy + 65 * Math.sin(a);
+      ctx.font = '8px Inter, sans-serif';
+      ctx.fillStyle = '#929498';
+      ctx.textAlign = align < 0 ? 'left' : align > 0 ? 'right' : 'center';
+      ctx.fillText(lbl, x, y);
+    });
+}
+
+// Вызывается из fetchSentiment при наличии composite value
+function renderGauge(v) {
+  drawGauge(v);
+  const el = document.getElementById('comp-val');
+  if (el) { el.textContent = Math.round(v); el.style.color = gaugeColor(v); }
+}
+function gaugeColor(v) {
+  if (v < 25) return '#E61E14';
+  if (v < 45) return '#FF6C36';
+  if (v < 55) return '#F0B429';
+  if (v < 75) return '#7ED56F';
+  return '#00BA38';
+}
+
+// ─── Макро ───────────────────────────────────────────────────────────
+function renderMacro() {
+  ['usdrub','eurrub','brent','rate','inflation','gold'].forEach(f => {
+    const m = state.macro[f];
+    document.getElementById(`m-${f}`).textContent = m.val;
+    const b = document.getElementById(`m-${f}-chg`);
+    b.textContent = m.chg; b.className = 'badge ' + m.dir;
+  });
+  const u = document.getElementById('macro-upd');
+  u.textContent = state.updated.macro ? 'Обновлено: ' + state.updated.macro : '';
+}
+
+// ─── Тренд-чарт ──────────────────────────────────────────────────────
+let trendChart;
+function renderChart() {
+  const ctx = document.getElementById('trend-chart').getContext('2d');
+  if (trendChart) trendChart.destroy();
+  trendChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: state.trend.labels,
+      datasets: [{
+        data: state.trend.data,
+        borderColor: '#E61E14',
+        backgroundColor: 'rgba(230,30,20,0.06)',
+        borderWidth: 2,
+        pointRadius: 3,
+        pointBackgroundColor: '#E61E14',
+        tension: 0.35,
+        fill: true,
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: {
+        x: { grid: { color:'#F3F4F5' }, ticks: { color:'#929498', font:{size:11, family:'Inter'} } },
+        y: { grid: { color:'#F3F4F5' }, ticks: { color:'#929498', font:{size:11, family:'Inter'} } }
+      }
+    }
+  });
+}
+
+function renderAll() {
+  renderMacro(); renderChart();
+}
+renderAll();
+
+// ─── Редактирование ──────────────────────────────────────────────────
+let currentSection = '';
+const configs = {
+  fg: { title:'Индекс страха и жадности', fields:[
+    {id:'val',label:'Значение (0–100)',type:'number'},
+  ]},
+  macro: { title:'Макроэкономика', fields:[
+    {id:'usdrub',    label:'USD/RUB',type:'text'},
+    {id:'usdrub_chg',label:'USD/RUB изменение',type:'text'},
+    {id:'usdrub_dir',label:'USD/RUB направление',type:'select',options:['up','down','flat']},
+    {id:'eurrub',    label:'EUR/RUB',type:'text'},
+    {id:'eurrub_chg',label:'EUR/RUB изменение',type:'text'},
+    {id:'eurrub_dir',label:'EUR/RUB направление',type:'select',options:['up','down','flat']},
+    {id:'brent',     label:'Нефть Brent',type:'text'},
+    {id:'brent_chg', label:'Нефть изменение',type:'text'},
+    {id:'brent_dir', label:'Нефть направление',type:'select',options:['up','down','flat']},
+    {id:'rate',      label:'Ключевая ставка %',type:'text'},
+    {id:'rate_chg',  label:'Ставка изменение',type:'text'},
+    {id:'rate_dir',  label:'Ставка направление',type:'select',options:['up','down','flat']},
+    {id:'inflation', label:'Инфляция %',type:'text'},
+    {id:'inflation_chg',label:'Инфляция изменение',type:'text'},
+    {id:'inflation_dir',label:'Инфляция направление',type:'select',options:['up','down','flat']},
+    {id:'gold',      label:'Золото $/унц.',type:'text'},
+    {id:'gold_chg',  label:'Золото изменение',type:'text'},
+    {id:'gold_dir',  label:'Золото направление',type:'select',options:['up','down','flat']},
+  ]},
+  chart: { title:'Добавить точку в тренд', fields:[
+    {id:'label',label:'Метка (напр. "15 июн")',type:'text'},
+    {id:'value',label:'Значение IMOEX',type:'number'},
+  ]},
+};
+
+function openEdit(section) {
+  currentSection = section;
+  const cfg = configs[section];
+  document.getElementById('dialog-title').textContent = cfg.title;
+  const c = document.getElementById('dialog-fields');
+  c.innerHTML = '';
+  cfg.fields.forEach(f => {
+    const lbl = document.createElement('label');
+    lbl.textContent = f.label; c.appendChild(lbl);
+    let el;
+    if (f.type === 'select') {
+      el = document.createElement('select');
+      f.options.forEach(o => {
+        const opt = document.createElement('option');
+        opt.value = o; opt.textContent = o; el.appendChild(opt);
+      });
+    } else {
+      el = document.createElement('input');
+      el.type = f.type;
+    }
+    el.id = 'f_' + f.id;
+    // prefill
+    if (section === 'macro') {
+      const [key, sub] = f.id.includes('_') ? f.id.split('_') : [f.id, 'val'];
+      const m = state.macro[key];
+      if (m) {
+        if (!sub || sub==='val') el.value = m.val||'';
+        else if (sub==='chg')   el.value = m.chg||'';
+        else if (sub==='dir')   el.value = m.dir||'flat';
+      }
+    } else if (section !== 'chart') {
+      const s = state[section];
+      if (s && s[f.id] !== undefined) el.value = s[f.id];
+    }
+    c.appendChild(el);
+  });
+  document.getElementById('edit-dialog').showModal();
+}
+
+function saveEdit() {
+  const now = new Date().toLocaleString('ru-RU', { day:'2-digit', month:'2-digit', hour:'2-digit', minute:'2-digit' });
+  if (currentSection === 'chart') {
+    const label = document.getElementById('f_label').value.trim();
+    const value = parseFloat(document.getElementById('f_value').value);
+    if (label && !isNaN(value)) {
+      state.trend.labels.push(label); state.trend.data.push(value);
+    }
+  } else if (currentSection === 'macro') {
+    ['usdrub','eurrub','brent','rate','inflation','gold'].forEach(f => {
+      const v = document.getElementById(`f_${f}`);
+      const c = document.getElementById(`f_${f}_chg`);
+      const d = document.getElementById(`f_${f}_dir`);
+      if (v) state.macro[f].val = v.value;
+      if (c) state.macro[f].chg = c.value;
+      if (d) state.macro[f].dir = d.value;
+    });
+    state.updated.macro = now;
+  } else if (currentSection === 'fg') {
+    state.fg.val = Math.max(0, Math.min(100, parseInt(document.getElementById('f_val').value)||50));
+    state.updated.fg = now;
+  } else {
+    const s = state[currentSection];
+    configs[currentSection].fields.forEach(f => {
+      const el = document.getElementById('f_'+f.id);
+      if (el) s[f.id] = f.type==='number' ? Number(el.value) : el.value;
+    });
+    state.updated[currentSection] = now;
+  }
+  save(); renderAll();
+  document.getElementById('edit-dialog').close();
+}
+</script>
+</body>
+</html>
