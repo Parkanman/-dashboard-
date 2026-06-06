@@ -610,6 +610,106 @@
     .section-black .edit-btn { border-color: rgba(255,255,255,.15); color: rgba(255,255,255,.4); }
     .section-black .info-btn { color: rgba(255,255,255,.35); }
 
+    /* ── Макропоказатели ── */
+    .macro-ind-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 1px;
+      background: var(--silver);
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid var(--silver);
+      margin-top: 4px;
+    }
+    .macro-ind-cell {
+      background: var(--white);
+      padding: 14px 16px;
+      cursor: pointer;
+      transition: background 0.15s;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      min-width: 0;
+    }
+    .macro-ind-cell:hover { background: var(--bg); }
+    .macro-ind-name {
+      font-size: 0.66rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--gray);
+      line-height: 1.35;
+    }
+    .macro-ind-val {
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: var(--black);
+      letter-spacing: -0.025em;
+      font-variant-numeric: tabular-nums;
+      line-height: 1.15;
+    }
+    .macro-ind-foot {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      flex-wrap: wrap;
+      margin-top: 2px;
+    }
+    .macro-ind-src { font-size: 0.63rem; color: var(--gray); }
+
+    /* ── Диалог макропоказателей ── */
+    #macro-ind-dialog {
+      max-width: 600px;
+      width: min(600px, 95vw);
+      padding: 0;
+    }
+    .mi-dialog-head {
+      position: sticky;
+      top: 0;
+      background: var(--white);
+      z-index: 2;
+      padding: 22px 28px 14px;
+      border-bottom: 1px solid var(--silver);
+    }
+    .mi-dialog-body {
+      padding: 0 28px;
+      overflow-y: auto;
+      max-height: 62vh;
+    }
+    .mi-dialog-foot {
+      position: sticky;
+      bottom: 0;
+      background: var(--white);
+      border-top: 1px solid var(--silver);
+      padding: 14px 28px;
+      display: flex;
+      gap: 8px;
+      justify-content: flex-end;
+    }
+    .mi-row {
+      padding: 14px 0;
+      border-bottom: 1px solid var(--bg);
+    }
+    .mi-row:last-child { border-bottom: none; }
+    .mi-row-name {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--black);
+      margin-bottom: 8px;
+    }
+    .mi-row-fields {
+      display: grid;
+      grid-template-columns: 1fr 1fr 80px;
+      gap: 8px;
+    }
+    .mi-row-fields label, .mi-row-sub label { margin-top: 0; font-size: 0.7rem; }
+    .mi-row-sub {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-top: 6px;
+    }
+
     @media (max-width: 700px) {
       .grid { padding: 0 16px 24px; }
       header { padding: 0 16px; }
@@ -617,6 +717,7 @@
       .col-2, .col-3 { grid-column: span 1; }
       .macro-grid { grid-template-columns: 1fr; }
       .macro-row:nth-child(even) { padding-left: 0; border-left: none; }
+      .macro-ind-grid { grid-template-columns: 1fr 1fr; }
     }
   </style>
 </head>
@@ -859,6 +960,67 @@
     <div class="updated" id="macro-upd"></div>
   </div>
 
+  <!-- Макропоказатели -->
+  <div class="card col-3">
+    <div class="card-title">
+      Макропоказатели
+      <button class="edit-btn" onclick="openMacroIndDialog()">Изменить</button>
+    </div>
+    <div class="macro-ind-grid" id="macro-ind-grid">
+      <div class="macro-ind-cell" onclick="openMacroIndDialog(0)" title="Нажмите для редактирования">
+        <div class="macro-ind-name">Ключевая ставка ЦБ</div>
+        <div class="macro-ind-val" id="mi-val-0">14,5%</div>
+        <div class="macro-ind-foot"><span class="badge flat" id="mi-chg-0">без изм.</span><span class="macro-ind-src" id="mi-src-0">ЦБ РФ · апр 2026</span></div>
+      </div>
+      <div class="macro-ind-cell" onclick="openMacroIndDialog(1)" title="Нажмите для редактирования">
+        <div class="macro-ind-name">Инфляция (г/г)</div>
+        <div class="macro-ind-val" id="mi-val-1">5,39%</div>
+        <div class="macro-ind-foot"><span class="badge down" id="mi-chg-1">↓ 0,06 пп</span><span class="macro-ind-src" id="mi-src-1">Росстат · июн 2026</span></div>
+      </div>
+      <div class="macro-ind-cell" onclick="openMacroIndDialog(2)" title="Нажмите для редактирования">
+        <div class="macro-ind-name">Безработица</div>
+        <div class="macro-ind-val" id="mi-val-2">2,4%</div>
+        <div class="macro-ind-foot"><span class="badge flat" id="mi-chg-2">без изм.</span><span class="macro-ind-src" id="mi-src-2">Росстат · апр 2026</span></div>
+      </div>
+      <div class="macro-ind-cell" onclick="openMacroIndDialog(3)" title="Нажмите для редактирования">
+        <div class="macro-ind-name">ВВП (г/г)</div>
+        <div class="macro-ind-val" id="mi-val-3">+1,9%</div>
+        <div class="macro-ind-foot"><span class="badge down" id="mi-chg-3">↓ 0,4 пп</span><span class="macro-ind-src" id="mi-src-3">Росстат · 1к2026</span></div>
+      </div>
+      <div class="macro-ind-cell" onclick="openMacroIndDialog(4)" title="Нажмите для редактирования">
+        <div class="macro-ind-name">Пром. производство (ИПП)</div>
+        <div class="macro-ind-val" id="mi-val-4">+2,7%</div>
+        <div class="macro-ind-foot"><span class="badge up" id="mi-chg-4">↑ 0,3 пп</span><span class="macro-ind-src" id="mi-src-4">Росстат · апр 2026</span></div>
+      </div>
+      <div class="macro-ind-cell" onclick="openMacroIndDialog(5)" title="Нажмите для редактирования">
+        <div class="macro-ind-name">Реальные доходы (г/г)</div>
+        <div class="macro-ind-val" id="mi-val-5">+7,2%</div>
+        <div class="macro-ind-foot"><span class="badge up" id="mi-chg-5">↑ 0,8 пп</span><span class="macro-ind-src" id="mi-src-5">Росстат · 1к2026</span></div>
+      </div>
+      <div class="macro-ind-cell" onclick="openMacroIndDialog(6)" title="Нажмите для редактирования">
+        <div class="macro-ind-name">Денежная масса М2</div>
+        <div class="macro-ind-val" id="mi-val-6">118,5 трлн</div>
+        <div class="macro-ind-foot"><span class="badge up" id="mi-chg-6">↑ 17% г/г</span><span class="macro-ind-src" id="mi-src-6">ЦБ РФ · апр 2026</span></div>
+      </div>
+      <div class="macro-ind-cell" onclick="openMacroIndDialog(7)" title="Нажмите для редактирования">
+        <div class="macro-ind-name">Золотовалютные резервы</div>
+        <div class="macro-ind-val" id="mi-val-7">619 млрд $</div>
+        <div class="macro-ind-foot"><span class="badge up" id="mi-chg-7">↑ 3%</span><span class="macro-ind-src" id="mi-src-7">ЦБ РФ · май 2026</span></div>
+      </div>
+      <div class="macro-ind-cell" onclick="openMacroIndDialog(8)" title="Нажмите для редактирования">
+        <div class="macro-ind-name">Бюджет (дефицит/профицит)</div>
+        <div class="macro-ind-val" id="mi-val-8">−1,5% ВВП</div>
+        <div class="macro-ind-foot"><span class="badge flat" id="mi-chg-8">без изм.</span><span class="macro-ind-src" id="mi-src-8">Минфин · 1к2026</span></div>
+      </div>
+      <div class="macro-ind-cell" onclick="openMacroIndDialog(9)" title="Нажмите для редактирования">
+        <div class="macro-ind-name">PMI деловой активности</div>
+        <div class="macro-ind-val" id="mi-val-9">52,4</div>
+        <div class="macro-ind-foot"><span class="badge up" id="mi-chg-9">↑ 0,8</span><span class="macro-ind-src" id="mi-src-9">S&amp;P Global · май 2026</span></div>
+      </div>
+    </div>
+    <div class="updated" id="macro-ind-upd" style="margin-top:8px">Нажмите на показатель для редактирования</div>
+  </div>
+
   </div>
 </section>
 
@@ -986,6 +1148,18 @@
   <div class="dialog-actions">
     <button class="btn-cancel" onclick="document.getElementById('edit-dialog').close()">Отмена</button>
     <button class="btn-primary" onclick="saveEdit()">Сохранить</button>
+  </div>
+</dialog>
+
+<!-- ─── Диалог макропоказателей ──────────────────────────────────── -->
+<dialog id="macro-ind-dialog">
+  <div class="mi-dialog-head">
+    <h3 style="margin:0;font-size:1rem">Макропоказатели</h3>
+  </div>
+  <div class="mi-dialog-body" id="mi-dialog-body"></div>
+  <div class="mi-dialog-foot">
+    <button class="btn-cancel" onclick="document.getElementById('macro-ind-dialog').close()">Отмена</button>
+    <button class="btn-primary" onclick="saveMacroIndsFromDialog()">Сохранить</button>
   </div>
 </dialog>
 
@@ -2145,6 +2319,124 @@ function saveEdit() {
   save(); renderAll();
   document.getElementById('edit-dialog').close();
 }
+
+// ─── Макропоказатели ─────────────────────────────────────────────────────
+
+const MACRO_IND_KEY = 'ak-macro-ind-v1';
+const MACRO_IND_DEF = [
+  { id:'rate',   name:'Ключевая ставка ЦБ',       val:'14,5%',       chg:'без изм.',   dir:'flat', src:'ЦБ РФ',      period:'апр 2026' },
+  { id:'cpi',    name:'Инфляция (г/г)',             val:'5,39%',       chg:'↓ 0,06 пп', dir:'down', src:'Росстат',    period:'июн 2026' },
+  { id:'unemp',  name:'Безработица',                val:'2,4%',        chg:'без изм.',   dir:'flat', src:'Росстат',    period:'апр 2026' },
+  { id:'gdp',    name:'ВВП (г/г)',                  val:'+1,9%',       chg:'↓ 0,4 пп',  dir:'down', src:'Росстат',    period:'1к2026'   },
+  { id:'ipp',    name:'Пром. производство (ИПП)',   val:'+2,7%',       chg:'↑ 0,3 пп',  dir:'up',   src:'Росстат',    period:'апр 2026' },
+  { id:'income', name:'Реальные доходы (г/г)',      val:'+7,2%',       chg:'↑ 0,8 пп',  dir:'up',   src:'Росстат',    period:'1к2026'   },
+  { id:'m2',     name:'Денежная масса М2',          val:'118,5 трлн',  chg:'↑ 17% г/г', dir:'up',   src:'ЦБ РФ',      period:'апр 2026' },
+  { id:'fxr',    name:'Золотовалютные резервы',     val:'619 млрд $',  chg:'↑ 3%',      dir:'up',   src:'ЦБ РФ',      period:'май 2026' },
+  { id:'budget', name:'Бюджет (дефицит/профицит)',  val:'−1,5% ВВП',   chg:'без изм.',   dir:'flat', src:'Минфин',     period:'1к2026'   },
+  { id:'pmi',    name:'PMI деловой активности',     val:'52,4',        chg:'↑ 0,8',     dir:'up',   src:'S&P Global', period:'май 2026' },
+];
+
+var macroInds;
+(function() {
+  try {
+    var stored = localStorage.getItem(MACRO_IND_KEY);
+    var parsed = stored ? JSON.parse(stored) : null;
+    macroInds = (Array.isArray(parsed) && parsed.length > 0) ? parsed : MACRO_IND_DEF.slice();
+  } catch(e) {
+    macroInds = MACRO_IND_DEF.slice();
+  }
+})();
+
+function persistMacroInds() {
+  localStorage.setItem(MACRO_IND_KEY, JSON.stringify(macroInds));
+}
+
+function renderMacroInds() {
+  for (var i = 0; i < macroInds.length; i++) {
+    var m = macroInds[i];
+    var valEl = document.getElementById('mi-val-' + i);
+    var chgEl = document.getElementById('mi-chg-' + i);
+    var srcEl = document.getElementById('mi-src-' + i);
+    if (valEl) valEl.textContent = m.val;
+    if (chgEl) { chgEl.textContent = m.chg; chgEl.className = 'badge ' + m.dir; }
+    if (srcEl) srcEl.textContent = m.src + ' · ' + m.period;
+  }
+  var updEl = document.getElementById('macro-ind-upd');
+  if (updEl) {
+    var ts = localStorage.getItem('ak-macro-ind-ts');
+    updEl.textContent = ts ? 'Обновлено: ' + ts : 'Нажмите на показатель для редактирования';
+  }
+}
+
+function buildMacroIndDialogBody(focusIdx) {
+  const body = document.getElementById('mi-dialog-body');
+  body.innerHTML = macroInds.map((m, i) => `
+    <div class="mi-row" id="mi-row-${i}">
+      <div class="mi-row-name">${i + 1}. ${m.name}</div>
+      <div class="mi-row-fields">
+        <div>
+          <label>Значение</label>
+          <input id="mi_val_${i}" type="text" value="${m.val}" />
+        </div>
+        <div>
+          <label>Изменение (значок)</label>
+          <input id="mi_chg_${i}" type="text" value="${m.chg}" />
+        </div>
+        <div>
+          <label>Тренд</label>
+          <select id="mi_dir_${i}">
+            <option value="flat" ${m.dir === 'flat' ? 'selected' : ''}>→ нейтр.</option>
+            <option value="up"   ${m.dir === 'up'   ? 'selected' : ''}>↑ рост</option>
+            <option value="down" ${m.dir === 'down'  ? 'selected' : ''}>↓ снижение</option>
+          </select>
+        </div>
+      </div>
+      <div class="mi-row-sub">
+        <div>
+          <label>Источник</label>
+          <input id="mi_src_${i}" type="text" value="${m.src}" />
+        </div>
+        <div>
+          <label>Период</label>
+          <input id="mi_period_${i}" type="text" value="${m.period}" />
+        </div>
+      </div>
+    </div>
+  `).join('');
+
+  if (focusIdx !== undefined) {
+    setTimeout(() => {
+      const row = document.getElementById(`mi-row-${focusIdx}`);
+      if (row) row.scrollIntoView({ block: 'center' });
+      const inp = document.getElementById(`mi_val_${focusIdx}`);
+      if (inp) { inp.focus(); inp.select(); }
+    }, 80);
+  }
+}
+
+function openMacroIndDialog(focusIdx) {
+  buildMacroIndDialogBody(focusIdx);
+  document.getElementById('macro-ind-dialog').showModal();
+}
+
+function saveMacroIndsFromDialog() {
+  macroInds.forEach((m, i) => {
+    const get = id => { const el = document.getElementById(id); return el ? el.value.trim() : null; };
+    if (get(`mi_val_${i}`)    !== null) m.val    = get(`mi_val_${i}`);
+    if (get(`mi_chg_${i}`)    !== null) m.chg    = get(`mi_chg_${i}`);
+    if (get(`mi_src_${i}`)    !== null) m.src    = get(`mi_src_${i}`);
+    if (get(`mi_period_${i}`) !== null) m.period = get(`mi_period_${i}`);
+    const dir = document.getElementById(`mi_dir_${i}`);
+    if (dir) m.dir = dir.value;
+  });
+  persistMacroInds();
+  const now = new Date().toLocaleString('ru-RU', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' });
+  localStorage.setItem('ak-macro-ind-ts', now);
+  renderMacroInds();
+  document.getElementById('macro-ind-dialog').close();
+}
+
+renderMacroInds();
 </script>
 </body>
 </html>
