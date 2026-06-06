@@ -657,6 +657,12 @@
     }
     .macro-ind-src { font-size: 0.63rem; color: var(--gray); }
 
+    /* ── Фиксированный макет ── */
+    body { min-width: 1300px; }
+    .section-platinum .grid { grid-template-columns: repeat(5, 1fr); }
+    .col-5 { grid-column: span 5; }
+    .col-5 .sentiment-grid { grid-template-columns: repeat(4, 1fr); }
+
     /* ── Диалог макропоказателей ── */
     #macro-ind-dialog {
       max-width: 600px;
@@ -811,8 +817,18 @@
   </div>
 
 
+  <!-- Акции — watchlist -->
+  <div class="card col-3">
+    <div class="card-title">
+      Акции
+      <span><span class="live-dot" id="live-dot-stocks"></span><span class="live-label" id="live-label-stocks">live</span></span>
+    </div>
+    <div id="stocks-inner" style="color:var(--gray);font-size:.85rem">Загрузка…</div>
+    <div class="updated" id="stocks-upd"></div>
+  </div>
+
   <!-- Индикаторы настроения рынка -->
-  <div class="card col-2">
+  <div class="card col-5">
     <div class="card-title">
       Индикаторы настроения рынка
       <span><span class="live-dot" id="live-dot-sent"></span><span class="live-label" id="live-label-sent">live</span></span>
@@ -885,18 +901,8 @@
     <div class="updated" id="sent-upd"></div>
   </div>
 
-  <!-- Акции — watchlist -->
-  <div class="card col-3">
-    <div class="card-title">
-      Акции
-      <span><span class="live-dot" id="live-dot-stocks"></span><span class="live-label" id="live-label-stocks">live</span></span>
-    </div>
-    <div id="stocks-inner" style="color:var(--gray);font-size:.85rem">Загрузка…</div>
-    <div class="updated" id="stocks-upd"></div>
-  </div>
-
   <!-- Макропоказатели -->
-  <div class="card col-3">
+  <div class="card col-5">
     <div class="card-title">
       Макропоказатели
       <button class="edit-btn" onclick="openMacroIndDialog()">Изменить</button>
