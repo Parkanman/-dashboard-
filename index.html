@@ -1093,13 +1093,13 @@
   <!-- Число клиентов -->
   <div class="card col-6">
     <div class="card-title">
-      Число клиентов Pro, тыс.
+      Число клиентов Pro
       <button class="edit-btn" id="biz-clients-add">+ Месяц</button>
     </div>
     <div style="height:260px;position:relative;width:100%"><canvas id="biz-clients"></canvas></div>
     <div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--silver);display:flex;align-items:center;gap:16px">
       <div>
-        <div class="broker-kpi-val" id="biz-clients-cur">44 <span>тыс.</span></div>
+        <div class="broker-kpi-val" id="biz-clients-cur">44 <span>чел.</span></div>
         <div class="broker-kpi-lbl">последнее значение</div>
       </div>
       <span class="badge up" id="biz-clients-chg">+91% с янв 2025</span>
@@ -2501,7 +2501,7 @@ function renderBizCharts() {
     type: 'line',
     data: { labels: bizClients.labels, datasets: [lineDataset(bizClients.data)] },
     options: { ...baseOpts, plugins: { ...baseOpts.plugins,
-      tooltip: { callbacks: { label: i => ' ' + i.raw + ' тыс.' } } } }
+      tooltip: { callbacks: { label: i => ' ' + i.raw + ' чел.' } } } }
   });
 
   if (bizAumChart) bizAumChart.destroy();
@@ -2525,7 +2525,7 @@ function updateBizKPIs() {
   if (bizClients.data.length) {
     const last = bizClients.data[bizClients.data.length - 1];
     const first = bizClients.data[0];
-    document.getElementById('biz-clients-cur').innerHTML = last + ' <span>тыс.</span>';
+    document.getElementById('biz-clients-cur').innerHTML = last + ' <span>чел.</span>';
     const pct = Math.round((last - first) / first * 100);
     const el = document.getElementById('biz-clients-chg');
     el.textContent = (pct >= 0 ? '+' : '') + pct + '% с ' + bizClients.labels[0];
