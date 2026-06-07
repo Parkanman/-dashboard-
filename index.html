@@ -1928,9 +1928,9 @@ function renderBrokerCharts() {
   // Защита: ждём пока canvas получат размеры
   if (!document.getElementById('bc-inflow')) return;
   const BASE_OPTS = { responsive: true, maintainAspectRatio: false, animation: { duration: 500 } };
-  const X_TICK  = { color: '#929498', font: { size: 9, family: 'Inter' }, maxRotation: 0 };
-  const Y_TICK  = { color: '#929498', font: { size: 9, family: 'Inter' } };
-  const GRID_Y  = { color: '#F3F4F5' };
+  const X_TICK  = { color: 'rgba(255,255,255,0.5)', font: { size: 9, family: 'Inter' }, maxRotation: 0 };
+  const Y_TICK  = { color: 'rgba(255,255,255,0.5)', font: { size: 9, family: 'Inter' } };
+  const GRID_Y  = { color: 'rgba(255,255,255,0.07)' };
 
   // ── 1. Нетто-взносы ─────────────────────────────────────────────────
   const ifLabels = ['1к24','2к24','3к24','4к24','1к25','2к25','3к25','4к25','1к26'];
@@ -2032,7 +2032,7 @@ function renderBrokerCharts() {
           position: 'right',
           labels: {
             font: { size: 9, family: 'Inter' },
-            color: '#494C53',
+            color: 'rgba(255,255,255,0.6)',
             boxWidth: 10,
             padding: 7,
           }
@@ -2044,8 +2044,8 @@ function renderBrokerCharts() {
   });
 }
 
-// Откладываем до после отрисовки DOM
-setTimeout(renderBrokerCharts, 50);
+// Двойной rAF гарантирует что layout полностью рассчитан до рендера Chart.js
+setTimeout(() => requestAnimationFrame(() => requestAnimationFrame(renderBrokerCharts)), 0);
 
 // ─── Часы ──────────────────────────────────────────────────────────────
 function tick() {
