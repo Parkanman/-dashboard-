@@ -1087,18 +1087,41 @@
 <section class="section-block section-black">
   <div class="container">
   <div class="section-tag">03 / Бизнес-показатели</div>
-  <div class="section-name">В разработке</div>
+  <div class="section-name">Pro-сегмент</div>
   <div class="grid">
 
-  <!-- Пустая карточка — раздел в разработке -->
-  <div class="card col-12" style="border:2px dashed rgba(255,255,255,.15);background:transparent;box-shadow:none;display:flex;align-items:center;justify-content:center;min-height:160px">
-    <div style="text-align:center">
-      <div style="width:40px;height:40px;border-radius:10px;background:rgba(255,255,255,.07);display:flex;align-items:center;justify-content:center;margin:0 auto 12px">
-        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="2" y="10" width="3" height="8" rx="1" fill="rgba(255,255,255,.4)"/><rect x="8" y="6" width="3" height="12" rx="1" fill="rgba(255,255,255,.4)"/><rect x="14" y="2" width="3" height="16" rx="1" fill="rgba(255,255,255,.4)"/></svg>
-      </div>
-      <div style="font-size:0.88rem;font-weight:600;color:rgba(255,255,255,.6)">Данные появятся позже</div>
-      <div style="font-size:0.75rem;color:rgba(255,255,255,.35);margin-top:4px">Раздел в разработке</div>
+  <!-- Число клиентов -->
+  <div class="card col-6">
+    <div class="card-title">
+      Число клиентов Pro, тыс.
+      <button class="edit-btn" id="biz-clients-add">+ Месяц</button>
     </div>
+    <div style="height:200px;position:relative"><canvas id="biz-clients"></canvas></div>
+    <div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--silver);display:flex;align-items:center;gap:16px">
+      <div>
+        <div class="broker-kpi-val" id="biz-clients-cur">44 <span>тыс.</span></div>
+        <div class="broker-kpi-lbl">последнее значение</div>
+      </div>
+      <span class="badge up" id="biz-clients-chg">+91% с янв 2025</span>
+    </div>
+    <div class="updated" id="biz-clients-upd">Power BI · Розничный бизнес Pro</div>
+  </div>
+
+  <!-- AUM -->
+  <div class="card col-6">
+    <div class="card-title">
+      Активы под управлением (AUM), млрд руб.
+      <button class="edit-btn" id="biz-aum-add">+ Месяц</button>
+    </div>
+    <div style="height:200px;position:relative"><canvas id="biz-aum"></canvas></div>
+    <div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--silver);display:flex;align-items:center;gap:16px">
+      <div>
+        <div class="broker-kpi-val" id="biz-aum-cur">— <span>млрд</span></div>
+        <div class="broker-kpi-lbl">последнее значение</div>
+      </div>
+      <span class="badge flat" id="biz-aum-chg">нет данных</span>
+    </div>
+    <div class="updated" id="biz-aum-upd">Нажмите "+ Месяц" для ввода данных</div>
   </div>
 
   </div>
@@ -2434,6 +2457,98 @@ function saveMacroIndsFromDialog() {
 
 renderMacroInds();
 renderBrokerComment();
+
+// ─── Бизнес-показатели (Pro-сегмент) ─────────────────────────────────
+const BIZ_CLIENTS_KEY = 'ak-biz-clients-v1';
+const BIZ_AUM_KEY     = 'ak-biz-aum-v1';
+
+const BIZ_CLIENTS_DEF = {
+  labels: ["янв'25","фев'25","мар'25","апр'25","май'25","июн'25","июл'25","авг'25","сен'25","окт'25","ноя'25","дек'25","янв'26","фев'26"],
+  data:   [23, 30, 40, 40, 39, 38, 40, 42, 43, 44, 46, 45, 46, 44]
+};
+const BIZ_AUM_DEF = { labels: [], data: [] };
+
+let bizClients = JSON.parse(localStorage.getItem(BIZ_CLIENTS_KEY) || 'null') || BIZ_CLIENTS_DEF;
+let bizAum     = JSON.parse(localStorage.getItem(BIZ_AUM_KEY)     || 'null') || BIZ_AUM_DEF;
+let bizCliChart = null, bizAumChart = null;
+
+const BIZ_SCALE = {
+  x: { grid: { display: false }, ticks: { color: 'rgba(255,255,255,.45)', font: { size: 9, family: 'Inter' }, maxRotation: 0, autoSkip: true, maxTicksLimit: 8 } },
+  y: { grid: { color: 'rgba(255,255,255,.06)' }, border: { display: false }, ticks: { color: 'rgba(255,255,255,.45)', font: { size: 9, family: 'Inter' } } }
+};
+
+function renderBizCharts() {
+  if (!document.getElementById('biz-clients')) return;
+  ['biz-clients','biz-aum'].forEach(function(id) {
+    var c = document.getElementById(id);
+    if (c && c.parentElement && c.parentElement.offsetWidth > 0) {
+      c.width = c.parentElement.offsetWidth; c.height = c.parentElement.offsetHeight || 200;
+    }
+  });
+
+  function lineDataset(data) {
+    return { data: data, borderColor: '#E61E14', backgroundColor: 'rgba(230,30,20,.08)',
+      borderWidth: 2, pointRadius: 3, pointBackgroundColor: '#E61E14', tension: 0.35, fill: true };
+  }
+  const baseOpts = { responsive: true, maintainAspectRatio: false, animation: { duration: 400 },
+    plugins: { legend: { display: false } }, scales: BIZ_SCALE };
+
+  if (bizCliChart) bizCliChart.destroy();
+  bizCliChart = new Chart(document.getElementById('biz-clients').getContext('2d'), {
+    type: 'line',
+    data: { labels: bizClients.labels, datasets: [lineDataset(bizClients.data)] },
+    options: { ...baseOpts, plugins: { ...baseOpts.plugins,
+      tooltip: { callbacks: { label: i => ' ' + i.raw + ' тыс.' } } } }
+  });
+
+  if (bizAumChart) bizAumChart.destroy();
+  bizAumChart = new Chart(document.getElementById('biz-aum').getContext('2d'), {
+    type: 'line',
+    data: { labels: bizAum.labels, datasets: [lineDataset(bizAum.data)] },
+    options: { ...baseOpts, plugins: { ...baseOpts.plugins,
+      tooltip: { callbacks: { label: i => ' ' + i.raw + ' млрд' } } } }
+  });
+
+  updateBizKPIs();
+}
+
+function updateBizKPIs() {
+  if (bizClients.data.length) {
+    const last = bizClients.data[bizClients.data.length - 1];
+    const first = bizClients.data[0];
+    document.getElementById('biz-clients-cur').innerHTML = last + ' <span>тыс.</span>';
+    const pct = Math.round((last - first) / first * 100);
+    const el = document.getElementById('biz-clients-chg');
+    el.textContent = (pct >= 0 ? '+' : '') + pct + '% с ' + bizClients.labels[0];
+    el.className = 'badge ' + (pct >= 0 ? 'up' : 'down');
+    document.getElementById('biz-clients-upd').textContent = 'Последнее: ' + bizClients.labels[bizClients.labels.length - 1];
+  }
+  if (bizAum.data.length) {
+    const last = bizAum.data[bizAum.data.length - 1];
+    document.getElementById('biz-aum-cur').innerHTML = String(last).replace('.', ',') + ' <span>млрд</span>';
+    document.getElementById('biz-aum-chg').textContent = 'Последнее: ' + bizAum.labels[bizAum.labels.length - 1];
+    document.getElementById('biz-aum-chg').className = 'badge flat';
+    document.getElementById('biz-aum-upd').textContent = 'Последнее: ' + bizAum.labels[bizAum.labels.length - 1];
+  }
+}
+
+document.getElementById('biz-clients-add').addEventListener('click', function() {
+  var lbl = prompt('Месяц (например фев\'26):'); if (!lbl) return;
+  var val = parseFloat(prompt('Значение, тыс.:').replace(',','.')); if (isNaN(val)) return;
+  bizClients.labels.push(lbl); bizClients.data.push(val);
+  localStorage.setItem(BIZ_CLIENTS_KEY, JSON.stringify(bizClients));
+  renderBizCharts();
+});
+
+document.getElementById('biz-aum-add').addEventListener('click', function() {
+  var lbl = prompt('Месяц (например фев\'26):'); if (!lbl) return;
+  var val = parseFloat(prompt('Значение, млрд руб.:').replace(',','.')); if (isNaN(val)) return;
+  bizAum.labels.push(lbl); bizAum.data.push(val);
+  localStorage.setItem(BIZ_AUM_KEY, JSON.stringify(bizAum));
+  renderBizCharts();
+});
+
+setTimeout(renderBizCharts, 500);
 </script>
 </body>
 </html>
