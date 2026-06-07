@@ -1866,7 +1866,7 @@ function renderCPI() {
         const { ctx, scales } = chart;
         chart.data.datasets[0].data.forEach((val, i) => {
           if (!peakIndices.has(i) || val == null) return;
-          const x = scales.x.getPixelForIndex(i);
+          const x = scales.x.getPixelForValue(i);
           const y = scales.y.getPixelForValue(val);
           const above = val >= 0;
           ctx.save();
@@ -1925,8 +1925,16 @@ const donutCenterPlugin = {
 };
 
 function renderBrokerCharts() {
-  // Защита: ждём пока canvas получат размеры
   if (!document.getElementById('bc-inflow')) return;
+  // Явно задаём размеры canvas из родительского контейнера
+  ['bc-inflow', 'bc-clients', 'bc-donut'].forEach(function(id) {
+    var c = document.getElementById(id);
+    if (c && c.parentElement) {
+      var w = c.parentElement.offsetWidth;
+      var h = c.parentElement.offsetHeight || 165;
+      if (w > 0) { c.width = w; c.height = h; }
+    }
+  });
   const BASE_OPTS = { responsive: true, maintainAspectRatio: false, animation: { duration: 500 } };
   const X_TICK  = { color: 'rgba(255,255,255,0.5)', font: { size: 9, family: 'Inter' }, maxRotation: 0 };
   const Y_TICK  = { color: 'rgba(255,255,255,0.5)', font: { size: 9, family: 'Inter' } };
