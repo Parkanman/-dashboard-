@@ -834,8 +834,18 @@
   </div>
 
 
-  <!-- Индикаторы настроения рынка -->
+  <!-- Акции — watchlist -->
   <div class="card col-8">
+    <div class="card-title">
+      Акции
+      <span><span class="live-dot" id="live-dot-stocks"></span><span class="live-label" id="live-label-stocks">live</span></span>
+    </div>
+    <div id="stocks-inner" style="color:var(--gray);font-size:.85rem">Загрузка…</div>
+    <div class="updated" id="stocks-upd"></div>
+  </div>
+
+  <!-- Индикаторы настроения рынка -->
+  <div class="card col-3">
     <div class="card-title">
       Индикаторы настроения рынка
       <span><span class="live-dot" id="live-dot-sent"></span><span class="live-label" id="live-label-sent">live</span></span>
@@ -906,16 +916,6 @@
 
     </div>
     <div class="updated" id="sent-upd"></div>
-  </div>
-
-  <!-- Акции — watchlist -->
-  <div class="card col-3">
-    <div class="card-title">
-      Акции
-      <span><span class="live-dot" id="live-dot-stocks"></span><span class="live-label" id="live-label-stocks">live</span></span>
-    </div>
-    <div id="stocks-inner" style="color:var(--gray);font-size:.85rem">Загрузка…</div>
-    <div class="updated" id="stocks-upd"></div>
   </div>
 
   <!-- Макропоказатели -->
