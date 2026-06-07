@@ -1110,7 +1110,7 @@
   <!-- AUM -->
   <div class="card col-6">
     <div class="card-title">
-      Активы под управлением (AUM), млрд руб.
+      Общее ЧП, млрд руб.
       <button class="edit-btn" id="biz-aum-add">+ Месяц</button>
     </div>
     <div style="height:200px;position:relative;width:100%"><canvas id="biz-aum"></canvas></div>
@@ -2460,13 +2460,16 @@ renderBrokerComment();
 
 // ─── Бизнес-показатели (Pro-сегмент) ─────────────────────────────────
 const BIZ_CLIENTS_KEY = 'ak-biz-clients-v1';
-const BIZ_AUM_KEY     = 'ak-biz-aum-v1';
+const BIZ_AUM_KEY     = 'ak-biz-aum-v2';
 
 const BIZ_CLIENTS_DEF = {
   labels: ["янв'25","фев'25","мар'25","апр'25","май'25","июн'25","июл'25","авг'25","сен'25","окт'25","ноя'25","дек'25","янв'26","фев'26"],
   data:   [23, 30, 40, 40, 39, 38, 40, 42, 43, 44, 46, 45, 46, 44]
 };
-const BIZ_AUM_DEF = { labels: [], data: [] };
+const BIZ_AUM_DEF = {
+  labels: ["янв'25","фев'25","мар'25","апр'25","май'25","июн'25","июл'25","авг'25","сен'25","окт'25","ноя'25","дек'25","янв'26","фев'26"],
+  data:   [1.73, 2.20, 2.82, 2.44, 2.55, 2.68, 2.85, 2.65, 2.48, 2.75, 3.08, 3.32, 3.15, 2.97]
+};
 
 let bizClients = JSON.parse(localStorage.getItem(BIZ_CLIENTS_KEY) || 'null') || BIZ_CLIENTS_DEF;
 let bizAum     = JSON.parse(localStorage.getItem(BIZ_AUM_KEY)     || 'null') || BIZ_AUM_DEF;
