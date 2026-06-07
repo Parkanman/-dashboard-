@@ -1172,6 +1172,68 @@
     </div>
   </div>
 
+  <!-- Инфляционные ожидания -->
+  <div class="card col-12">
+    <div class="card-title">
+      Инфляционные ожидания населения на 1 год (медиана), %
+      <span style="font-weight:400;text-transform:none;letter-spacing:0">Янв 2022 — Май 2026 · ЦБ РФ / инФОМ</span>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 280px;gap:24px;align-items:start">
+
+      <!-- Chart -->
+      <div>
+        <div style="height:195px;position:relative"><canvas id="infl-exp-chart"></canvas></div>
+        <div class="updated" style="display:flex;gap:18px;margin-top:6px;flex-wrap:wrap">
+          <span style="display:flex;align-items:center;gap:5px">
+            <span style="display:inline-block;width:18px;height:2px;background:#FF6C36;border-radius:1px"></span>ИО населения (1 год)
+          </span>
+          <span style="display:flex;align-items:center;gap:5px">
+            <span style="display:inline-block;width:18px;height:8px;background:rgba(255,108,54,.15);border-radius:1px;border:1px dashed rgba(255,108,54,.4)"></span>Норма 2017–2019
+          </span>
+          <span style="display:flex;align-items:center;gap:5px">
+            <span style="display:inline-block;width:18px;height:0;border-top:2px dashed rgba(255,255,255,.3)"></span>Цель ЦБ 4%
+          </span>
+        </div>
+      </div>
+
+      <!-- Нарратив -->
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+          <div style="background:rgba(255,255,255,.06);border-radius:8px;padding:10px 12px">
+            <div style="font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--gray);margin-bottom:3px">ИО нас. 1 год</div>
+            <div style="font-size:1.4rem;font-weight:800;color:#FF6C36;letter-spacing:-.02em;line-height:1.1">13,0%</div>
+            <div style="font-size:.67rem;color:var(--gray);margin-top:3px">↑ +0,1 пп к апрелю</div>
+          </div>
+          <div style="background:rgba(255,255,255,.06);border-radius:8px;padding:10px 12px">
+            <div style="font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--gray);margin-bottom:3px">Цен. ожид. предпр.</div>
+            <div style="font-size:1.4rem;font-weight:800;color:rgba(255,255,255,.8);letter-spacing:-.02em;line-height:1.1">16,7 <span style="font-size:.85rem;font-weight:600;color:var(--graphite)">п.</span></div>
+            <div style="font-size:.67rem;color:var(--gray);margin-top:3px">↓ 4 мес. подряд</div>
+          </div>
+        </div>
+        <div style="background:rgba(255,108,54,.1);border-left:3px solid #FF6C36;border-radius:0 6px 6px 0;padding:10px 12px">
+          <div style="font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#FF6C36;margin-bottom:5px">Почему ЦБ не торопится</div>
+          <p style="font-size:.78rem;color:var(--graphite);line-height:1.55;margin:0">
+            При норме 2017–2019 в <b style="color:rgba(255,255,255,.8)">8,4–11,2%</b>
+            ожидания держатся на <b style="color:#FF6C36">13,0%</b>.
+            Пока они не заякорятся вблизи 4%,
+            ЦБ будет снижать ставку осторожно,
+            чтобы не спровоцировать новый
+            инфляционный виток.
+          </p>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:6px">
+          <div style="background:rgba(255,255,255,.06);border-radius:6px;padding:4px 10px;font-size:.7rem">
+            <span style="color:var(--gray)">Прогноз ЦБ 2026:</span> <b style="color:rgba(255,255,255,.8)">4,5–5,5%</b>
+          </div>
+          <div style="background:rgba(255,255,255,.06);border-radius:6px;padding:4px 10px;font-size:.7rem">
+            <span style="color:var(--gray)">Аналитики 2026:</span> <b style="color:rgba(255,255,255,.8)">5,5%</b>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
   </div>
   </div>
 </section>
@@ -2420,6 +2482,176 @@ function renderCreditImpulse() {
 }
 
 renderCreditImpulse();
+
+// ─── Инфляционные ожидания ─────────────────────────────────────────────────
+function renderInflExp() {
+  const el = document.getElementById('infl-exp-chart');
+  if (!el) return;
+
+  // 53 точки: Янв 2022 — Май 2026
+  const N = 53;
+  const MONTHS_S = ['Янв','Фев','Мар','Апр','Май','Июн','Июл','Авг','Сен','Окт','Ноя','Дек'];
+  const LABELS = Array.from({length: N}, (_, i) => {
+    const m = i % 12;
+    return m === 0 ? `${MONTHS_S[m]}\n'${String(2022 + Math.floor(i / 12)).slice(2)}` : MONTHS_S[m];
+  });
+
+  // ИО населения на 1 год, медиана, %.
+  // 2022–2024: расчёт по известным средним ЦБ РФ / инФОМ
+  // 2025 янв–мар: оценка; апр 2025 – май 2026: точные данные ЦБ РФ
+  const IE = [
+    // 2022 (пик в марте — санкционный шок)
+    14.1, 14.8, 17.5, 12.5, 11.5, 11.6, 10.8, 12.5, 12.1, 12.5, 12.5, 12.1,
+    // 2023 (среднее год 11,5%)
+    12.4, 12.2, 11.7, 11.3, 11.4, 11.1, 10.9, 11.5, 11.5, 11.2, 11.1, 10.2,
+    // 2024 (среднее год 12,4%, рост к концу года)
+    11.1, 11.9, 11.5, 11.7, 12.7, 12.4, 12.4, 12.4, 12.5, 13.4, 13.8, 13.9,
+    // 2025 (янв–мар оценка; среднее год 13,2%; 4к25 = 13,2%)
+    14.0, 13.7, 13.3, 13.6, 13.4, 12.8, 12.8, 13.0, 13.1, 13.1, 13.1, 13.4,
+    // 2026 (ЦБ РФ / инФОМ): 1к26 ср. 13,4%; апр 12,9%; май 13,0%
+    13.4, 13.4, 13.4, 12.9, 13.0,
+  ];
+
+  // Ориентир комфортного уровня (норма 2017–2019, 90% времени: 8,4–11,2%)
+  const ZONE_HI = 11.2;
+  const ZONE_LO = 8.4;
+  // Цель ЦБ
+  const TARGET = Array(N).fill(4.0);
+
+  new Chart(el.getContext('2d'), {
+    type: 'line',
+    data: {
+      labels: LABELS,
+      datasets: [
+        {
+          label: 'Цель ЦБ 4%',
+          data: TARGET,
+          borderColor: 'rgba(255,255,255,0.22)',
+          borderWidth: 1.5,
+          borderDash: [5, 4],
+          pointRadius: 0,
+          fill: false,
+        },
+        {
+          label: 'ИО населения',
+          data: IE,
+          borderColor: '#FF6C36',
+          borderWidth: 2.5,
+          backgroundColor: 'rgba(255,108,54,0.12)',
+          fill: true,
+          tension: 0.3,
+          pointRadius: 0,
+          pointHoverRadius: 5,
+          pointHoverBackgroundColor: '#FF6C36',
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: { duration: 400 },
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          filter: item => item.datasetIndex === 1,
+          callbacks: {
+            title: items => LABELS[items[0].dataIndex].replace('\n', ' '),
+            label: item => ` ИО: ${item.raw}%`
+          }
+        }
+      },
+      scales: {
+        x: {
+          grid: { display: false },
+          border: { display: false },
+          ticks: {
+            color: 'rgba(255,255,255,0.45)',
+            font: { size: 9, family: 'Inter' },
+            maxRotation: 0,
+            autoSkip: false,
+            callback(val, i) {
+              return i % 12 === 0 ? String(2022 + Math.floor(i / 12)) : '';
+            }
+          }
+        },
+        y: {
+          min: 0, max: 20,
+          grid: { color: 'rgba(255,255,255,0.07)' },
+          border: { display: false },
+          ticks: {
+            color: 'rgba(255,255,255,0.45)',
+            font: { size: 9, family: 'Inter' },
+            stepSize: 4,
+            callback: v => v + '%'
+          }
+        }
+      }
+    },
+    plugins: [
+      {
+        id: 'comfortZone',
+        beforeDatasetsDraw(chart) {
+          const { ctx, chartArea, scales } = chart;
+          const yHi = scales.y.getPixelForValue(ZONE_HI);
+          const yLo = scales.y.getPixelForValue(ZONE_LO);
+          ctx.save();
+          // Заливка зоны
+          ctx.fillStyle = 'rgba(255,108,54,0.13)';
+          ctx.fillRect(chartArea.left, yHi, chartArea.width, yLo - yHi);
+          // Верхняя граница зоны
+          ctx.strokeStyle = 'rgba(255,108,54,0.45)';
+          ctx.lineWidth = 1;
+          ctx.setLineDash([4, 3]);
+          ctx.beginPath();
+          ctx.moveTo(chartArea.left, yHi);
+          ctx.lineTo(chartArea.right, yHi);
+          ctx.stroke();
+          // Нижняя граница зоны
+          ctx.beginPath();
+          ctx.moveTo(chartArea.left, yLo);
+          ctx.lineTo(chartArea.right, yLo);
+          ctx.stroke();
+          ctx.setLineDash([]);
+          ctx.restore();
+        }
+      },
+      {
+        id: 'ieLabels',
+        afterDraw(chart) {
+          const { ctx, chartArea, scales } = chart;
+          ctx.save();
+
+          // Подпись нормального диапазона
+          const yHi = scales.y.getPixelForValue(ZONE_HI);
+          ctx.font = '9px Inter, sans-serif';
+          ctx.fillStyle = 'rgba(255,108,54,0.65)';
+          ctx.textAlign = 'left';
+          ctx.fillText('норма 2017–2019: 8,4–11,2%', chartArea.left + 4, yHi - 5);
+
+          // Подпись цели ЦБ
+          const yT = scales.y.getPixelForValue(4.0);
+          ctx.fillStyle = 'rgba(255,255,255,0.25)';
+          ctx.textAlign = 'right';
+          ctx.fillText('цель ЦБ 4%', chartArea.right - 4, yT - 4);
+
+          // Текущее значение
+          const last = IE[IE.length - 1];
+          const yLast = scales.y.getPixelForValue(last);
+          ctx.font = 'bold 13px Inter, sans-serif';
+          ctx.fillStyle = '#FF6C36';
+          ctx.textAlign = 'right';
+          ctx.textBaseline = 'bottom';
+          ctx.fillText(String(last).replace('.', ',') + '%', chartArea.right - 5, yLast - 4);
+
+          ctx.restore();
+        }
+      }
+    ]
+  });
+}
+
+renderInflExp();
 
 // ─── Показатели брокеров (ЦБ РФ, I квартал 2026) ────────────────────────
 
