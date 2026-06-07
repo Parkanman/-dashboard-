@@ -120,8 +120,13 @@
       padding: 0 32px 32px;
       grid-template-columns: repeat(12, 1fr);
     }
-    .col-2 { grid-column: span 6; }
-    .col-3 { grid-column: span 6; }
+    .col-2  { grid-column: span 6; }
+    .col-3  { grid-column: span 6; }
+    .col-4  { grid-column: span 4; }
+    .col-5  { grid-column: span 5; }
+    .col-7  { grid-column: span 7; }
+    .col-8  { grid-column: span 8; }
+    .col-12 { grid-column: span 12; }
 
     /* ── Карточка ── */
     .card {
@@ -729,7 +734,7 @@
       .grid { padding: 0 16px 24px; }
       header .container { padding: 0 16px; }
       .page-header { padding: 20px 16px 14px; }
-      .col-2, .col-3 { grid-column: span 12; }
+      .col-2, .col-3, .col-4, .col-5, .col-7, .col-8, .col-12 { grid-column: span 12; }
       .macro-grid { grid-template-columns: 1fr; }
       .macro-row:nth-child(even) { padding-left: 0; border-left: none; }
       .macro-ind-grid { grid-template-columns: 1fr 1fr; }
@@ -775,7 +780,7 @@
   <div class="grid">
 
   <!-- LIVE Watchlist -->
-  <div class="card card-accent col-2">
+  <div class="card card-accent col-4">
     <div class="card-title">
       Рыночные данные
       <span><span class="live-dot" id="live-dot-main"></span><span class="live-label" id="live-label-main">live</span></span>
@@ -830,7 +835,7 @@
 
 
   <!-- Индикаторы настроения рынка -->
-  <div class="card col-2">
+  <div class="card col-8">
     <div class="card-title">
       Индикаторы настроения рынка
       <span><span class="live-dot" id="live-dot-sent"></span><span class="live-label" id="live-label-sent">live</span></span>
@@ -986,7 +991,7 @@
   <div class="grid">
 
   <!-- График ИПЦ Росстат -->
-  <div class="card col-3">
+  <div class="card col-7">
     <div class="card-title" style="font-size:1rem;font-weight:700;color:#1E1E1E;text-transform:none;letter-spacing:0;margin-bottom:16px">
       Недельные темпы роста индекса потребительских цен, %
       <div style="display:flex;gap:6px;align-items:center">
@@ -1013,7 +1018,7 @@
   </div>
 
   <!-- Показатели брокеров (ЦБ РФ) -->
-  <div class="card col-3">
+  <div class="card col-5">
     <div class="card-title">
       Показатели брокеров
       <span style="font-size:.75rem;color:var(--gray);font-weight:400;text-transform:none;letter-spacing:0">I кв. 2026 · ЦБ РФ</span>
@@ -1076,7 +1081,7 @@
   <div class="grid">
 
   <!-- Пустая карточка — раздел в разработке -->
-  <div class="card col-3" style="border:2px dashed rgba(255,255,255,.15);background:transparent;box-shadow:none;display:flex;align-items:center;justify-content:center;min-height:160px">
+  <div class="card col-12" style="border:2px dashed rgba(255,255,255,.15);background:transparent;box-shadow:none;display:flex;align-items:center;justify-content:center;min-height:160px">
     <div style="text-align:center">
       <div style="width:40px;height:40px;border-radius:10px;background:rgba(255,255,255,.07);display:flex;align-items:center;justify-content:center;margin:0 auto 12px">
         <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="2" y="10" width="3" height="8" rx="1" fill="rgba(255,255,255,.4)"/><rect x="8" y="6" width="3" height="12" rx="1" fill="rgba(255,255,255,.4)"/><rect x="14" y="2" width="3" height="16" rx="1" fill="rgba(255,255,255,.4)"/></svg>
