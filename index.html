@@ -140,10 +140,10 @@
     .card:hover { box-shadow: 0 3px 10px rgba(30,30,30,.13), 0 8px 28px rgba(30,30,30,.10); }
 
     .card-title {
-      font-size: 0.7rem;
-      font-weight: 600;
+      font-size: 0.72rem;
+      font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: 0.1em;
+      letter-spacing: 0.09em;
       color: var(--gray);
       margin-bottom: 14px;
       display: flex;
@@ -171,7 +171,7 @@
       white-space: nowrap;
       margin-bottom: 2px;
     }
-    .badge.up   { background: var(--green-bg); color: var(--green); }
+    .badge.up   { background: #E4F5EC; color: #1A7A38; }
     .badge.down { background: var(--red-bg);   color: var(--red); }
     .badge.flat { background: #F3F4F5;          color: var(--graphite); }
 
@@ -605,6 +605,8 @@
       --green-bg: rgba(0,186,56,.2);
     }
     .section-graphite .card:hover { box-shadow: 0 2px 8px rgba(0,0,0,.2),0 8px 24px rgba(0,0,0,.2); }
+    .section-graphite .card .badge.up { background: rgba(0,186,56,.13); color: rgba(0,186,56,.72); }
+    .section-black    .card .badge.up { background: rgba(0,186,56,.10); color: rgba(0,186,56,.68); }
     .section-graphite .sentiment-item { background: rgba(255,255,255,.07); }
     .section-graphite .sent-bidir-track { background: rgba(255,255,255,.15); }
     .section-graphite .edit-btn { border-color: rgba(255,255,255,.2); color: rgba(255,255,255,.5); }
@@ -993,27 +995,26 @@
 <section class="section-block section-graphite">
   <div class="container">
   <div class="section-tag">02 / Инфляция и брокеры</div>
-  <div class="section-name">Данные вручную</div>
+  <div class="section-name">Куда уйдут деньги с депозитов?</div>
   <div class="grid">
 
   <!-- График ИПЦ Росстат -->
   <div class="card col-5">
-    <div class="card-title" style="font-size:1rem;font-weight:700;color:#1E1E1E;text-transform:none;letter-spacing:0;margin-bottom:16px">
-      Недельные темпы роста индекса потребительских цен, %
+    <div class="card-title">
+      Недельная инфляция ИПЦ, %
       <div style="display:flex;gap:6px;align-items:center">
-        <span class="updated" style="display:flex;align-items:center;gap:4px">
+        <span class="updated" style="display:flex;align-items:center;gap:4px;text-transform:none;letter-spacing:0;font-weight:400">
           Год.: <b id="cpi-annual-display" style="color:var(--red)">5,39%</b>
           <button class="edit-btn" onclick="editCPIAnnual()" style="margin:0;padding:1px 6px">✏</button>
         </span>
         <button class="edit-btn" id="cpi-add-btn">+ Неделя</button>
       </div>
     </div>
-    <div style="height:240px;background:rgba(255,255,255,.08);border-radius:4px;padding:8px 4px 4px"><canvas id="cpi-chart"></canvas></div>
+    <div style="height:240px;position:relative"><canvas id="cpi-chart"></canvas></div>
     <div style="display:flex;justify-content:space-between;align-items:center;margin-top:6px">
-      <span style="font-size:0.75rem;color:#888">Источник: Росстат, Альфа-Инвестиции</span>
-      <span style="font-size:0.75rem;color:#888" id="cpi-last"></span>
+      <span class="updated">Источник: Росстат, Альфа-Инвестиции</span>
+      <span class="updated" id="cpi-last"></span>
     </div>
-    <!-- Комментарий к последним данным -->
     <div class="cpi-comment-box" id="cpi-comment-box" style="display:none">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
         <span style="font-size:0.68rem;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--gray)">Последние данные</span>
@@ -1027,10 +1028,8 @@
   <div class="card col-7">
     <div class="card-title">
       Показатели брокеров
-      <span style="font-size:.75rem;color:var(--gray);font-weight:400;text-transform:none;letter-spacing:0">I кв. 2026 · ЦБ РФ</span>
+      <span style="font-weight:400;text-transform:none;letter-spacing:0">I кв. 2026 · ЦБ РФ</span>
     </div>
-
-    <!-- 3 графика -->
     <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px;margin-bottom:16px;min-width:0">
       <div style="min-width:0">
         <div class="broker-chart-lbl">Нетто-взносы ФЛ, млрд руб.</div>
@@ -1045,8 +1044,6 @@
         <div style="height:165px;position:relative;width:100%"><canvas id="bc-donut"></canvas></div>
       </div>
     </div>
-
-    <!-- Ключевые показатели -->
     <div class="broker-kpis">
       <div class="broker-kpi">
         <div class="broker-kpi-val">13,3 <span>трлн руб.</span></div>
@@ -1064,18 +1061,114 @@
         <span class="badge up" style="font-size:.72rem;margin-top:2px">↑ рекорд с 2021</span>
       </div>
     </div>
-
-    <!-- Комментарий к брокерам -->
     <div class="cpi-comment-box" id="broker-comment-box" style="display:none;margin-top:12px">
       <div style="margin-bottom:4px">
         <span style="font-size:0.68rem;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--gray)">Комментарий</span>
       </div>
       <p id="broker-comment-text" style="font-size:0.82rem;color:var(--black);line-height:1.55;margin:0"></p>
     </div>
-
     <div class="updated" style="margin-top:10px;display:flex;justify-content:space-between;align-items:center">
       <span>Источник: Банк России · Обзор ключевых показателей брокеров за I квартал 2026 года</span>
       <button class="edit-btn" onclick="editBrokerComment()" style="flex-shrink:0;margin-left:8px">✏ Комментарий</button>
+    </div>
+  </div>
+
+  <!-- КС + ставки по вкладам ФЛ (объединённый) -->
+  <div class="card col-2">
+    <div class="card-title">
+      Ключевая ставка и доходность вкладов ФЛ, % год.
+    </div>
+    <div style="height:172px;position:relative"><canvas id="rate-combined-chart"></canvas></div>
+    <div style="display:flex;align-items:center;gap:20px;margin-top:8px;flex-wrap:wrap">
+      <span style="display:flex;align-items:center;gap:6px">
+        <span style="display:inline-block;width:18px;height:0;border-top:2px dashed rgba(255,255,255,.45)"></span>
+        <span style="font-size:.71rem;color:var(--gray)">Ключевая ставка ЦБ</span>
+      </span>
+      <span style="display:flex;align-items:center;gap:6px">
+        <span style="display:inline-block;width:18px;height:2px;background:#E61E14;border-radius:1px"></span>
+        <span style="font-size:.71rem;color:var(--gray)">Ставка по вкладам ФЛ (&gt; 1 года)</span>
+      </span>
+    </div>
+    <div class="updated" style="margin-top:4px">Банк России; вклады ФЛ до апр 2025 — оценка</div>
+  </div>
+
+  <!-- Средства ФЛ в банках -->
+  <div class="card col-2">
+    <div class="card-title">
+      Средства физлиц в банках, трлн руб.
+      <span style="font-weight:400;text-transform:none;letter-spacing:0">без эскроу</span>
+    </div>
+    <div style="height:128px;position:relative"><canvas id="rate-fl-volume-chart"></canvas></div>
+    <div style="margin-top:10px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08)">
+      <div style="font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:var(--gray);margin-bottom:9px">Масштаб рынка, трлн руб.</div>
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:7px">
+        <div style="font-size:.7rem;color:rgba(255,255,255,.45);white-space:nowrap;width:62px;flex-shrink:0">Вклады ФЛ</div>
+        <div style="flex:1;height:12px;background:rgba(230,30,20,.55);border-radius:2px"></div>
+        <div style="font-size:.82rem;font-weight:700;color:#E61E14;width:54px;text-align:right;flex-shrink:0">68,3</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px">
+        <div style="font-size:.7rem;color:rgba(255,255,255,.45);white-space:nowrap;width:62px;flex-shrink:0">Акции ФЛ</div>
+        <div style="flex:1;height:12px;background:rgba(255,255,255,.05);border-radius:2px;position:relative">
+          <div style="position:absolute;left:0;top:0;height:100%;width:4.68%;background:#00BA38;border-radius:2px;min-width:4px"></div>
+        </div>
+        <div style="font-size:.82rem;font-weight:700;color:#00BA38;width:54px;text-align:right;flex-shrink:0">3,2</div>
+      </div>
+      <div style="display:flex;justify-content:flex-end;margin-top:7px">
+        <span class="badge up" style="font-size:.7rem">× 21 разрыв</span>
+      </div>
+    </div>
+    <div class="updated" style="margin-top:4px">Банк России · апр 2026; 2020–2023 — оценка</div>
+  </div>
+
+  <!-- Кредитный импульс -->
+  <div class="card col-12">
+    <div class="card-title">
+      Кредитный импульс: прирост кредитных портфелей, % м/м
+      <span style="font-weight:400;text-transform:none;letter-spacing:0">Апр 2025 — Апр 2026 · ЦБ РФ</span>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 280px;gap:24px;align-items:start">
+
+      <!-- Barchart -->
+      <div>
+        <div style="height:240px;position:relative"><canvas id="credit-impulse-chart"></canvas></div>
+        <div class="updated" style="display:flex;gap:16px;margin-top:6px">
+          <span style="display:flex;align-items:center;gap:5px">
+            <span style="display:inline-block;width:10px;height:10px;background:#FF6C36;border-radius:2px"></span>Юрлица
+          </span>
+          <span style="display:flex;align-items:center;gap:5px">
+            <span style="display:inline-block;width:10px;height:10px;background:rgba(255,255,255,.4);border-radius:2px"></span>Физлица
+          </span>
+          <span style="display:flex;align-items:center;gap:5px">
+            <span style="display:inline-block;width:16px;height:0;border-top:2px dashed rgba(240,180,41,.6)"></span>~1% м/м ориентир
+          </span>
+        </div>
+      </div>
+
+      <!-- Нарратив -->
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+          <div style="background:rgba(255,255,255,.06);border-radius:8px;padding:10px 12px">
+            <div style="font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--gray);margin-bottom:3px">ЮЛ г/г</div>
+            <div style="font-size:1.4rem;font-weight:800;color:#FF6C36;letter-spacing:-.02em;line-height:1.1">12,8%</div>
+            <div style="font-size:.67rem;color:var(--gray);margin-top:3px">↑ с 9,4% (окт 25)</div>
+          </div>
+          <div style="background:rgba(255,255,255,.06);border-radius:8px;padding:10px 12px">
+            <div style="font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--gray);margin-bottom:3px">ФЛ г/г</div>
+            <div style="font-size:1.4rem;font-weight:800;color:rgba(255,255,255,.8);letter-spacing:-.02em;line-height:1.1">8,0%</div>
+            <div style="font-size:.67rem;color:var(--gray);margin-top:3px">↑ с 3,0% (сен 25)</div>
+          </div>
+        </div>
+        <div style="background:rgba(255,108,54,.1);border-left:3px solid #FF6C36;border-radius:0 6px 6px 0;padding:10px 12px">
+          <div style="font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#FF6C36;margin-bottom:5px">Почему ЦБ осторожен</div>
+          <p style="font-size:.78rem;color:var(--graphite);line-height:1.55;margin:0">
+            Оба портфеля развернулись вверх. Корпоративный кредит
+            ускорился до <b style="color:rgba(255,255,255,.8)">+1,9% м/м</b> в апреле —
+            максимум с октября 2025. Рост кредитования разгоняет
+            спрос и инфляцию, сдерживая снижение ставки.
+          </p>
+        </div>
+      </div>
+
     </div>
   </div>
 
@@ -1939,6 +2032,394 @@ document.getElementById('cpi-add-btn').addEventListener('click', () => {
   saveCPI();
   renderCPI();
 });
+
+// ─── Ключевая ставка, вклады ФЛ и объём средств в банках ──────────────────
+function renderRateCharts() {
+  // Метки: Янв 2020 — Апр 2026, 76 точек
+  const MONTHS_S = ['Янв','Фев','Мар','Апр','Май','Июн','Июл','Авг','Сен','Окт','Ноя','Дек'];
+  const N = 76;
+  const LABELS = Array.from({length: N}, (_, i) =>
+    MONTHS_S[i % 12] + ' \'' + String(2020 + Math.floor(i / 12)).slice(2)
+  );
+
+  // Ключевая ставка ЦБ РФ — точные данные по решениям Совета директоров
+  const RATE_CB = [
+    // 2020
+    6.25, 6.00, 6.00, 5.50, 5.50, 4.50, 4.25, 4.25, 4.25, 4.25, 4.25, 4.25,
+    // 2021
+    4.25, 4.25, 4.25, 5.00, 5.00, 5.50, 6.50, 6.50, 6.75, 7.50, 7.50, 8.50,
+    // 2022
+    8.50, 20.00, 20.00, 17.00, 14.00, 9.50, 8.00, 8.00, 7.50, 7.50, 7.50, 7.50,
+    // 2023
+    7.50, 7.50, 7.50, 7.50, 7.50, 7.50, 8.50, 12.00, 13.00, 15.00, 15.00, 16.00,
+    // 2024
+    16.00, 16.00, 16.00, 16.00, 16.00, 16.00, 18.00, 18.00, 19.00, 21.00, 21.00, 21.00,
+    // 2025
+    21.00, 21.00, 21.00, 21.00, 21.00, 20.00, 18.00, 18.00, 17.00, 16.50, 16.50, 16.00,
+    // 2026
+    16.00, 15.50, 15.00, 14.50,
+  ];
+
+  // Ставки по депозитам юрлиц > 1 года, рубли
+  // 2020–2024 и янв–мар 2025: оценка; апр 2025 – мар 2026: данные ЦБ РФ (ф.о. 0409128)
+  const DEP_NF = [
+    // 2020 (оценка)
+    6.2, 5.8, 5.5, 5.0, 4.8, 4.0, 3.5, 3.5, 3.5, 3.5, 3.5, 3.8,
+    // 2021 (оценка)
+    3.8, 3.8, 4.0, 4.8, 4.8, 5.2, 6.0, 6.2, 6.5, 7.5, 7.8, 8.5,
+    // 2022 (оценка)
+    8.8, 17.5, 16.0, 13.5, 11.0, 8.0, 6.8, 7.0, 6.5, 6.5, 6.5, 6.8,
+    // 2023 (оценка)
+    7.0, 7.2, 7.5, 7.5, 7.5, 8.0, 9.5, 12.0, 13.5, 14.5, 14.5, 15.5,
+    // 2024 (оценка)
+    15.5, 15.5, 15.5, 15.5, 15.5, 15.5, 17.0, 17.5, 18.0, 19.0, 19.5, 19.8,
+    // 2025 янв–мар (оценка), апр–дек (ЦБ РФ)
+    19.5, 19.6, 19.7,  19.80, 19.66, 18.33, 16.77, 15.64, 14.96, 15.39, 15.62, 14.77,
+    // 2026 янв–мар (ЦБ РФ), апр — нет данных
+    14.52, 14.57, 12.79, null,
+  ];
+
+  // Ставки по вкладам физлиц > 1 года, рубли
+  // 2020–2024 и янв–мар 2025: оценка; апр 2025 – мар 2026: данные ЦБ РФ (ф.о. 0409129)
+  const DEP_FL = [
+    // 2020 (оценка)
+    5.5, 5.2, 5.0, 4.5, 4.2, 3.5, 3.0, 3.0, 3.0, 3.0, 3.0, 3.2,
+    // 2021 (оценка)
+    3.2, 3.2, 3.5, 4.2, 4.2, 4.8, 5.5, 5.8, 6.0, 7.0, 7.0, 7.5,
+    // 2022 (оценка)
+    7.5, 15.0, 14.0, 12.0, 9.5, 7.0, 6.0, 6.0, 5.8, 5.8, 5.8, 6.0,
+    // 2023 (оценка)
+    6.0, 6.0, 6.5, 6.5, 6.8, 7.0, 8.5, 10.5, 11.5, 12.5, 12.5, 13.0,
+    // 2024 (оценка)
+    13.0, 13.0, 13.5, 13.5, 13.5, 13.5, 15.0, 15.5, 16.0, 17.5, 17.5, 18.0,
+    // 2025 янв–мар (оценка), апр–дек (ЦБ РФ)
+    18.0, 18.1, 18.2,  18.28, 17.49, 17.55, 16.38, 13.55, 12.95, 12.12, 11.49, 12.18,
+    // 2026 янв–мар (ЦБ РФ), апр — нет данных
+    11.78, 11.03, 10.95, null,
+  ];
+
+  const BASE  = { responsive: true, maintainAspectRatio: false, animation: { duration: 400 } };
+  const XTICK = { color: 'rgba(255,255,255,0.45)', font: { size: 9, family: 'Inter' }, maxRotation: 0 };
+  const YTICK = { color: 'rgba(255,255,255,0.45)', font: { size: 9, family: 'Inter' } };
+  const GRID  = { color: 'rgba(255,255,255,0.07)' };
+
+  // Ось X: только год (январь каждого года)
+  function xTickCb(val, i) {
+    return i % 12 === 0 ? String(2020 + Math.floor(i / 12)) : '';
+  }
+
+  // ── 1. Объединённый: КС + вклады ФЛ ───────────────────────────────
+  const combEl = document.getElementById('rate-combined-chart');
+  if (combEl) {
+    new Chart(combEl.getContext('2d'), {
+      type: 'line',
+      data: {
+        labels: LABELS,
+        datasets: [
+          {
+            label: 'Ключевая ставка',
+            data: RATE_CB,
+            stepped: true,
+            borderColor: 'rgba(255,255,255,0.55)',
+            borderWidth: 1.5,
+            borderDash: [5, 3],
+            pointRadius: 0,
+            pointHoverRadius: 4,
+          },
+          {
+            label: 'Вклады ФЛ (> 1 года)',
+            data: DEP_FL,
+            borderColor: '#E61E14',
+            borderWidth: 2.5,
+            tension: 0.3,
+            spanGaps: false,
+            pointRadius: 0,
+            pointHoverRadius: 5,
+            pointHoverBackgroundColor: '#E61E14',
+            backgroundColor: 'rgba(230,30,20,0.08)',
+            fill: true,
+          }
+        ]
+      },
+      options: {
+        ...BASE,
+        interaction: { mode: 'index', intersect: false },
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            callbacks: {
+              title: items => LABELS[items[0].dataIndex],
+              label: item => ` ${item.dataset.label}: ${item.raw != null ? item.raw + '%' : '—'}`
+            }
+          }
+        },
+        scales: {
+          x: {
+            grid: { display: false },
+            border: { display: false },
+            ticks: { ...XTICK, autoSkip: false, callback: xTickCb },
+          },
+          y: {
+            min: 0, max: 22,
+            grid: GRID,
+            border: { display: false },
+            ticks: { ...YTICK, stepSize: 5, callback: v => v + '%' }
+          }
+        }
+      },
+      plugins: [{
+        id: 'rateLatest',
+        afterDraw(chart) {
+          const { ctx, chartArea } = chart;
+          // Подпись последних значений
+          const lastCB  = RATE_CB[RATE_CB.length - 1];
+          const lastFL  = DEP_FL.filter(v => v != null).at(-1);
+          ctx.save();
+          ctx.textAlign = 'right';
+          ctx.textBaseline = 'top';
+          ctx.font = 'bold 12px Inter, sans-serif';
+          ctx.fillStyle = 'rgba(255,255,255,0.7)';
+          ctx.fillText('КС ' + String(lastCB).replace('.', ',') + '%', chartArea.right - 6, chartArea.top + 6);
+          ctx.fillStyle = '#E61E14';
+          ctx.fillText('Вклады ' + String(lastFL).replace('.', ',') + '%', chartArea.right - 6, chartArea.top + 22);
+          ctx.restore();
+        }
+      }]
+    });
+  }
+
+  // ── 2. Объём средств ФЛ в банках (трлн руб.) ───────────────────────
+  // 2020–2023: оценка; 2024–2026: расчёт и данные ЦБ РФ
+  const FL_VOL = [
+    // 2020 (оценка)
+    27.5, 27.8, 27.5, 27.8, 28.2, 28.5, 29.0, 29.2, 29.5, 29.8, 30.0, 30.5,
+    // 2021 (оценка)
+    29.8, 30.2, 30.5, 30.8, 31.2, 31.5, 32.0, 32.5, 33.0, 33.5, 33.8, 34.2,
+    // 2022 (оценка: отток фев-мар, восстановление)
+    34.2, 33.5, 32.0, 33.0, 34.0, 35.0, 36.0, 36.5, 37.0, 37.5, 38.0, 38.5,
+    // 2023 (оценка: быстрый рост на фоне высоких ставок)
+    37.5, 38.0, 38.8, 39.5, 40.3, 41.2, 42.5, 44.0, 45.5, 46.5, 47.0, 47.8,
+    // 2024 янв-мар (оценка), апр-дек (расчёт из данных ЦБ РФ)
+    46.8, 47.2, 47.6,  48.1, 49.3, 50.1, 50.9, 51.6, 52.3, 53.0, 53.6, 57.5,
+    // 2025 янв-мар (расчёт), апр-дек (ЦБ РФ)
+    57.0, 58.3, 59.1,  60.9, 61.0, 61.7, 62.5, 62.6, 62.7, 63.5, 63.4, 67.0,
+    // 2026 янв-апр (ЦБ РФ)
+    65.9, 67.2, 67.4, 68.3,
+  ];
+
+  const volEl = document.getElementById('rate-fl-volume-chart');
+  if (volEl) {
+    const ctx2d = volEl.getContext('2d');
+    const grad = ctx2d.createLinearGradient(0, 0, 0, 180);
+    grad.addColorStop(0, 'rgba(230,30,20,0.28)');
+    grad.addColorStop(1, 'rgba(230,30,20,0.02)');
+
+    // Референсная линия: акции ФЛ на брокерских счетах = 3.2 трлн (1к26)
+    const BROKER_REF = Array(N).fill(3.2);
+
+    new Chart(ctx2d, {
+      type: 'line',
+      data: {
+        labels: LABELS,
+        datasets: [
+          {
+            label: 'Средства ФЛ в банках',
+            data: FL_VOL,
+            borderColor: '#E61E14',
+            borderWidth: 2,
+            backgroundColor: grad,
+            fill: true,
+            tension: 0.3,
+            pointRadius: 0,
+            pointHoverRadius: 5,
+            pointHoverBackgroundColor: '#E61E14',
+          },
+          {
+            label: 'Активы ФЛ на бр. счетах',
+            data: BROKER_REF,
+            borderColor: 'rgba(0,186,56,0.55)',
+            borderWidth: 1.5,
+            borderDash: [4, 3],
+            pointRadius: 0,
+            fill: false,
+          }
+        ]
+      },
+      options: {
+        ...BASE,
+        interaction: { mode: 'index', intersect: false },
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            callbacks: {
+              title: items => LABELS[items[0].dataIndex],
+              label: item => item.datasetIndex === 0
+                ? ` Вклады ФЛ: ${item.raw} трлн руб.`
+                : ` Акции ФЛ (бр.): 3,2 трлн руб.`
+            }
+          }
+        },
+        scales: {
+          x: {
+            grid: { display: false },
+            border: { display: false },
+            ticks: { ...XTICK, autoSkip: false, callback: xTickCb },
+          },
+          y: {
+            min: 0, max: 75,
+            grid: GRID,
+            border: { display: false },
+            ticks: { ...YTICK, stepSize: 15, callback: v => v + ' трлн' }
+          }
+        }
+      },
+      plugins: [{
+        id: 'volLabels',
+        afterDraw(chart) {
+          const { ctx, chartArea, scales } = chart;
+          ctx.save();
+          // Подпись референсной линии
+          const y32 = scales.y.getPixelForValue(3.2);
+          ctx.font = '10px Inter, sans-serif';
+          ctx.fillStyle = 'rgba(0,186,56,0.7)';
+          ctx.textAlign = 'left';
+          ctx.fillText('акции ФЛ 3,2 трлн', chartArea.left + 4, y32 - 5);
+          ctx.restore();
+        }
+      }]
+    });
+  }
+}
+
+renderRateCharts();
+
+// ─── Кредитный импульс ─────────────────────────────────────────────────────
+function renderCreditImpulse() {
+  const el = document.getElementById('credit-impulse-chart');
+  if (!el) return;
+
+  const LABELS = ['Апр\n\'25','Май','Июн','Июл','Авг','Сен','Окт','Ноя','Дек','Янв\n\'26','Фев','Мар','Апр'];
+
+  // Прирост м/м% — данные ЦБ РФ (ф.о. 0409101)
+  const UL_MOM = [1.2, 0.8, 0.1, 1.4, 1.6, 0.6, 2.6, 2.0, 0.7, -0.4, 0.5, 0.7, 1.9];
+  const FL_MOM = [0.1, 0.4, 0.3, 0.5, 1.0, 0.7, 0.9, 0.9, 1.4,  0.7, 0.0, 0.5, 0.5];
+
+  // ЮЛ — синий; пики и последний бар ярче
+  const ulColors = UL_MOM.map((v, i) =>
+    i === UL_MOM.length - 1 ? '#FF6C36' :
+    v >= 2.0 ? 'rgba(255,108,54,0.85)' : 'rgba(255,108,54,0.48)'
+  );
+  // ФЛ — нейтральный серо-белый
+  const flColors = FL_MOM.map((v, i) =>
+    i === FL_MOM.length - 1 ? 'rgba(255,255,255,0.65)' : 'rgba(255,255,255,0.28)'
+  );
+
+  new Chart(el.getContext('2d'), {
+    type: 'bar',
+    data: {
+      labels: LABELS,
+      datasets: [
+        {
+          label: 'Юрлица',
+          data: UL_MOM,
+          backgroundColor: ulColors,
+          borderRadius: 3,
+          barPercentage: 0.75,
+          categoryPercentage: 0.85,
+          order: 1,
+        },
+        {
+          label: 'Физлица',
+          data: FL_MOM,
+          backgroundColor: flColors,
+          borderRadius: 3,
+          barPercentage: 0.75,
+          categoryPercentage: 0.85,
+          order: 2,
+        },
+        {
+          // Ориентир: ~1% м/м ≈ 12% годовых — граница «горячего» кредитования
+          label: 'Ориентир ЦБ',
+          data: Array(LABELS.length).fill(1.0),
+          type: 'line',
+          borderColor: 'rgba(240,180,41,0.55)',
+          borderWidth: 1.5,
+          borderDash: [5, 4],
+          pointRadius: 0,
+          fill: false,
+          order: 0,
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: { duration: 400 },
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            title: items => LABELS[items[0].dataIndex].replace('\n', ' '),
+            label: item => item.datasetIndex < 2
+              ? ` ${item.dataset.label}: ${item.raw > 0 ? '+' : ''}${item.raw}% м/м`
+              : ` ${item.dataset.label}: 1,0%`
+          }
+        }
+      },
+      scales: {
+        x: {
+          grid: { display: false },
+          border: { display: false },
+          ticks: {
+            color: 'rgba(255,255,255,0.45)',
+            font: { size: 9, family: 'Inter' },
+            maxRotation: 0,
+          }
+        },
+        y: {
+          min: -0.6, max: 3.0,
+          grid: { color: 'rgba(255,255,255,0.07)' },
+          border: { display: false },
+          ticks: {
+            color: 'rgba(255,255,255,0.45)',
+            font: { size: 9, family: 'Inter' },
+            stepSize: 0.5,
+            callback: v => v.toFixed(1).replace('.', ',') + '%'
+          }
+        }
+      }
+    },
+    plugins: [{
+      id: 'peakAnnotation',
+      afterDatasetsDraw(chart) {
+        const { ctx, scales } = chart;
+        // Подписываем только пики ЮЛ ≥ 1.5%
+        UL_MOM.forEach((v, i) => {
+          if (v < 1.5) return;
+          const x = scales.x.getPixelForValue(i);
+          const y = scales.y.getPixelForValue(v);
+          ctx.save();
+          ctx.font = 'bold 10px Inter, sans-serif';
+          ctx.fillStyle = v === Math.max(...UL_MOM) ? '#FF6C36' : 'rgba(255,255,255,0.65)';
+          ctx.textAlign = 'center';
+          ctx.fillText('+' + v.toFixed(1).replace('.', ',') + '%', x - 6, y - 5);
+          ctx.restore();
+        });
+        // Ориентирная линия — подпись
+        const yOr = scales.y.getPixelForValue(1.0);
+        ctx.save();
+        ctx.font = '9px Inter, sans-serif';
+        ctx.fillStyle = 'rgba(240,180,41,0.7)';
+        ctx.textAlign = 'right';
+        ctx.fillText('~1% м/м', chart.chartArea.right - 4, yOr - 4);
+        ctx.restore();
+      }
+    }]
+  });
+}
+
+renderCreditImpulse();
 
 // ─── Показатели брокеров (ЦБ РФ, I квартал 2026) ────────────────────────
 
