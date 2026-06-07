@@ -22,7 +22,7 @@
       --silver: #E0E3E6;
       --bg:     #F3F4F5;
       --white:  #FFFFFF;
-      --shadow: 0 1px 3px rgba(30,30,30,.06), 0 4px 16px rgba(30,30,30,.05);
+      --shadow: 0 1px 4px rgba(30,30,30,.10), 0 6px 20px rgba(30,30,30,.08);
     }
 
     /* ── Контейнер фиксированной ширины ── */
@@ -94,7 +94,7 @@
 
     /* ── Подзаголовок ── */
     .page-header {
-      padding: 28px 32px 20px;
+      padding: 16px 32px;
       display: flex;
       align-items: baseline;
       gap: 12px;
@@ -137,7 +137,7 @@
       box-shadow: var(--shadow);
       transition: box-shadow 0.2s;
     }
-    .card:hover { box-shadow: 0 2px 8px rgba(30,30,30,.08), 0 8px 24px rgba(30,30,30,.08); }
+    .card:hover { box-shadow: 0 3px 10px rgba(30,30,30,.13), 0 8px 28px rgba(30,30,30,.10); }
 
     .card-title {
       font-size: 0.7rem;
@@ -567,7 +567,7 @@
     .btn-cancel:hover { background: var(--bg); }
 
     /* ── Блоки секций ── */
-    .section-block { padding: 0; }
+    .section-block { padding: 0; border-top: 1px solid rgba(0,0,0,0.09); }
     .section-block .container { padding: 28px 32px; }
     .section-block .grid { padding: 0; margin-top: 16px; }
 
