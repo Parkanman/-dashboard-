@@ -1065,6 +1065,15 @@
       </div>
     </div>
 
+    <!-- Комментарий к брокерам -->
+    <div class="cpi-comment-box" id="broker-comment-box" style="display:none;margin-top:12px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+        <span style="font-size:0.68rem;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--gray)">Комментарий</span>
+        <button class="edit-btn" onclick="editBrokerComment()" style="margin:0">✏ Изменить</button>
+      </div>
+      <p id="broker-comment-text" style="font-size:0.82rem;color:var(--black);line-height:1.55;margin:0"></p>
+    </div>
+
     <div class="updated" style="margin-top:10px">
       Источник: Банк России · Обзор ключевых показателей брокеров за I квартал 2026 года
     </div>
@@ -1698,6 +1707,35 @@ let cpiChart = null;
 
 function saveCPI()     { localStorage.setItem(CPI_STORAGE, JSON.stringify(cpiData)); }
 function saveCPICmt()  { localStorage.setItem(CPI_CMT,     JSON.stringify(cpiComment)); }
+
+// ─── Комментарий к брокерам ───────────────────────────────────────────
+const BROKER_CMT = 'ak-broker-comment';
+let brokerComment = JSON.parse(localStorage.getItem(BROKER_CMT) || 'null') || { text: '', date: '' };
+
+function saveBrokerCmt() { localStorage.setItem(BROKER_CMT, JSON.stringify(brokerComment)); }
+
+function renderBrokerComment() {
+  const box  = document.getElementById('broker-comment-box');
+  const text = document.getElementById('broker-comment-text');
+  if (brokerComment.text) {
+    box.style.display = '';
+    const full = brokerComment.date
+      ? `<span style="color:var(--gray);font-size:0.75rem">${brokerComment.date}</span>&ensp;${boldNumbers(brokerComment.text)}`
+      : boldNumbers(brokerComment.text);
+    text.innerHTML = full;
+  } else {
+    box.style.display = 'none';
+  }
+}
+
+function editBrokerComment() {
+  const t = prompt('Текст комментария:', brokerComment.text);
+  if (t === null) return;
+  const d = prompt('Дата публикации (например 03.06.2026):', brokerComment.date || '');
+  brokerComment = { text: t, date: d || '' };
+  saveBrokerCmt();
+  renderBrokerComment();
+}
 
 function boldNumbers(str) {
   // Выделяем жирным числовые значения с % или без (0,15% · 5,39% · 0,07% и т.д.)
@@ -2395,6 +2433,7 @@ function saveMacroIndsFromDialog() {
 }
 
 renderMacroInds();
+renderBrokerComment();
 </script>
 </body>
 </html>
