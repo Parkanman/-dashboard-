@@ -25,6 +25,13 @@
       --shadow: 0 1px 3px rgba(30,30,30,.06), 0 4px 16px rgba(30,30,30,.05);
     }
 
+    /* ── Контейнер фиксированной ширины ── */
+    .container {
+      max-width: 1440px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
     body {
       font-family: 'Inter', 'Segoe UI', sans-serif;
       background: #E0E3E6;
@@ -37,14 +44,18 @@
     header {
       background: var(--white);
       border-bottom: 1px solid var(--silver);
-      padding: 0 32px;
+      padding: 0;
       height: 64px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
       position: sticky;
       top: 0;
       z-index: 100;
+    }
+    header .container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 32px;
+      height: 100%;
     }
 
     .logo {
@@ -87,6 +98,9 @@
       display: flex;
       align-items: baseline;
       gap: 12px;
+      max-width: 1440px;
+      margin: 0 auto;
+      width: 100%;
     }
     .page-title {
       font-size: 1.5rem;
@@ -104,10 +118,10 @@
       display: grid;
       gap: 16px;
       padding: 0 32px 32px;
-      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      grid-template-columns: repeat(12, 1fr);
     }
-    .col-2 { grid-column: span 2; }
-    .col-3 { grid-column: span 3; }
+    .col-2 { grid-column: span 6; }
+    .col-3 { grid-column: span 6; }
 
     /* ── Карточка ── */
     .card {
@@ -542,7 +556,8 @@
     .btn-cancel:hover { background: var(--bg); }
 
     /* ── Блоки секций ── */
-    .section-block { padding: 24px 32px 36px; }
+    .section-block { padding: 0; }
+    .section-block .container { padding: 24px 32px 36px; }
     .section-block .grid { padding: 0; margin-top: 16px; }
 
     /* Фоны — три близких светлых оттенка из брендбука */
@@ -712,9 +727,9 @@
 
     @media (max-width: 700px) {
       .grid { padding: 0 16px 24px; }
-      header { padding: 0 16px; }
+      header .container { padding: 0 16px; }
       .page-header { padding: 20px 16px 14px; }
-      .col-2, .col-3 { grid-column: span 1; }
+      .col-2, .col-3 { grid-column: span 12; }
       .macro-grid { grid-template-columns: 1fr; }
       .macro-row:nth-child(even) { padding-left: 0; border-left: none; }
       .macro-ind-grid { grid-template-columns: 1fr 1fr; }
@@ -725,6 +740,7 @@
 
 <!-- ─── Шапка ─────────────────────────────────────────────────── -->
 <header>
+  <div class="container">
   <div class="logo">
     <!-- Знак Альфа Капитал (SVG-интерпретация) -->
     <svg class="logo-mark" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -742,6 +758,7 @@
     <span class="header-date" id="hdate"></span>
     <span class="header-clock" id="hclock"></span>
   </div>
+  </div>
 </header>
 
 <!-- ─── Подзаголовок ────────────────────────────────────────────── -->
@@ -752,6 +769,7 @@
 
 <!-- ─── Секция 1: Рыночные котировки (Платиновый серый) ─────────── -->
 <section class="section-block section-platinum">
+  <div class="container">
   <div class="section-tag">01 / Рыночные котировки</div>
   <div class="section-name">Живые данные</div>
   <div class="grid">
@@ -957,10 +975,12 @@
   </div>
 
   </div>
+  </div>
 </section>
 
 <!-- ─── Секция 2: Инфляция и брокеры (Финансовый графит) ────────── -->
 <section class="section-block section-graphite">
+  <div class="container">
   <div class="section-tag">02 / Инфляция и брокеры</div>
   <div class="section-name">Данные вручную</div>
   <div class="grid">
@@ -1045,10 +1065,12 @@
   </div>
 
   </div>
+  </div>
 </section>
 
 <!-- ─── Секция 3: Бизнес-показатели (Стратегический черный) ─────── -->
 <section class="section-block section-black">
+  <div class="container">
   <div class="section-tag">03 / Бизнес-показатели</div>
   <div class="section-name">В разработке</div>
   <div class="grid">
@@ -1064,6 +1086,7 @@
     </div>
   </div>
 
+  </div>
   </div>
 </section>
 
