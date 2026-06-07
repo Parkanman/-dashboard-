@@ -2233,7 +2233,7 @@ function renderChart() {
 function renderAll() {
   renderMacro(); renderChart();
 }
-renderAll();
+try { renderAll(); } catch(e) { /* элементы старой макро-таблицы удалены */ }
 
 // ─── Редактирование ──────────────────────────────────────────────────
 let currentSection = '';
