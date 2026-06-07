@@ -2509,6 +2509,12 @@ function renderBizCharts() {
       tooltip: { callbacks: { label: i => ' ' + i.raw + ' млрд' } } } }
   });
 
+  // Принудительный resize — Chart.js пересчитывает размеры canvas
+  setTimeout(function() {
+    if (bizCliChart) bizCliChart.resize();
+    if (bizAumChart) bizAumChart.resize();
+  }, 100);
+
   updateBizKPIs();
 }
 
