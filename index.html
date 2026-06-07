@@ -453,18 +453,18 @@
       font-weight: 500;
     }
 
-    /* ── 2-колонный грид для акций ── */
-    .stock-2col {
+    /* ── 3-колонный грид для акций ── */
+    .stock-3col {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 0 28px;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 0 20px;
     }
-    .stock-2col .wl-head,
-    .stock-2col .wl-row { grid-template-columns: 1fr 80px 64px; gap: 8px; }
-    .stock-2col .wl-row { padding: 8px 0; }
-    .stock-2col .wl-ticker { font-size: 0.82rem; }
-    .stock-2col .wl-subtitle { font-size: 0.67rem; }
-    .stock-2col .wl-price { font-size: 0.88rem; }
+    .stock-3col .wl-head,
+    .stock-3col .wl-row { grid-template-columns: 1fr 72px 58px; gap: 6px; }
+    .stock-3col .wl-row { padding: 7px 0; }
+    .stock-3col .wl-ticker { font-size: 0.80rem; }
+    .stock-3col .wl-subtitle { font-size: 0.65rem; }
+    .stock-3col .wl-price { font-size: 0.84rem; }
 
     /* ── Live-индикатор ── */
     .live-dot {
@@ -1311,12 +1311,15 @@ const WATCHLIST = [
   ['OZON', 'Ozon'],       ['PHOR', 'ФосАгро'],
   ['HEAD', 'HeadHunter'], ['UPRO', 'Юнипро'],
   ['AFLT', 'Аэрофлот'],   ['CNRU', 'Циан'],
+  ['SIBN', 'Газпром нефть'], ['PLZL', 'Полюс'],
+  ['RUAL', 'Русал'],
 ];
 
 function buildStockTable() {
-  const half = WATCHLIST.length / 2;
-  const left  = WATCHLIST.slice(0, half);
-  const right = WATCHLIST.slice(half);
+  const third = Math.ceil(WATCHLIST.length / 3);
+  const col1 = WATCHLIST.slice(0, third);
+  const col2 = WATCHLIST.slice(third, third * 2);
+  const col3 = WATCHLIST.slice(third * 2);
 
   function rows(list) {
     return list.map(([id, name]) => `
@@ -1332,9 +1335,10 @@ function buildStockTable() {
 
   const hdr = `<div class="wl-head"><span>Акция</span><span>Цена</span><span>% день</span></div>`;
   document.getElementById('stocks-inner').innerHTML =
-    `<div class="stock-2col">
-      <div class="wl-table">${hdr}${rows(left)}</div>
-      <div class="wl-table">${hdr}${rows(right)}</div>
+    `<div class="stock-3col">
+      <div class="wl-table">${hdr}${rows(col1)}</div>
+      <div class="wl-table">${hdr}${rows(col2)}</div>
+      <div class="wl-table">${hdr}${rows(col3)}</div>
     </div>`;
 }
 
