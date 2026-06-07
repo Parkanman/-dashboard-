@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Рыночная конъюнктура — Альфа Капитал</title>
+  <title>Дашборд — ИДУ Pro</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
@@ -34,7 +34,7 @@
 
     body {
       font-family: 'Inter', 'Segoe UI', sans-serif;
-      background: #E0E3E6;
+      background: #C8CDD2;
       color: var(--black);
       min-height: 100vh;
       padding: 0;
@@ -45,7 +45,7 @@
       background: var(--white);
       border-bottom: 1px solid var(--silver);
       padding: 0;
-      height: 64px;
+      height: 72px;
       position: sticky;
       top: 0;
       z-index: 100;
@@ -116,7 +116,7 @@
     /* ── Сетка ── */
     .grid {
       display: grid;
-      gap: 16px;
+      gap: 20px;
       padding: 0 32px 32px;
       grid-template-columns: repeat(12, 1fr);
     }
@@ -132,7 +132,7 @@
     .card {
       background: var(--white);
       border: 1px solid var(--silver);
-      border-radius: 16px;
+      border-radius: 12px;
       padding: 20px 22px;
       box-shadow: var(--shadow);
       transition: box-shadow 0.2s;
@@ -457,7 +457,13 @@
     .stock-3col {
       display: grid;
       grid-template-columns: 1fr 1fr 1fr;
-      gap: 0 20px;
+      gap: 0;
+    }
+    .stock-3col .wl-table { padding: 0 18px; }
+    .stock-3col .wl-table:first-child { padding-left: 0; }
+    .stock-3col .wl-table:last-child  { padding-right: 0; }
+    .stock-3col .wl-table:not(:last-child) {
+      border-right: 1px solid var(--silver);
     }
     .stock-3col .wl-head,
     .stock-3col .wl-row { grid-template-columns: 1fr 72px 58px; gap: 6px; }
@@ -562,7 +568,7 @@
 
     /* ── Блоки секций ── */
     .section-block { padding: 0; }
-    .section-block .container { padding: 24px 32px 36px; }
+    .section-block .container { padding: 28px 32px; }
     .section-block .grid { padding: 0; margin-top: 16px; }
 
     /* Фоны — три близких светлых оттенка из брендбука */
@@ -768,8 +774,8 @@
 
 <!-- ─── Подзаголовок ────────────────────────────────────────────── -->
 <div class="page-header">
-  <span class="page-title">Рыночная конъюнктура</span>
-  <span class="page-subtitle">Российский рынок и макроэкономика · июнь 2026</span>
+  <span class="page-title">Дашборд</span>
+  <span class="page-subtitle">ИДУ Pro</span>
 </div>
 
 <!-- ─── Секция 1: Рыночные котировки (Платиновый серый) ─────────── -->
@@ -1002,7 +1008,7 @@
         <button class="edit-btn" id="cpi-add-btn">+ Неделя</button>
       </div>
     </div>
-    <div style="height:320px;background:rgba(255,255,255,.08);border-radius:4px;padding:8px 4px 4px"><canvas id="cpi-chart"></canvas></div>
+    <div style="height:240px;background:rgba(255,255,255,.08);border-radius:4px;padding:8px 4px 4px"><canvas id="cpi-chart"></canvas></div>
     <div style="display:flex;justify-content:space-between;align-items:center;margin-top:6px">
       <span style="font-size:0.75rem;color:#888">Источник: Росстат, Альфа-Инвестиции</span>
       <span style="font-size:0.75rem;color:#888" id="cpi-last"></span>
@@ -1018,14 +1024,14 @@
   </div>
 
   <!-- Показатели брокеров (ЦБ РФ) -->
-  <div class="card col-5">
+  <div class="card col-5" style="display:flex;flex-direction:column;">
     <div class="card-title">
       Показатели брокеров
       <span style="font-size:.75rem;color:var(--gray);font-weight:400;text-transform:none;letter-spacing:0">I кв. 2026 · ЦБ РФ</span>
     </div>
 
     <!-- 3 графика -->
-    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px;margin-bottom:16px;min-width:0">
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px;margin-bottom:16px;min-width:0;flex:1;align-content:start">
       <div style="min-width:0">
         <div class="broker-chart-lbl">Нетто-взносы ФЛ, млрд руб.</div>
         <div style="height:165px;position:relative;width:100%"><canvas id="bc-inflow"></canvas></div>
