@@ -127,6 +127,7 @@
     .col-7  { grid-column: span 7; }
     .col-8  { grid-column: span 8; }
     .col-12 { grid-column: span 12; }
+    .col-leads { grid-column: span 2; }
 
     /* ── Карточка ── */
     .card {
@@ -742,7 +743,7 @@
       .grid { padding: 0 16px 24px; }
       header .container { padding: 0 16px; }
       .page-header { padding: 20px 16px 14px; }
-      .col-2, .col-3, .col-4, .col-5, .col-7, .col-8, .col-12 { grid-column: span 12; }
+      .col-2, .col-3, .col-4, .col-5, .col-7, .col-8, .col-12, .col-leads { grid-column: span 12; }
       .macro-grid { grid-template-columns: 1fr; }
       .macro-row:nth-child(even) { padding-left: 0; border-left: none; }
       .macro-ind-grid { grid-template-columns: 1fr 1fr; }
@@ -1301,8 +1302,27 @@
   <div class="section-name">Pro-сегмент</div>
   <div class="grid">
 
+  <!-- Лиды 2026 -->
+  <div class="card col-leads">
+    <div class="card-title">
+      Лиды 2026
+      <button class="edit-btn" onclick="editLeads()">✏ Изменить</button>
+    </div>
+    <div style="display:flex;align-items:flex-end;gap:20px;margin-top:6px">
+      <div>
+        <div style="font-size:3.4rem;font-weight:800;color:var(--black);letter-spacing:-.04em;line-height:1" id="leads-total">47</div>
+        <div style="font-size:.78rem;color:var(--gray);margin-top:5px">передано всего</div>
+      </div>
+      <div style="padding-bottom:10px">
+        <div style="font-size:1.6rem;font-weight:800;color:#00BA38;letter-spacing:-.02em;line-height:1" id="leads-recent">+3</div>
+        <div style="font-size:.72rem;color:var(--gray);margin-top:3px;line-height:1.4">за последние<br>3 недели</div>
+      </div>
+    </div>
+    <div class="updated" id="leads-upd" style="margin-top:14px"></div>
+  </div>
+
   <!-- Число клиентов -->
-  <div class="card col-6">
+  <div class="card col-5">
     <div class="card-title">
       Число клиентов Pro
       <button class="edit-btn" id="biz-clients-add">+ Месяц</button>
@@ -1319,7 +1339,7 @@
   </div>
 
   <!-- AUM -->
-  <div class="card col-6">
+  <div class="card col-5">
     <div class="card-title">
       AUM, млрд руб.
       <button class="edit-btn" id="biz-aum-add">+ Месяц</button>
@@ -1333,25 +1353,6 @@
       <span class="badge flat" id="biz-aum-chg">нет данных</span>
     </div>
     <div class="updated" id="biz-aum-upd">Нажмите "+ Месяц" для ввода данных</div>
-  </div>
-
-  <!-- Лиды 2026 -->
-  <div class="card col-4">
-    <div class="card-title">
-      Лиды 2026
-      <button class="edit-btn" onclick="editLeads()">✏ Изменить</button>
-    </div>
-    <div style="display:flex;align-items:flex-end;gap:20px;margin-top:6px">
-      <div>
-        <div style="font-size:3.4rem;font-weight:800;color:var(--black);letter-spacing:-.04em;line-height:1" id="leads-total">47</div>
-        <div style="font-size:.78rem;color:var(--gray);margin-top:5px">передано всего</div>
-      </div>
-      <div style="padding-bottom:10px">
-        <div style="font-size:1.6rem;font-weight:800;color:#00BA38;letter-spacing:-.02em;line-height:1" id="leads-recent">+3</div>
-        <div style="font-size:.72rem;color:var(--gray);margin-top:3px;line-height:1.4">за последние<br>3 недели</div>
-      </div>
-    </div>
-    <div class="updated" id="leads-upd" style="margin-top:14px"></div>
   </div>
 
   <!-- Выручка и маржинальность -->
