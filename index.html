@@ -1105,7 +1105,7 @@
       Недельная инфляция ИПЦ, %
       <div style="display:flex;gap:6px;align-items:center">
         <span class="updated" style="display:flex;align-items:center;gap:4px;text-transform:none;letter-spacing:0;font-weight:400">
-          Год.: <b id="cpi-annual-display" style="color:var(--red)">5,39%</b>
+          Год.: <b id="cpi-annual-display" style="color:var(--green)">5,39%</b>
           <button class="edit-btn" onclick="editCPIAnnual()" style="margin:0;padding:1px 6px">✏</button>
         </span>
         <button class="edit-btn" id="cpi-add-btn">+ Неделя</button>
@@ -1592,6 +1592,39 @@
     </div>
   </div>
 
+  <!-- Накопленная доходность портфеля vs IMOEX -->
+  <div class="card col-8">
+    <div class="card-title">
+      Накопленная доходность с 24.03.2022
+      <div style="display:flex;gap:14px;align-items:center;font-weight:400;text-transform:none;letter-spacing:0">
+        <span style="display:flex;align-items:center;gap:5px">
+          <span style="display:inline-block;width:18px;height:2px;background:#4DD9AC;border-radius:1px"></span>
+          <span style="font-size:.68rem">Портфель +85,22%</span>
+        </span>
+        <span style="display:flex;align-items:center;gap:5px">
+          <span style="display:inline-block;width:18px;height:2px;background:rgba(255,255,255,.38);border-radius:1px"></span>
+          <span style="font-size:.68rem;color:rgba(255,255,255,.5)">IMOEX +17,2%</span>
+        </span>
+        <span class="badge up" style="font-size:.68rem">Альфа +68 п.п.</span>
+      </div>
+    </div>
+    <div style="height:220px;position:relative"><canvas id="pf-perf-chart"></canvas></div>
+    <div class="updated" style="margin-top:6px">Квартальные данные · IMOEX: оценка от 24.03.2022 · Портфель: расчёт ИДУ Pro</div>
+  </div>
+
+  <!-- Аттрибуция доходности — waterfall май 2026 -->
+  <div class="card col-12">
+    <div class="card-title">
+      Аттрибуция доходности · Май 2026
+      <div style="display:flex;gap:20px;align-items:center;font-weight:400;text-transform:none;letter-spacing:0">
+        <span>Итог периода:&ensp;<b style="color:#E61E14">−272 тыс. · −0,49%</b></span>
+        <span style="font-size:.65rem;color:rgba(255,255,255,.45)">vs IMOEX −1,56% → Альфа +1,07 п.п. за счёт облигаций и денежного рынка</span>
+      </div>
+    </div>
+    <div style="height:200px;position:relative"><canvas id="pf-waterfall-chart"></canvas></div>
+    <div class="updated" style="margin-top:6px">Облигации = ОФЗ-ПД + корп. · БПИФ Ден.рынок — расчётный вклад за 01.05–04.06.2026</div>
+  </div>
+
   <!-- Структура портфеля -->
   <div class="card col-4">
     <div class="card-title">Структура портфеля</div>
@@ -1705,6 +1738,39 @@
       <span>Финрез. по акциям: <b style="color:#00BA38">+7,59 млн</b></span>
       <span>Дивиденды: <b style="color:#00BA38">+3,25 млн</b></span>
     </div>
+  </div>
+
+  <!-- Вклад акций в финрез -->
+  <div class="card col-4">
+    <div class="card-title">
+      Вклад акций в финрез
+      <span style="font-weight:400;text-transform:none;letter-spacing:0;font-size:.68rem">млн руб., оценка</span>
+    </div>
+    <div style="height:220px;position:relative"><canvas id="pf-contrib-chart"></canvas></div>
+    <div class="updated" style="margin-top:6px">По % доходности позиций · Итого: <b style="color:#00BA38">+7,59 млн</b></div>
+  </div>
+
+  <!-- Секторальная разбивка акций -->
+  <div class="card col-4">
+    <div class="card-title">
+      Акции по секторам
+      <span style="font-weight:400;text-transform:none;letter-spacing:0;font-size:.68rem">30,1 млн · 6 секторов</span>
+    </div>
+    <div style="height:160px;position:relative"><canvas id="pf-sectors-chart"></canvas></div>
+    <div id="pf-sectors-legend" style="margin-top:10px;display:flex;flex-direction:column;gap:5px"></div>
+  </div>
+
+  <!-- Тепловая карта: размер = стоимость, цвет = доходность -->
+  <div class="card col-8">
+    <div class="card-title">
+      Тепловая карта акций
+      <div style="display:flex;align-items:center;gap:7px;font-weight:400;text-transform:none;letter-spacing:0;font-size:.65rem;color:rgba(255,255,255,.5)">
+        <span style="display:inline-block;width:52px;height:7px;border-radius:3px;background:linear-gradient(to right,#C0392B,#606468,#009738)"></span>
+        <span>убыток → нейтраль → прибыль</span>
+      </div>
+    </div>
+    <div id="pf-treemap" style="display:flex;flex-direction:column;gap:2px;height:236px;border-radius:4px;overflow:hidden"></div>
+    <div class="updated" style="margin-top:7px">Размер = стоимость позиции · Цвет = доходность с покупки · hover — детали</div>
   </div>
 
   <!-- ОФЗ — детальная таблица позиций -->
@@ -2749,12 +2815,19 @@ function renderRateCharts() {
           const lastFL  = DEP_FL.filter(v => v != null).at(-1);
           ctx.save();
           ctx.textAlign = 'right';
-          ctx.textBaseline = 'top';
+          ctx.textBaseline = 'middle';
           ctx.font = 'bold 12px Inter, sans-serif';
+          // Позиционируем метки у реальных конечных значений линий
+          let yCB = chart.scales.y.getPixelForValue(lastCB);
+          let yFL = chart.scales.y.getPixelForValue(lastFL);
+          // Минимальный отступ 16px, чтобы метки не перекрывались
+          if (Math.abs(yCB - yFL) < 16) {
+            if (yCB < yFL) { yCB = yFL - 16; } else { yFL = yCB + 16; }
+          }
           ctx.fillStyle = 'rgba(255,255,255,0.7)';
-          ctx.fillText('КС ' + String(lastCB).replace('.', ',') + '%', chartArea.right - 6, chartArea.top + 6);
+          ctx.fillText('КС ' + String(lastCB).replace('.', ',') + '%', chartArea.right - 6, yCB);
           ctx.fillStyle = '#E61E14';
-          ctx.fillText('Вклады ' + String(lastFL).replace('.', ',') + '%', chartArea.right - 6, chartArea.top + 22);
+          ctx.fillText('Вклады ' + String(lastFL).replace('.', ',') + '%', chartArea.right - 6, yFL);
           ctx.restore();
         }
       }]
@@ -4187,6 +4260,474 @@ renderLeads();
   });
 })();
 
+// ─── Клиентский портфель — накопленная доходность + вклад акций ──────────
+(function() {
+  var perfEl    = document.getElementById('pf-perf-chart');
+  var contribEl = document.getElementById('pf-contrib-chart');
+  if (!perfEl && !contribEl) return;
+
+  var DTICK = { color: 'rgba(255,255,255,.4)', font: { size: 9, family: 'Inter' } };
+  var DGRID = { color: 'rgba(255,255,255,.07)' };
+  var DBASE = { responsive: true, maintainAspectRatio: false, animation: { duration: 400 } };
+
+  // ── 1. Накопленная доходность vs IMOEX (квартально с 24.03.2022) ─────────
+  if (perfEl) {
+    var QL = [
+      "мар'22","июн'22","сен'22","дек'22",
+      "мар'23","июн'23","сен'23","дек'23",
+      "мар'24","июн'24","сен'24","дек'24",
+      "мар'25","июн'25","сен'25","дек'25",
+      "мар'26","июн'26"
+    ];
+    // Портфель: оценка траектории, конечная точка = фактические +85,22%
+    var PF = [
+      0, -8.5, -6.2, 5.8,
+      18.4, 33.7, 46.2, 53.1,
+      70.5, 61.3, 56.8, 63.2,
+      73.5, 80.4, 76.1, 89.1,
+      87.0, 85.22
+    ];
+    // IMOEX: расчёт от базы 24.03.2022 ≈ 2436 пт
+    var IM = [
+      0, -13.2, -13.5, -11.6,
+      -2.7, 15.6, 32.5, 27.2,
+      40.8, 29.8, 11.0, 16.0,
+      26.8, 29.2, 19.2, 17.1,
+      15.9, 17.2
+    ];
+
+    var ctx1 = perfEl.getContext('2d');
+    var pfGrad = ctx1.createLinearGradient(0, 0, 0, 220);
+    pfGrad.addColorStop(0, 'rgba(77,217,172,.20)');
+    pfGrad.addColorStop(1, 'rgba(77,217,172,.02)');
+
+    new Chart(ctx1, {
+      type: 'line',
+      data: {
+        labels: QL,
+        datasets: [
+          {
+            label: 'Портфель',
+            data: PF,
+            borderColor: '#4DD9AC',
+            borderWidth: 2.5,
+            tension: 0.35,
+            pointRadius: 0,
+            pointHoverRadius: 5,
+            pointHoverBackgroundColor: '#4DD9AC',
+            backgroundColor: pfGrad,
+            fill: true
+          },
+          {
+            label: 'IMOEX',
+            data: IM,
+            borderColor: 'rgba(255,255,255,.38)',
+            borderWidth: 1.5,
+            borderDash: [5, 4],
+            tension: 0.35,
+            pointRadius: 0,
+            pointHoverRadius: 4,
+            fill: false
+          }
+        ]
+      },
+      options: Object.assign({}, DBASE, {
+        interaction: { mode: 'index', intersect: false },
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            callbacks: {
+              title: function(items) { return QL[items[0].dataIndex]; },
+              label: function(item) {
+                var v = item.raw;
+                return ' ' + item.dataset.label + ': ' + (v >= 0 ? '+' : '') + v.toFixed(1) + '%';
+              },
+              afterBody: function(items) {
+                var pf = null, im = null;
+                items.forEach(function(i) {
+                  if (i.dataset.label === 'Портфель') pf = i;
+                  if (i.dataset.label === 'IMOEX')    im = i;
+                });
+                if (pf && im) {
+                  var a = pf.raw - im.raw;
+                  return [' Альфа: ' + (a >= 0 ? '+' : '') + a.toFixed(1) + ' п.п.'];
+                }
+                return [];
+              }
+            }
+          }
+        },
+        scales: {
+          x: {
+            grid: { display: false },
+            border: { display: false },
+            ticks: Object.assign({}, DTICK, {
+              maxRotation: 0,
+              autoSkip: false,
+              callback: function(val, i) {
+                return (i % 4 === 0 || i === QL.length - 1) ? QL[i] : '';
+              }
+            })
+          },
+          y: {
+            grid: DGRID,
+            border: { display: false },
+            ticks: Object.assign({}, DTICK, {
+              callback: function(v) { return (v >= 0 ? '+' : '') + v + '%'; }
+            })
+          }
+        }
+      }),
+      plugins: [{
+        id: 'pfZeroLine',
+        afterDraw: function(chart) {
+          var c = chart.ctx, ca = chart.chartArea, y0 = chart.scales.y.getPixelForValue(0);
+          if (y0 < ca.top || y0 > ca.bottom) return;
+          c.save();
+          c.strokeStyle = 'rgba(255,255,255,.18)';
+          c.lineWidth = 1;
+          c.setLineDash([4, 4]);
+          c.beginPath(); c.moveTo(ca.left, y0); c.lineTo(ca.right, y0); c.stroke();
+          c.restore();
+        }
+      }]
+    });
+  }
+
+  // ── 2. Вклад акций в финрез (горизонтальный бар) ─────────────────────────
+  if (contribEl) {
+    var TICKERS  = ['SBER','TCSG','YNDX','HHRU','NVTK','GMKN','TATN','SIBN','PHOR','UPRO'];
+    var CONTRIBS = [5.16, 1.06, 0.70, 0.13, 0.03, 0.01, -0.04, -0.07, -0.17, -0.52];
+
+    new Chart(contribEl.getContext('2d'), {
+      type: 'bar',
+      data: {
+        labels: TICKERS,
+        datasets: [{
+          data: CONTRIBS,
+          backgroundColor: CONTRIBS.map(function(v) {
+            return v >= 0 ? 'rgba(77,217,172,.70)' : 'rgba(230,30,20,.70)';
+          }),
+          borderColor: CONTRIBS.map(function(v) {
+            return v >= 0 ? '#4DD9AC' : '#E61E14';
+          }),
+          borderWidth: 1,
+          borderRadius: 3,
+          borderSkipped: false
+        }]
+      },
+      options: Object.assign({}, DBASE, {
+        indexAxis: 'y',
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            callbacks: {
+              label: function(item) {
+                var v = item.raw;
+                return ' ' + (v >= 0 ? '+' : '') + v.toFixed(2) + ' млн руб.';
+              }
+            }
+          }
+        },
+        scales: {
+          x: {
+            grid: {
+              color: function(ctx) {
+                return ctx.tick.value === 0
+                  ? 'rgba(255,255,255,.25)'
+                  : 'rgba(255,255,255,.07)';
+              }
+            },
+            border: { display: false },
+            ticks: Object.assign({}, DTICK, {
+              callback: function(v) { return (v > 0 ? '+' : '') + v; }
+            })
+          },
+          y: {
+            grid: { display: false },
+            border: { display: false },
+            ticks: Object.assign({}, DTICK, {
+              font: { size: 10, weight: '700', family: 'Inter' }
+            })
+          }
+        }
+      })
+    });
+  }
+})();
+
+// ─── Клиентский портфель — waterfall аттрибуции доходности ──────────────
+(function() {
+  var wfEl = document.getElementById('pf-waterfall-chart');
+  if (!wfEl) return;
+
+  // Значения в тыс. руб.
+  var Y_BASE = 55000;  // визуальный ноль для абсолютных баров
+  var START  = 55832;  // 01.05.2026
+  var END    = 55560;  // 04.06.2026
+  // Компоненты (должны суммироваться в END - START = -272):
+  // Акции: -500, Облигации (ОФЗ+КО): +98, БПИФ Ден.рынок: +130  → -500+98+130 = -272 ✓
+
+  // Накопленные значения после каждого шага
+  var A1 = START - 500;        // = 55 332 (после акций)
+  var A2 = A1 + 98;            // = 55 430 (после облигаций)
+  // A2 + 130 = 55 560 = END ✓
+
+  var STEPS = [
+    { label: ['Старт', '01.05'],             delta: null, accBot: Y_BASE, accTop: START },
+    { label: 'Акции',                         delta: -500, accBot: A1,     accTop: START },
+    { label: ['Облигации', '(ОФЗ + КО)'],    delta: +98,  accBot: A1,     accTop: A2    },
+    { label: ['БПИФ', 'Ден.рынок'],          delta: +130, accBot: A2,     accTop: END   },
+    { label: ['Итого', '04.06'],             delta: null, accBot: Y_BASE, accTop: END   },
+  ];
+
+  var COLORS = [
+    'rgba(91,164,245,.85)',
+    'rgba(230,30,20,.82)',
+    'rgba(77,217,172,.82)',
+    'rgba(77,217,172,.82)',
+    'rgba(91,164,245,.60)',
+  ];
+
+  var DTICK = { color: 'rgba(255,255,255,.4)', font: { size: 9, family: 'Inter' } };
+
+  new Chart(wfEl.getContext('2d'), {
+    type: 'bar',
+    data: {
+      labels: STEPS.map(function(s) { return s.label; }),
+      datasets: [{
+        data: STEPS.map(function(s) { return [s.accBot, s.accTop]; }),
+        backgroundColor: COLORS,
+        borderColor: COLORS.map(function(c) { return c.replace(/[\d.]+\)$/, '1)'); }),
+        borderWidth: 1,
+        borderRadius: 4,
+        borderSkipped: false,
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: { duration: 500 },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            title: function(items) {
+              var lbl = STEPS[items[0].dataIndex].label;
+              return Array.isArray(lbl) ? lbl.join(' ') : lbl;
+            },
+            label: function(item) {
+              var s = STEPS[item.dataIndex];
+              if (s.delta === null) {
+                return ' Портфель: ' + (s.accTop / 1000).toFixed(2).replace('.', ',') + ' млн руб.';
+              }
+              var sign = s.delta >= 0 ? '+' : '';
+              return ' Вклад: ' + sign + s.delta + ' тыс. руб.';
+            }
+          }
+        }
+      },
+      scales: {
+        x: {
+          grid: { display: false },
+          border: { display: false },
+          ticks: Object.assign({}, DTICK, { maxRotation: 0 })
+        },
+        y: {
+          min: 54700,
+          max: 56100,
+          grid: { color: 'rgba(255,255,255,.07)' },
+          border: { display: false },
+          ticks: Object.assign({}, DTICK, {
+            stepSize: 300,
+            callback: function(v) {
+              return (v / 1000).toFixed(1).replace('.', ',') + ' млн';
+            }
+          })
+        }
+      }
+    },
+    plugins: [{
+      id: 'wfLabels',
+      afterDraw: function(chart) {
+        var ctx2 = chart.ctx;
+        var yScale = chart.scales.y;
+        var meta = chart.getDatasetMeta(0);
+
+        ctx2.save();
+        ctx2.textAlign = 'center';
+        ctx2.textBaseline = 'middle';
+
+        meta.data.forEach(function(bar, i) {
+          var s = STEPS[i];
+          var x = bar.x;
+          var yLo = yScale.getPixelForValue(s.accBot);   // больший y-пиксель (ниже на экране)
+          var yHi = yScale.getPixelForValue(s.accTop);   // меньший y-пиксель (выше на экране)
+          var yCenter = (yLo + yHi) / 2;
+          var hPx = yLo - yHi;
+
+          ctx2.font = 'bold 10.5px Inter, sans-serif';
+
+          if (s.delta === null) {
+            // Абсолютный бар — значение в центре
+            ctx2.fillStyle = '#fff';
+            ctx2.fillText(
+              (s.accTop / 1000).toFixed(2).replace('.', ',') + ' млн',
+              x, yCenter
+            );
+          } else {
+            var sign = s.delta >= 0 ? '+' : '−';
+            var labelStr = sign + Math.abs(s.delta) + ' тыс.';
+            if (hPx > 20) {
+              ctx2.fillStyle = '#fff';
+              ctx2.fillText(labelStr, x, yCenter);
+            } else {
+              // Маленький бар — подпись снаружи
+              ctx2.fillStyle = s.delta >= 0 ? '#4DD9AC' : '#E61E14';
+              ctx2.fillText(labelStr, x, s.delta >= 0 ? yHi - 9 : yLo + 10);
+            }
+          }
+        });
+        ctx2.restore();
+      }
+    }]
+  });
+})();
+
+// ─── Клиентский портфель — секторы + тепловая карта ─────────────────────
+(function() {
+  var STOCKS = [
+    { ticker: 'SBER', name: 'Сбербанк',        val: 9.39, perf: 122 },
+    { ticker: 'TCSG', name: 'Т-Технологии',    val: 5.90, perf:  22 },
+    { ticker: 'YNDX', name: 'Яндекс',          val: 4.85, perf:  17 },
+    { ticker: 'NVTK', name: 'НОВАТЭК',         val: 2.61, perf:   1 },
+    { ticker: 'HHRU', name: 'Хэдхантер',       val: 2.03, perf:   7 },
+    { ticker: 'TATN', name: 'Татнефть',        val: 1.19, perf:  -3 },
+    { ticker: 'SIBN', name: 'Газпром нефть',   val: 1.15, perf:  -6 },
+    { ticker: 'PHOR', name: 'ФосАгро',         val: 1.06, perf: -14 },
+    { ticker: 'UPRO', name: 'Юнипро',          val: 0.97, perf: -35 },
+    { ticker: 'GMKN', name: 'НорНикель',       val: 0.94, perf:   1 },
+  ];
+  var TOTAL_EQ = STOCKS.reduce(function(s, d) { return s + d.val; }, 0);
+
+  // Интерполяция цвета по доходности: красный(-35%) → серый(0%) → зелёный(+80%+)
+  function perfBg(pct) {
+    var t = pct >= 0 ? Math.min(pct / 80, 1) : Math.min(Math.abs(pct) / 35, 1);
+    if (pct >= 0) {
+      return 'rgb(' + Math.round(96 - 96*t) + ',' + Math.round(100 + 51*t) + ',' + Math.round(104 - 44*t) + ')';
+    } else {
+      return 'rgb(' + Math.round(96 + 96*t) + ',' + Math.round(100 - 43*t) + ',' + Math.round(104 - 61*t) + ')';
+    }
+  }
+
+  // ── 1. Доnat секторов ─────────────────────────────────────────────────────
+  var sectEl = document.getElementById('pf-sectors-chart');
+  if (sectEl) {
+    var SECTORS = [
+      { name: 'Финансы',    val: 15.29, color: '#60A5FA', tickers: 'SBER, TCSG' },
+      { name: 'IT',          val:  6.88, color: '#A78BFA', tickers: 'YNDX, HHRU' },
+      { name: 'Нефть и газ', val:  4.95, color: '#FB923C', tickers: 'NVTK, TATN, SIBN' },
+      { name: 'Удобрения',   val:  1.06, color: '#4ADE80', tickers: 'PHOR' },
+      { name: 'Энергетика',  val:  0.97, color: '#FBBF24', tickers: 'UPRO' },
+      { name: 'Металлы',     val:  0.94, color: '#94A3B8', tickers: 'GMKN' },
+    ];
+
+    new Chart(sectEl.getContext('2d'), {
+      type: 'doughnut',
+      data: {
+        labels: SECTORS.map(function(s) { return s.name; }),
+        datasets: [{
+          data: SECTORS.map(function(s) { return s.val; }),
+          backgroundColor: SECTORS.map(function(s) { return s.color; }),
+          borderWidth: 2,
+          borderColor: '#494C53',
+          hoverOffset: 5
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        cutout: '62%',
+        animation: { duration: 500 },
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            callbacks: {
+              label: function(item) {
+                var s = SECTORS[item.dataIndex];
+                return [
+                  ' ' + s.val.toFixed(2) + ' млн (' + (s.val / TOTAL_EQ * 100).toFixed(1) + '%)',
+                  ' ' + s.tickers
+                ];
+              }
+            }
+          }
+        }
+      },
+      plugins: [{
+        id: 'sectCenter',
+        afterDraw: function(chart) {
+          if (chart.config.type !== 'doughnut' || !chart.chartArea) return;
+          var ctx = chart.ctx, ca = chart.chartArea;
+          var cx = (ca.left + ca.right) / 2, cy = (ca.top + ca.bottom) / 2;
+          ctx.save();
+          ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+          ctx.font = 'bold 13px Inter, sans-serif'; ctx.fillStyle = '#fff';
+          ctx.fillText('30,1 млн', cx, cy - 7);
+          ctx.font = '9px Inter, sans-serif'; ctx.fillStyle = 'rgba(255,255,255,.45)';
+          ctx.fillText('акции', cx, cy + 8);
+          ctx.restore();
+        }
+      }]
+    });
+
+    // Легенда
+    var leg = document.getElementById('pf-sectors-legend');
+    if (leg) {
+      leg.innerHTML = SECTORS.map(function(s) {
+        var pct = (s.val / TOTAL_EQ * 100).toFixed(1);
+        return '<div style="display:flex;align-items:center;justify-content:space-between">' +
+          '<div style="display:flex;align-items:center;gap:5px">' +
+            '<span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:' + s.color + ';flex-shrink:0"></span>' +
+            '<span style="font-size:.74rem;color:var(--graphite)">' + s.name + '</span>' +
+          '</div>' +
+          '<div style="display:flex;gap:8px;align-items:center">' +
+            '<span style="font-size:.65rem;color:var(--gray)">' + s.tickers + '</span>' +
+            '<span style="font-size:.72rem;font-weight:700;color:var(--black);min-width:44px;text-align:right">' + s.val.toFixed(2) + ' млн</span>' +
+            '<span style="font-size:.65rem;color:var(--gray);min-width:30px;text-align:right">' + pct + '%</span>' +
+          '</div>' +
+        '</div>';
+      }).join('');
+    }
+  }
+
+  // ── 2. Тепловая карта (CSS flex, 3 строки) ───────────────────────────────
+  var tmEl = document.getElementById('pf-treemap');
+  if (tmEl) {
+    // Строка 1: SBER · Строка 2: TCSG + YNDX · Строка 3: остальные 7
+    var ROWS = [ STOCKS.slice(0, 1), STOCKS.slice(1, 3), STOCKS.slice(3) ];
+
+    tmEl.innerHTML = ROWS.map(function(row) {
+      var rowVal = row.reduce(function(s, d) { return s + d.val; }, 0);
+      return '<div style="display:flex;gap:2px;flex:' + rowVal + '">' +
+        row.map(function(d) {
+          var sign = d.perf >= 0 ? '+' : '';
+          var bg   = perfBg(d.perf);
+          var big  = d.val >= 2.0;       // показываем стоимость только у крупных позиций
+          return '<div style="flex:' + d.val + ';background:' + bg +
+            ';border-radius:3px;padding:' + (big ? '6px 9px' : '5px 6px') +
+            ';min-width:0;overflow:hidden;cursor:default"' +
+            ' title="' + d.name + ' · ' + d.val.toFixed(2) + ' млн · ' + sign + d.perf + '%">' +
+            '<div style="font-size:' + (big ? '.82' : '.72') + 'rem;font-weight:700;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">' + d.ticker + '</div>' +
+            (big ? '<div style="font-size:.62rem;color:rgba(255,255,255,.7);white-space:nowrap">' + d.val.toFixed(2) + ' млн</div>' : '') +
+            '<div style="font-size:' + (big ? '.7' : '.64') + 'rem;font-weight:600;color:rgba(255,255,255,.9);white-space:nowrap">' + sign + d.perf + '%</div>' +
+          '</div>';
+        }).join('') +
+      '</div>';
+    }).join('');
+  }
+})();
+
 // ─── Активная секция в навигации ─────────────────────────────────────────
 (function() {
   const sections = [
@@ -4195,13 +4736,28 @@ renderLeads();
     { id: 'sec-03', link: document.querySelector('.snav-link[href="#sec-03"]') },
     { id: 'sec-04', link: document.querySelector('.snav-link[href="#sec-04"]') },
   ];
+
+  // Клик сразу проставляет active, не дожидаясь scroll-события
+  sections.forEach(function(s) {
+    if (s.link) s.link.addEventListener('click', function() {
+      sections.forEach(function(s2) { s2.link && s2.link.classList.remove('active'); });
+      s.link.classList.add('active');
+    });
+  });
+
   function updateActive() {
     const scrollY = window.scrollY + 120;
+    // Последняя секция — внизу страницы, может не набрать offsetTop-порог
+    const atBottom = (window.scrollY + window.innerHeight) >= (document.documentElement.scrollHeight - 5);
     let active = sections[0];
-    sections.forEach(function(s) {
-      const el = document.getElementById(s.id);
-      if (el && el.offsetTop <= scrollY) active = s;
-    });
+    if (atBottom) {
+      active = sections[sections.length - 1];
+    } else {
+      sections.forEach(function(s) {
+        const el = document.getElementById(s.id);
+        if (el && el.offsetTop <= scrollY) active = s;
+      });
+    }
     sections.forEach(function(s) { s.link && s.link.classList.remove('active'); });
     if (active.link) active.link.classList.add('active');
   }
