@@ -781,6 +781,40 @@
       .snav-link { padding: 4px 8px; font-size: 0.68rem; }
     }
 
+    /* ── Клиентский портфель (глубокий синий) ── */
+    .section-navy { background: #EBF0FA; }
+    .section-navy .card {
+      background: #1C3460;
+      border-color: rgba(255,255,255,.1);
+      --black:    #FFFFFF;
+      --graphite: rgba(255,255,255,.75);
+      --gray:     rgba(255,255,255,.45);
+      --silver:   rgba(255,255,255,.12);
+      --bg:       rgba(255,255,255,.06);
+      --shadow:   0 1px 3px rgba(0,0,0,.35), 0 4px 16px rgba(0,0,0,.28);
+      --red-bg:   rgba(230,30,20,.2);
+      --green-bg: rgba(0,186,56,.15);
+    }
+    .section-navy .card:hover { box-shadow: 0 2px 8px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.25); }
+    .section-navy .edit-btn { border-color: rgba(255,255,255,.15); color: rgba(255,255,255,.4); }
+    .section-navy .broker-kpi-lbl { color: rgba(255,255,255,.5); }
+    .section-navy .broker-kpi-val span { color: rgba(255,255,255,.65); }
+    .section-navy .wl-head { border-bottom-color: rgba(255,255,255,.12); }
+    .section-navy .wl-row { border-bottom-color: rgba(255,255,255,.07); }
+
+    /* Строки доходности в портфеле */
+    .pf-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 7px 0;
+      border-bottom: 1px solid rgba(255,255,255,.07);
+      gap: 8px;
+    }
+    .pf-row:last-child { border-bottom: none; }
+    .pf-label { font-size: .75rem; color: rgba(255,255,255,.55); }
+    .pf-vals { display: flex; gap: 10px; align-items: center; }
+
     @media (max-width: 700px) {
       .grid { padding: 0 16px 24px; }
       header .container { padding: 0 16px; }
@@ -831,6 +865,8 @@
     <a class="snav-link" href="#sec-02"><span class="snav-num">02</span>Макро статистика</a>
     <div class="snav-sep"></div>
     <a class="snav-link" href="#sec-03"><span class="snav-num">03</span>Pro-сегмент</a>
+    <div class="snav-sep"></div>
+    <a class="snav-link" href="#sec-04"><span class="snav-num">04</span>Клиентский портфель</a>
   </div>
 </nav>
 
@@ -1478,6 +1514,185 @@
         </div>
       </div>
 
+    </div>
+  </div>
+
+  </div>
+  </div>
+</section>
+
+<!-- ─── Секция 4: Клиентский портфель (Глубокий синий) ──────────── -->
+<section class="section-block section-navy" id="sec-04">
+  <div class="container">
+  <div class="section-tag">04 / Клиентский портфель</div>
+  <div class="section-name">Мировой эксперт</div>
+  <div class="grid">
+
+  <!-- KPI портфеля -->
+  <div class="card col-4">
+    <div class="card-title">
+      Портфель · Петров Р.В.
+      <span style="font-weight:400;text-transform:none;letter-spacing:0;font-size:.68rem">Договор от 24.03.2022</span>
+    </div>
+
+    <div style="margin-bottom:14px">
+      <div style="font-size:2.4rem;font-weight:800;color:var(--black);letter-spacing:-.04em;line-height:1">55,56 <span style="font-size:1.1rem;font-weight:600;color:var(--graphite)">млн руб.</span></div>
+      <div style="font-size:.72rem;color:var(--gray);margin-top:4px">стоимость портфеля · 04.06.2026</div>
+    </div>
+
+    <div style="border-top:1px solid var(--silver);padding-top:10px;margin-bottom:12px">
+      <div class="pf-row">
+        <span class="pf-label">За май 2026</span>
+        <div class="pf-vals">
+          <span style="font-size:.78rem;color:rgba(255,255,255,.8);font-weight:600">−272 тыс.</span>
+          <span class="badge down" style="font-size:.72rem">−0,49%</span>
+        </div>
+      </div>
+      <div class="pf-row">
+        <span class="pf-label">С начала 2026</span>
+        <div class="pf-vals">
+          <span style="font-size:.78rem;color:rgba(255,255,255,.8);font-weight:600">−955 тыс.</span>
+          <span class="badge down" style="font-size:.72rem">−1,69%</span>
+        </div>
+      </div>
+      <div class="pf-row">
+        <span class="pf-label">С 24.03.2022</span>
+        <div class="pf-vals">
+          <span style="font-size:.78rem;color:#00BA38;font-weight:700">+25,6 млн</span>
+          <span class="badge up" style="font-size:.72rem">+85,22%</span>
+        </div>
+      </div>
+    </div>
+
+    <div style="background:rgba(255,255,255,.06);border-radius:8px;padding:10px 12px">
+      <div style="font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--gray);margin-bottom:8px">vs IMOEX · май 2026</div>
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:8px">
+        <div style="text-align:center">
+          <div style="font-size:1rem;font-weight:800;color:rgba(255,255,255,.9)">−0,49%</div>
+          <div style="font-size:.65rem;color:var(--gray)">Портфель</div>
+        </div>
+        <div style="font-size:.68rem;color:var(--gray)">vs</div>
+        <div style="text-align:center">
+          <div style="font-size:1rem;font-weight:800;color:rgba(255,255,255,.5)">−1,56%</div>
+          <div style="font-size:.65rem;color:var(--gray)">IMOEX</div>
+        </div>
+        <span class="badge up" style="font-size:.72rem;margin-left:4px">Опередил +1,07 п.п.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Структура портфеля -->
+  <div class="card col-4">
+    <div class="card-title">Структура портфеля</div>
+    <div style="height:200px;position:relative"><canvas id="pf-donut"></canvas></div>
+    <div style="margin-top:12px;display:flex;flex-direction:column;gap:6px">
+      <div style="display:flex;align-items:center;justify-content:space-between">
+        <div style="display:flex;align-items:center;gap:7px">
+          <span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#5BA4F5;flex-shrink:0"></span>
+          <span style="font-size:.78rem;color:var(--graphite)">Акции</span>
+        </div>
+        <div style="display:flex;gap:10px;align-items:center">
+          <span style="font-size:.78rem;font-weight:700;color:var(--black)">30,1 млн</span>
+          <span style="font-size:.72rem;color:var(--gray);width:38px;text-align:right">54,1%</span>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:space-between">
+        <div style="display:flex;align-items:center;gap:7px">
+          <span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#4DD9AC;flex-shrink:0"></span>
+          <span style="font-size:.78rem;color:var(--graphite)">ОФЗ</span>
+        </div>
+        <div style="display:flex;gap:10px;align-items:center">
+          <span style="font-size:.78rem;font-weight:700;color:var(--black)">14,4 млн</span>
+          <span style="font-size:.72rem;color:var(--gray);width:38px;text-align:right">25,9%</span>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:space-between">
+        <div style="display:flex;align-items:center;gap:7px">
+          <span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#FFD166;flex-shrink:0"></span>
+          <span style="font-size:.78rem;color:var(--graphite)">БПИФ Ден. рынок</span>
+        </div>
+        <div style="display:flex;gap:10px;align-items:center">
+          <span style="font-size:.78rem;font-weight:700;color:var(--black)">10,7 млн</span>
+          <span style="font-size:.72rem;color:var(--gray);width:38px;text-align:right">19,3%</span>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:space-between">
+        <div style="display:flex;align-items:center;gap:7px">
+          <span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#A8B4C2;flex-shrink:0"></span>
+          <span style="font-size:.78rem;color:var(--graphite)">Корп. облигации</span>
+        </div>
+        <div style="display:flex;gap:10px;align-items:center">
+          <span style="font-size:.78rem;font-weight:700;color:var(--black)">0,4 млн</span>
+          <span style="font-size:.72rem;color:var(--gray);width:38px;text-align:right">0,7%</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Позиции в акциях -->
+  <div class="card col-4">
+    <div class="card-title">
+      Позиции в акциях
+      <span style="font-weight:400;text-transform:none;letter-spacing:0">30,1 млн · 54,1% портфеля</span>
+    </div>
+    <div class="wl-table">
+      <div class="wl-head">
+        <span>Бумага</span><span style="text-align:right">Стоимость</span><span style="text-align:right">Финрез.</span>
+      </div>
+      <div class="wl-row">
+        <div class="wl-name"><span class="wl-ticker">SBER</span><span class="wl-subtitle">Сбербанк ао</span></div>
+        <span class="wl-price">9,39 млн</span>
+        <span class="wl-chg"><span class="badge up" style="font-size:.7rem">+122%</span></span>
+      </div>
+      <div class="wl-row">
+        <div class="wl-name"><span class="wl-ticker">TCSG</span><span class="wl-subtitle">Т-Технологии</span></div>
+        <span class="wl-price">5,90 млн</span>
+        <span class="wl-chg"><span class="badge up" style="font-size:.7rem">+22%</span></span>
+      </div>
+      <div class="wl-row">
+        <div class="wl-name"><span class="wl-ticker">YNDX</span><span class="wl-subtitle">Яндекс ао</span></div>
+        <span class="wl-price">4,85 млн</span>
+        <span class="wl-chg"><span class="badge up" style="font-size:.7rem">+17%</span></span>
+      </div>
+      <div class="wl-row">
+        <div class="wl-name"><span class="wl-ticker">NVTK</span><span class="wl-subtitle">НОВАТЭК ао</span></div>
+        <span class="wl-price">2,61 млн</span>
+        <span class="wl-chg"><span class="badge up" style="font-size:.7rem">+1%</span></span>
+      </div>
+      <div class="wl-row">
+        <div class="wl-name"><span class="wl-ticker">HHRU</span><span class="wl-subtitle">Хэдхантер ао</span></div>
+        <span class="wl-price">2,03 млн</span>
+        <span class="wl-chg"><span class="badge up" style="font-size:.7rem">+7%</span></span>
+      </div>
+      <div class="wl-row">
+        <div class="wl-name"><span class="wl-ticker">TATN</span><span class="wl-subtitle">Татнефть ао</span></div>
+        <span class="wl-price">1,19 млн</span>
+        <span class="wl-chg"><span class="badge down" style="font-size:.7rem">−3%</span></span>
+      </div>
+      <div class="wl-row">
+        <div class="wl-name"><span class="wl-ticker">SIBN</span><span class="wl-subtitle">Газпром нефть</span></div>
+        <span class="wl-price">1,15 млн</span>
+        <span class="wl-chg"><span class="badge down" style="font-size:.7rem">−6%</span></span>
+      </div>
+      <div class="wl-row">
+        <div class="wl-name"><span class="wl-ticker">PHOR</span><span class="wl-subtitle">ФосАгро ао</span></div>
+        <span class="wl-price">1,06 млн</span>
+        <span class="wl-chg"><span class="badge down" style="font-size:.7rem">−14%</span></span>
+      </div>
+      <div class="wl-row">
+        <div class="wl-name"><span class="wl-ticker">UPRO</span><span class="wl-subtitle">Юнипро ао</span></div>
+        <span class="wl-price">0,97 млн</span>
+        <span class="wl-chg"><span class="badge down" style="font-size:.7rem">−35%</span></span>
+      </div>
+      <div class="wl-row">
+        <div class="wl-name"><span class="wl-ticker">GMKN</span><span class="wl-subtitle">НорНикель ао</span></div>
+        <span class="wl-price">0,94 млн</span>
+        <span class="wl-chg"><span class="badge up" style="font-size:.7rem">+1%</span></span>
+      </div>
+    </div>
+    <div class="updated" style="margin-top:10px;display:flex;justify-content:space-between">
+      <span>Финрез. по акциям: <b style="color:#00BA38">+7,59 млн</b></span>
+      <span>Дивиденды: <b style="color:#00BA38">+3,25 млн</b></span>
     </div>
   </div>
 
@@ -3819,12 +4034,73 @@ function editLeads() {
 
 renderLeads();
 
+// ─── Клиентский портфель — donut структуры активов ──────────────────────
+(function() {
+  var el = document.getElementById('pf-donut');
+  if (!el) return;
+
+  var pfCenterPlugin = {
+    id: 'pfCenter',
+    afterDraw: function(chart) {
+      if (chart.config.type !== 'doughnut' || !chart.chartArea) return;
+      var ctx = chart.ctx;
+      var ca = chart.chartArea;
+      var cx = (ca.left + ca.right) / 2, cy = (ca.top + ca.bottom) / 2;
+      ctx.save();
+      ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      ctx.font = 'bold 14px Inter, sans-serif'; ctx.fillStyle = '#FFFFFF';
+      ctx.fillText('55,6 млн', cx, cy - 8);
+      ctx.font = '10px Inter, sans-serif'; ctx.fillStyle = 'rgba(255,255,255,.5)';
+      ctx.fillText('руб.', cx, cy + 9);
+      ctx.restore();
+    }
+  };
+
+  if (!Chart.Tooltip.positioners.pfFixed) {
+    Chart.Tooltip.positioners.pfFixed = function() {
+      var ca = this.chart.chartArea;
+      return { x: ca.right, y: ca.bottom };
+    };
+  }
+
+  new Chart(el.getContext('2d'), {
+    type: 'doughnut',
+    data: {
+      labels: ['Акции', 'ОФЗ', 'БПИФ Ден. рынок', 'Корп. облигации'],
+      datasets: [{
+        data: [54.13, 25.89, 19.27, 0.71],
+        backgroundColor: ['#5BA4F5', '#4DD9AC', '#FFD166', '#A8B4C2'],
+        borderWidth: 2,
+        borderColor: '#1C3460',
+        hoverOffset: 6
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      cutout: '60%',
+      animation: { duration: 500 },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          position: 'pfFixed',
+          xAlign: 'right',
+          yAlign: 'bottom',
+          callbacks: { label: function(i) { return ' ' + i.label + ': ' + i.raw.toFixed(1) + '%'; } }
+        }
+      }
+    },
+    plugins: [pfCenterPlugin]
+  });
+})();
+
 // ─── Активная секция в навигации ─────────────────────────────────────────
 (function() {
   const sections = [
     { id: 'sec-01', link: document.querySelector('.snav-link[href="#sec-01"]') },
     { id: 'sec-02', link: document.querySelector('.snav-link[href="#sec-02"]') },
     { id: 'sec-03', link: document.querySelector('.snav-link[href="#sec-03"]') },
+    { id: 'sec-04', link: document.querySelector('.snav-link[href="#sec-04"]') },
   ];
   function updateActive() {
     const scrollY = window.scrollY + 120;
