@@ -1313,7 +1313,7 @@
         <div class="broker-kpi-val" id="biz-clients-cur">44 <span>чел.</span></div>
         <div class="broker-kpi-lbl">последнее значение</div>
       </div>
-      <span class="badge up" id="biz-clients-chg">+91% с янв 2025</span>
+      <span id="biz-clients-chg" style="display:none"></span>
     </div>
     <div class="updated" id="biz-clients-upd">Power BI · Розничный бизнес Pro</div>
   </div>
@@ -1321,7 +1321,7 @@
   <!-- AUM -->
   <div class="card col-6">
     <div class="card-title">
-      Общее ЧП, млрд руб.
+      AUM, млрд руб.
       <button class="edit-btn" id="biz-aum-add">+ Месяц</button>
     </div>
     <div style="height:260px;position:relative;width:100%"><canvas id="biz-aum"></canvas></div>
@@ -1333,6 +1333,25 @@
       <span class="badge flat" id="biz-aum-chg">нет данных</span>
     </div>
     <div class="updated" id="biz-aum-upd">Нажмите "+ Месяц" для ввода данных</div>
+  </div>
+
+  <!-- Лиды 2026 -->
+  <div class="card col-4">
+    <div class="card-title">
+      Лиды 2026
+      <button class="edit-btn" onclick="editLeads()">✏ Изменить</button>
+    </div>
+    <div style="display:flex;align-items:flex-end;gap:20px;margin-top:6px">
+      <div>
+        <div style="font-size:3.4rem;font-weight:800;color:var(--black);letter-spacing:-.04em;line-height:1" id="leads-total">47</div>
+        <div style="font-size:.78rem;color:var(--gray);margin-top:5px">передано всего</div>
+      </div>
+      <div style="padding-bottom:10px">
+        <div style="font-size:1.6rem;font-weight:800;color:#00BA38;letter-spacing:-.02em;line-height:1" id="leads-recent">+3</div>
+        <div style="font-size:.72rem;color:var(--gray);margin-top:3px;line-height:1.4">за последние<br>3 недели</div>
+      </div>
+    </div>
+    <div class="updated" id="leads-upd" style="margin-top:14px"></div>
   </div>
 
   <!-- Выручка и маржинальность -->
@@ -3634,6 +3653,37 @@ function renderBizRevenue() {
 }
 
 renderBizRevenue();
+
+// ─── Лиды 2026 ─────────────────────────────────────────────────────────────
+const LEADS_KEY = 'ak-leads-2026';
+let leadsData = JSON.parse(localStorage.getItem(LEADS_KEY) || 'null') || { total: 47, recent: 3, date: '' };
+
+function renderLeads() {
+  document.getElementById('leads-total').textContent = leadsData.total;
+  document.getElementById('leads-recent').textContent = '+' + leadsData.recent;
+  const upd = document.getElementById('leads-upd');
+  upd.textContent = leadsData.date ? 'Обновлено: ' + leadsData.date : 'Данные внесены вручную';
+}
+
+function editLeads() {
+  const t = prompt('Всего лидов передано:', leadsData.total);
+  if (t === null) return;
+  const r = prompt('Из них за последние 3 недели:', leadsData.recent);
+  if (r === null) return;
+  const total = parseInt(t), recent = parseInt(r);
+  if (!isNaN(total) && !isNaN(recent)) {
+    const now = new Date();
+    leadsData = {
+      total,
+      recent,
+      date: now.toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' })
+    };
+    localStorage.setItem(LEADS_KEY, JSON.stringify(leadsData));
+    renderLeads();
+  }
+}
+
+renderLeads();
 </script>
 </body>
 </html>
