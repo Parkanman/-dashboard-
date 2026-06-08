@@ -2068,9 +2068,10 @@ const cpiHighlightPlugin = {
     // Годовая инфляция (вверху справа)
     ctx.textAlign = 'right';
     ctx.font = '9px Inter, sans-serif';
-    ctx.fillStyle = NEUTRAL;
+    ctx.fillStyle = 'rgba(255,255,255,.55)';
     ctx.fillText('Годовая инфляция', rightX - 7, topY + 13);
     ctx.font = 'bold 16px Inter, sans-serif';
+    ctx.fillStyle = '#E61E14';
     ctx.fillText(cpiAnnual, rightX - 7, topY + 32);
 
     ctx.restore();
