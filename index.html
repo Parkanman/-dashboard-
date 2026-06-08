@@ -781,22 +781,24 @@
       .snav-link { padding: 4px 8px; font-size: 0.68rem; }
     }
 
-    /* ── Клиентский портфель (глубокий синий) ── */
-    .section-navy { background: #EBF0FA; }
+    /* ── Клиентский портфель (Финансовый графит + синий акцент) ── */
+    .section-navy { background: #ECEEF0; }
     .section-navy .card {
-      background: #1C3460;
+      background: #494C53;
+      border-top: 3px solid #1E62D2;
       border-color: rgba(255,255,255,.1);
+      border-top-color: #1E62D2;
       --black:    #FFFFFF;
       --graphite: rgba(255,255,255,.75);
       --gray:     rgba(255,255,255,.45);
       --silver:   rgba(255,255,255,.12);
       --bg:       rgba(255,255,255,.06);
-      --shadow:   0 1px 3px rgba(0,0,0,.35), 0 4px 16px rgba(0,0,0,.28);
-      --red-bg:   rgba(230,30,20,.2);
-      --green-bg: rgba(0,186,56,.15);
+      --shadow:   0 1px 3px rgba(0,0,0,.25), 0 4px 16px rgba(0,0,0,.2);
+      --red-bg:   rgba(230,30,20,.25);
+      --green-bg: rgba(0,186,56,.2);
     }
-    .section-navy .card:hover { box-shadow: 0 2px 8px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.25); }
-    .section-navy .edit-btn { border-color: rgba(255,255,255,.15); color: rgba(255,255,255,.4); }
+    .section-navy .card:hover { box-shadow: 0 2px 8px rgba(0,0,0,.2), 0 8px 24px rgba(0,0,0,.2); }
+    .section-navy .edit-btn { border-color: rgba(255,255,255,.2); color: rgba(255,255,255,.5); }
     .section-navy .broker-kpi-lbl { color: rgba(255,255,255,.5); }
     .section-navy .broker-kpi-val span { color: rgba(255,255,255,.65); }
     .section-navy .wl-head { border-bottom-color: rgba(255,255,255,.12); }
@@ -4071,7 +4073,7 @@ renderLeads();
         data: [54.13, 25.89, 19.27, 0.71],
         backgroundColor: ['#5BA4F5', '#4DD9AC', '#FFD166', '#A8B4C2'],
         borderWidth: 2,
-        borderColor: '#1C3460',
+        borderColor: '#494C53',
         hoverOffset: 6
       }]
     },
