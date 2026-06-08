@@ -995,7 +995,7 @@
 <section class="section-block section-graphite">
   <div class="container">
   <div class="section-tag">02 / Инфляция и брокеры</div>
-  <div class="section-name">Куда уйдут деньги с депозитов?</div>
+  <div class="section-name">Макро статистика</div>
   <div class="grid">
 
   <!-- График ИПЦ Росстат -->
@@ -1333,6 +1333,56 @@
       <span class="badge flat" id="biz-aum-chg">нет данных</span>
     </div>
     <div class="updated" id="biz-aum-upd">Нажмите "+ Месяц" для ввода данных</div>
+  </div>
+
+  <!-- Выручка и маржинальность -->
+  <div class="card col-12">
+    <div class="card-title">
+      Выручка и маржинальность продукта ИДУ Pro
+      <span style="font-weight:400;text-transform:none;letter-spacing:0">кварталы · Power BI</span>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 260px;gap:24px;align-items:start">
+
+      <!-- Chart -->
+      <div>
+        <div style="height:210px;position:relative"><canvas id="biz-revenue-chart"></canvas></div>
+        <div class="updated" style="display:flex;gap:18px;margin-top:6px;flex-wrap:wrap">
+          <span style="display:flex;align-items:center;gap:5px">
+            <span style="display:inline-block;width:12px;height:12px;background:rgba(230,30,20,.55);border-radius:2px"></span>Выручка, млн руб.
+          </span>
+          <span style="display:flex;align-items:center;gap:5px">
+            <span style="display:inline-block;width:18px;height:2px;background:rgba(255,255,255,.6);border-radius:1px"></span>Маржинальность, % год.
+          </span>
+        </div>
+      </div>
+
+      <!-- KPIs -->
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+          <div style="background:rgba(255,255,255,.06);border-radius:8px;padding:10px 12px">
+            <div style="font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--gray);margin-bottom:3px">Выручка 1к26</div>
+            <div style="font-size:1.3rem;font-weight:800;color:#E61E14;letter-spacing:-.02em;line-height:1.1">9,5 <span style="font-size:.82rem;font-weight:600;color:var(--graphite)">млн</span></div>
+            <div style="font-size:.67rem;color:var(--gray);margin-top:3px">−50% к 4к25</div>
+          </div>
+          <div style="background:rgba(255,255,255,.06);border-radius:8px;padding:10px 12px">
+            <div style="font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--gray);margin-bottom:3px">Маржа 1к26</div>
+            <div style="font-size:1.3rem;font-weight:800;color:rgba(255,255,255,.8);letter-spacing:-.02em;line-height:1.1">1,20%</div>
+            <div style="font-size:.67rem;color:var(--gray);margin-top:3px">vs 2,69% в 4к25</div>
+          </div>
+        </div>
+        <div style="background:rgba(255,255,255,.06);border-radius:8px;padding:10px 12px">
+          <div style="font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--gray);margin-bottom:6px">Итого 2025</div>
+          <div style="font-size:1.5rem;font-weight:800;color:var(--black);letter-spacing:-.02em;line-height:1">40,3 <span style="font-size:.85rem;font-weight:600;color:var(--graphite)">млн руб.</span></div>
+          <div style="font-size:.67rem;color:var(--gray);margin-top:3px">ср. маржа 1,51% год.</div>
+        </div>
+        <div style="background:rgba(255,255,255,.06);border-radius:8px;padding:10px 12px">
+          <div style="font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--gray);margin-bottom:6px">Пик 4к25</div>
+          <div style="font-size:1.5rem;font-weight:800;color:#E61E14;letter-spacing:-.02em;line-height:1">19,1 <span style="font-size:.85rem;font-weight:600;color:var(--graphite)">млн руб.</span></div>
+          <div style="font-size:.67rem;color:var(--gray);margin-top:3px">маржа 2,69% — рекорд</div>
+        </div>
+      </div>
+
+    </div>
   </div>
 
   </div>
@@ -3467,6 +3517,123 @@ document.getElementById('biz-aum-add').addEventListener('click', function() {
 });
 
 setTimeout(renderBizCharts, 500);
+
+// ─── Выручка и маржинальность ИДУ Pro ─────────────────────────────────────
+function renderBizRevenue() {
+  const el = document.getElementById('biz-revenue-chart');
+  if (!el) return;
+
+  const LABELS = ['3к\'24','4к\'24','1к\'25','2к\'25','3к\'25','4к\'25','1к\'26'];
+
+  // Выручка, млн руб. (квартальные итоги)
+  const REVENUE = [3.84, 8.91, 10.89, 5.93, 4.40, 19.08, 9.53];
+
+  // Маржинальность, % годовых (= выручка / средний AUM × 12 × 100)
+  const MARGIN  = [1.34, 2.13, 1.84, 0.86, 0.64, 2.69, 1.20];
+
+  const barColors = REVENUE.map((_, i) =>
+    i === REVENUE.length - 1 ? '#E61E14' : 'rgba(230,30,20,0.5)'
+  );
+
+  new Chart(el.getContext('2d'), {
+    type: 'bar',
+    data: {
+      labels: LABELS,
+      datasets: [
+        {
+          type: 'bar',
+          label: 'Выручка',
+          data: REVENUE,
+          backgroundColor: barColors,
+          borderRadius: 4,
+          barPercentage: 0.65,
+          yAxisID: 'yRev',
+          order: 2,
+        },
+        {
+          type: 'line',
+          label: 'Маржинальность',
+          data: MARGIN,
+          borderColor: 'rgba(255,255,255,0.7)',
+          borderWidth: 2.5,
+          tension: 0.3,
+          pointRadius: 4,
+          pointBackgroundColor: MARGIN.map((_, i) =>
+            i === MARGIN.length - 1 ? '#FFFFFF' : 'rgba(255,255,255,0.6)'
+          ),
+          pointBorderColor: 'transparent',
+          yAxisID: 'yMar',
+          order: 1,
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: { duration: 400 },
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: item => item.datasetIndex === 0
+              ? ` Выручка: ${item.raw.toFixed(2)} млн руб.`
+              : ` Маржа: ${item.raw}%`
+          }
+        }
+      },
+      scales: {
+        x: {
+          grid: { display: false },
+          border: { display: false },
+          ticks: { color: 'rgba(255,255,255,0.5)', font: { size: 10, family: 'Inter' } }
+        },
+        yRev: {
+          position: 'left',
+          min: 0,
+          grid: { color: 'rgba(255,255,255,0.07)' },
+          border: { display: false },
+          ticks: {
+            color: 'rgba(255,255,255,0.45)',
+            font: { size: 9, family: 'Inter' },
+            callback: v => v + ' млн'
+          }
+        },
+        yMar: {
+          position: 'right',
+          min: 0, max: 3.5,
+          grid: { display: false },
+          border: { display: false },
+          ticks: {
+            color: 'rgba(255,255,255,0.35)',
+            font: { size: 9, family: 'Inter' },
+            callback: v => v.toFixed(1).replace('.', ',') + '%'
+          }
+        }
+      }
+    },
+    plugins: [{
+      id: 'revLabels',
+      afterDatasetsDraw(chart) {
+        const { ctx, scales } = chart;
+        // Подписи значений на барах
+        REVENUE.forEach((v, i) => {
+          const x = scales.x.getPixelForValue(i);
+          const y = scales.yRev.getPixelForValue(v);
+          ctx.save();
+          ctx.font = 'bold 10px Inter, sans-serif';
+          ctx.fillStyle = i === REVENUE.length - 1 ? '#FFFFFF' : 'rgba(255,255,255,0.7)';
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'bottom';
+          ctx.fillText(v.toFixed(1), x, y - 4);
+          ctx.restore();
+        });
+      }
+    }]
+  });
+}
+
+renderBizRevenue();
 </script>
 </body>
 </html>
