@@ -3097,6 +3097,14 @@ function renderBrokerCharts() {
   });
 
   // ── 3. Структура портфелей — бублик ─────────────────────────────────
+  // Тултип всегда в правом нижнем углу — не перекрывает центральный текст
+  if (!Chart.Tooltip.positioners.donutFixed) {
+    Chart.Tooltip.positioners.donutFixed = function() {
+      const ca = this.chart.chartArea;
+      return { x: ca.right, y: ca.bottom };
+    };
+  }
+
   const donutPlugin = {
     id: 'donutText',
     afterDraw(chart) {
@@ -3138,7 +3146,12 @@ function renderBrokerCharts() {
             padding: 7,
           }
         },
-        tooltip: { callbacks: { label: i => ' ' + i.label + ': ' + i.raw + '%' } }
+        tooltip: {
+          position: 'donutFixed',
+          xAlign: 'right',
+          yAlign: 'bottom',
+          callbacks: { label: i => ' ' + i.label + ': ' + i.raw + '%' }
+        }
       }
     },
     plugins: [donutPlugin]
