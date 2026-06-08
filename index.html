@@ -776,6 +776,15 @@
     }
     .snav-sep { width: 1px; height: 16px; background: var(--silver); margin: 0 4px; flex-shrink: 0; }
 
+    /* ── Таблица ОФЗ ── */
+    .ofz-hdr { font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:rgba(255,255,255,.4);padding:0 14px 10px 0;border-bottom:1px solid rgba(255,255,255,.1); }
+    .ofz-hdr.r { text-align:right; }
+    .ofz-cell { font-size:.82rem;padding:10px 14px 10px 0;border-bottom:1px solid rgba(255,255,255,.06);display:flex;align-items:center; }
+    .ofz-cell.r { justify-content:flex-end;text-align:right; }
+    .ofz-cell.dim { color:rgba(255,255,255,.55); }
+    .ofz-total { font-size:.82rem;font-weight:700;padding:12px 14px 0 0;display:flex;align-items:center; }
+    .ofz-total.r { justify-content:flex-end;text-align:right; }
+
     @media (max-width: 700px) {
       .section-nav .container { padding: 0 16px; gap: 2px; }
       .snav-link { padding: 4px 8px; font-size: 0.68rem; }
@@ -1696,6 +1705,88 @@
       <span>Финрез. по акциям: <b style="color:#00BA38">+7,59 млн</b></span>
       <span>Дивиденды: <b style="color:#00BA38">+3,25 млн</b></span>
     </div>
+  </div>
+
+  <!-- ОФЗ — детальная таблица позиций -->
+  <div class="card col-12">
+    <div class="card-title">
+      Облигации ОФЗ-ПД
+      <div style="display:flex;gap:20px;align-items:center;font-weight:400;text-transform:none;letter-spacing:0">
+        <span>14,4 млн руб. · 25,9% портфеля</span>
+        <span>Купоны расч.:&ensp;<b style="color:#00BA38">+2 791 тыс.</b></span>
+        <span>Финрез блока:&ensp;<b style="color:#00BA38">+2 540 тыс. · +17,65%</b></span>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:2fr 0.9fr 1.1fr 1.2fr 1.4fr 0.9fr 0.9fr;gap:0;font-variant-numeric:tabular-nums">
+
+      <!-- Заголовок -->
+      <div class="ofz-hdr">Выпуск</div>
+      <div class="ofz-hdr">Погашение</div>
+      <div class="ofz-hdr r">Стоимость с НКД</div>
+      <div class="ofz-hdr r">Прирост тела</div>
+      <div class="ofz-hdr r">Купоны расч. *</div>
+      <div class="ofz-hdr r">НКД тек.</div>
+      <div class="ofz-hdr r">Финрез</div>
+
+      <!-- ОФЗ-ПД 238 · прирост тела = (571,53−589,74)×9657 = −176 тыс. -->
+      <div class="ofz-cell"><div><div style="font-size:.85rem;font-weight:700;color:#fff">ОФЗ-ПД 238</div><div style="font-size:.68rem;color:rgba(255,255,255,.4)">9 657 шт · RU000A1038V6</div></div></div>
+      <div class="ofz-cell dim">май 2041</div>
+      <div class="ofz-cell r" style="color:#fff;font-weight:600">5,52 млн</div>
+      <div class="ofz-cell r" style="color:#E61E14;font-weight:600">−176 тыс.</div>
+      <div class="ofz-cell r" style="color:#00BA38;font-weight:600">+1 585 тыс.</div>
+      <div class="ofz-cell r dim">+2 тыс.</div>
+      <div class="ofz-cell r"><span class="badge up" style="font-size:.72rem">+24,8%</span></div>
+
+      <!-- ОФЗ-ПД 230 · прирост тела = (620,43−587,83)×2886 = +94 тыс. -->
+      <div class="ofz-cell"><div><div style="font-size:.85rem;font-weight:700;color:#fff">ОФЗ-ПД 230</div><div style="font-size:.68rem;color:rgba(255,255,255,.4)">2 886 шт · RU000A100EF5</div></div></div>
+      <div class="ofz-cell dim">мар 2039</div>
+      <div class="ofz-cell r" style="color:#fff;font-weight:600">1,83 млн</div>
+      <div class="ofz-cell r" style="color:#00BA38;font-weight:600">+94 тыс.</div>
+      <div class="ofz-cell r" style="color:#00BA38;font-weight:600">+411 тыс.</div>
+      <div class="ofz-cell r dim">+39 тыс.</div>
+      <div class="ofz-cell r"><span class="badge up" style="font-size:.72rem">+32,1%</span></div>
+
+      <!-- ОФЗ-ПД 248 · прирост тела = (880,87−931,83)×3756 = −191 тыс. -->
+      <div class="ofz-cell"><div><div style="font-size:.85rem;font-weight:700;color:#fff">ОФЗ-ПД 248</div><div style="font-size:.68rem;color:rgba(255,255,255,.4)">3 756 шт · RU000A108EH4</div></div></div>
+      <div class="ofz-cell dim">май 2040</div>
+      <div class="ofz-cell r" style="color:#fff;font-weight:600">3,31 млн</div>
+      <div class="ofz-cell r" style="color:#E61E14;font-weight:600">−191 тыс.</div>
+      <div class="ofz-cell r" style="color:#00BA38;font-weight:600">+459 тыс.</div>
+      <div class="ofz-cell r dim">+1 тыс.</div>
+      <div class="ofz-cell r"><span class="badge up" style="font-size:.72rem">+7,7%</span></div>
+
+      <!-- ОФЗ-ПД 240 · прирост тела = (617,05−567,50)×1230 = +61 тыс. -->
+      <div class="ofz-cell"><div><div style="font-size:.85rem;font-weight:700;color:#fff">ОФЗ-ПД 240</div><div style="font-size:.68rem;color:rgba(255,255,255,.4)">1 230 шт · RU000A103BR0</div></div></div>
+      <div class="ofz-cell dim">июл 2036</div>
+      <div class="ofz-cell r" style="color:#fff;font-weight:600">0,79 млн</div>
+      <div class="ofz-cell r" style="color:#00BA38;font-weight:600">+61 тыс.</div>
+      <div class="ofz-cell r" style="color:#00BA38;font-weight:600">+144 тыс.</div>
+      <div class="ofz-cell r dim">+27 тыс.</div>
+      <div class="ofz-cell r"><span class="badge up" style="font-size:.72rem">+33,1%</span></div>
+
+      <!-- ОФЗ-ПД 243 · прирост тела = (748,42−776,10)×3930 = −109 тыс. -->
+      <div class="ofz-cell" style="border-bottom:none"><div><div style="font-size:.85rem;font-weight:700;color:#fff">ОФЗ-ПД 243</div><div style="font-size:.68rem;color:rgba(255,255,255,.4)">3 930 шт · RU000A106E90</div></div></div>
+      <div class="ofz-cell dim" style="border-bottom:none">май 2038</div>
+      <div class="ofz-cell r" style="color:#fff;font-weight:600;border-bottom:none">2,94 млн</div>
+      <div class="ofz-cell r" style="color:#E61E14;font-weight:600;border-bottom:none">−109 тыс.</div>
+      <div class="ofz-cell r" style="color:#00BA38;font-weight:600;border-bottom:none">+192 тыс.</div>
+      <div class="ofz-cell r dim" style="border-bottom:none">+1 тыс.</div>
+      <div class="ofz-cell r" style="border-bottom:none"><span class="badge up" style="font-size:.72rem">+2,8%</span></div>
+
+      <!-- Итого -->
+      <div style="grid-column:1/-1;height:1px;background:rgba(255,255,255,.15);margin:6px 0"></div>
+      <div class="ofz-total" style="color:#fff">Итого по блоку</div>
+      <div class="ofz-total dim"></div>
+      <div class="ofz-total r" style="color:#fff">14,39 млн</div>
+      <div class="ofz-total r" style="color:#E61E14">−321 тыс.</div>
+      <div class="ofz-total r" style="color:#00BA38">+2 791 тыс.</div>
+      <div class="ofz-total r dim">+70 тыс.</div>
+      <div class="ofz-total r"><span class="badge up">+17,65%</span></div>
+
+    </div>
+
+    <div class="updated" style="margin-top:10px">* Купоны расчётные: Финрез − Прирост тела − НКД тек. · Данные: отчёт УК Альфа-Капитал, 01.05–04.06.2026</div>
   </div>
 
   </div>
