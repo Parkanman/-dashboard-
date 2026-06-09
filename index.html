@@ -1433,13 +1433,89 @@
     </div>
   </div>
 
+    <!-- P/E российского рынка — расчёт аналитиков (Приходько) -->
+    <div class="card col-12">
+      <div class="card-title">
+        P/E российского рынка — расчёт аналитиков
+        <span style="font-weight:400;text-transform:none;letter-spacing:0">Янв 2014 — Май 2026</span>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 280px;gap:24px;align-items:start">
+
+        <div>
+          <div style="height:200px;position:relative"><canvas id="pe2-chart"></canvas></div>
+          <div class="updated" style="display:flex;gap:18px;margin-top:6px;flex-wrap:wrap">
+            <span style="display:flex;align-items:center;gap:5px">
+              <span style="display:inline-block;width:18px;height:2px;background:#00BA38;border-radius:1px"></span>P/E (расчёт)
+            </span>
+            <span style="display:flex;align-items:center;gap:5px">
+              <span style="display:inline-block;width:18px;height:0;border-top:2px dashed rgba(255,255,255,.35)"></span>Норма 2019+2021 ≈ 6,4x
+            </span>
+          </div>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+            <div style="background:rgba(255,255,255,.06);border-radius:8px;padding:10px 12px">
+              <div style="font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--gray);margin-bottom:3px">P/E текущий</div>
+              <div style="font-size:1.4rem;font-weight:800;color:#00BA38;letter-spacing:-.02em;line-height:1.1">3,5x</div>
+              <div style="font-size:.67rem;color:var(--gray);margin-top:3px">Май 2026</div>
+            </div>
+            <div style="background:rgba(255,255,255,.06);border-radius:8px;padding:10px 12px">
+              <div style="font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--gray);margin-bottom:3px">Норма 2019+2021</div>
+              <div style="font-size:1.4rem;font-weight:800;color:rgba(255,255,255,.8);letter-spacing:-.02em;line-height:1.1">6,4x</div>
+              <div style="font-size:.67rem;color:var(--gray);margin-top:3px">−2,9x дисконт</div>
+            </div>
+          </div>
+          <div style="background:rgba(0,186,56,.1);border-left:3px solid #00BA38;border-radius:0 6px 6px 0;padding:10px 12px">
+            <div style="font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#00BA38;margin-bottom:5px">Рынок дёшев исторически</div>
+            <p style="font-size:.78rem;color:var(--graphite);line-height:1.55;margin:0">
+              Расчёт по взвешенным форвардным прибылям.
+              Возврат к норме <b style="color:rgba(255,255,255,.8)">6,4x</b> даёт
+              <b style="color:#00BA38">+85%</b> к текущим ценам
+              при неизменных прибылях.
+            </p>
+          </div>
+          <div style="display:flex;flex-wrap:wrap;gap:6px">
+            <div style="background:rgba(255,255,255,.06);border-radius:6px;padding:4px 10px;font-size:.7rem">
+              <span style="color:var(--gray)">Минимум 2022:</span> <b style="color:rgba(255,255,255,.8)">3,1x</b>
+            </div>
+            <div style="background:rgba(255,255,255,.06);border-radius:6px;padding:4px 10px;font-size:.7rem">
+              <span style="color:var(--gray)">Пик в 2020:</span> <b style="color:rgba(255,255,255,.8)">9,1x</b>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Покупки/продажи валюты и золота -->
+    <div class="card col-12" style="display:flex;flex-direction:column">
+      <div class="card-title" style="display:flex;align-items:center;justify-content:space-between">
+        <span>Объём покупки (продажи) иностранной валюты и золота, млрд руб.</span>
+        <span style="display:flex;gap:12px">
+          <span style="display:flex;align-items:center;gap:4px">
+            <span style="display:inline-block;width:10px;height:10px;background:rgba(0,186,56,.68);border-radius:2px"></span>
+            <span style="font-size:.62rem;color:var(--gray)">Покупка</span>
+          </span>
+          <span style="display:flex;align-items:center;gap:4px">
+            <span style="display:inline-block;width:10px;height:10px;background:rgba(230,30,20,.68);border-radius:2px"></span>
+            <span style="font-size:.62rem;color:var(--gray)">Продажа</span>
+          </span>
+        </span>
+      </div>
+      <div style="flex:1;min-height:220px;position:relative">
+        <canvas id="fx-gold-chart"></canvas>
+      </div>
+      <div class="updated" style="margin-top:4px">Банк России · янв 2018 — май 2026 · Аленка Капитал</div>
+    </div>
+
     <!-- ПИФ: денежный рынок + облигации -->
     <div class="card col-6" style="display:flex;flex-direction:column">
       <div class="card-title" style="display:flex;align-items:center;justify-content:space-between">
         <span>Притоки в ПИФы: деньги и облигации, млн руб.</span>
         <span style="display:flex;gap:10px">
           <span style="display:flex;align-items:center;gap:4px">
-            <span style="display:inline-block;width:10px;height:10px;background:rgba(230,30,20,.65);border-radius:2px"></span>
+            <span style="display:inline-block;width:10px;height:10px;background:rgba(30,98,210,.68);border-radius:2px"></span>
             <span style="font-size:.62rem;color:var(--gray)">Денежный рынок</span>
           </span>
           <span style="display:flex;align-items:center;gap:4px">
@@ -1505,7 +1581,7 @@
       <div style="display:flex;flex-direction:column;justify-content:space-between;border-right:1px solid var(--silver);padding-right:20px">
         <div>
           <div style="font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:var(--gray);margin-bottom:10px">Лиды 2026</div>
-          <div style="font-size:3rem;font-weight:800;color:var(--black);letter-spacing:-.04em;line-height:1" id="leads-total">47</div>
+          <div style="font-size:3rem;font-weight:800;color:var(--black);letter-spacing:-.04em;line-height:1" id="leads-total">50</div>
           <div style="font-size:.72rem;color:var(--gray);margin-top:4px">передано всего</div>
           <div style="margin-top:14px;display:flex;align-items:flex-end;gap:8px">
             <div style="font-size:1.8rem;font-weight:800;color:#00BA38;letter-spacing:-.02em;line-height:1" id="leads-recent">+3</div>
@@ -4253,16 +4329,16 @@ renderMacroInds();
 renderBrokerComment();
 
 // ─── Бизнес-показатели (Pro-сегмент) ─────────────────────────────────
-const BIZ_CLIENTS_KEY = 'ak-biz-clients-v1';
-const BIZ_AUM_KEY     = 'ak-biz-aum-v2';
+const BIZ_CLIENTS_KEY = 'ak-biz-clients-v3';
+const BIZ_AUM_KEY     = 'ak-biz-aum-v3';
 
 const BIZ_CLIENTS_DEF = {
-  labels: ["янв'25","фев'25","мар'25","апр'25","май'25","июн'25","июл'25","авг'25","сен'25","окт'25","ноя'25","дек'25","янв'26","фев'26"],
-  data:   [23, 30, 40, 40, 39, 38, 40, 42, 43, 44, 46, 45, 46, 44]
+  labels: ["янв'25","фев'25","мар'25","апр'25","май'25","июн'25","июл'25","авг'25","сен'25","окт'25","ноя'25","дек'25","янв'26","фев'26","мар'26","апр'26","май'26","июн'26"],
+  data:   [23, 30, 38, 40, 40, 39, 38, 39, 41, 42, 43, 43, 44, 45, 46, 44, 44, 44]
 };
 const BIZ_AUM_DEF = {
-  labels: ["янв'25","фев'25","мар'25","апр'25","май'25","июн'25","июл'25","авг'25","сен'25","окт'25","ноя'25","дек'25","янв'26","фев'26"],
-  data:   [1.73, 2.20, 2.82, 2.44, 2.55, 2.68, 2.85, 2.65, 2.48, 2.75, 3.08, 3.32, 3.15, 2.97]
+  labels: ["янв'25","фев'25","мар'25","апр'25","май'25","июн'25","июл'25","авг'25","сен'25","окт'25","ноя'25","дек'25","янв'26","фев'26","мар'26","апр'26","май'26","июн'26"],
+  data:   [1.73, 2.20, 2.82, 2.44, 2.75, 2.57, 2.85, 2.48, 2.68, 2.88, 3.08, 3.32, 3.05, 3.13, 3.32, 2.97, 2.89, 2.94]
 };
 
 let bizClients = JSON.parse(localStorage.getItem(BIZ_CLIENTS_KEY) || 'null') || BIZ_CLIENTS_DEF;
@@ -4515,8 +4591,8 @@ renderRevenuePlan();
 
 // ─── Лиды 2026 ─────────────────────────────────────────────────────────────
 const LEADS_KEY = 'ak-leads-2026';
-let leadsData = JSON.parse(localStorage.getItem(LEADS_KEY) || 'null') || { total: 49, recent: 2, date: '' };
-if (leadsData.total === 47) { leadsData.total = 49; leadsData.recent = 2; localStorage.setItem(LEADS_KEY, JSON.stringify(leadsData)); }
+let leadsData = JSON.parse(localStorage.getItem(LEADS_KEY) || 'null') || { total: 50, recent: 3, date: '' };
+if (leadsData.total === 47 || leadsData.total === 49) { leadsData.total = 50; leadsData.recent = 3; localStorage.setItem(LEADS_KEY, JSON.stringify(leadsData)); }
 
 function renderLeads() {
   document.getElementById('leads-total').textContent = leadsData.total;
@@ -5516,6 +5592,228 @@ function switchIssuer(id) {
   });
 })();
 
+// ── P/E рынка — расчёт аналитиков (Приходько, ежемесячно янв 2014 – май 2026) ──
+(function() {
+  var lbl = [];
+  var months = ['янв','фев','мар','апр','май','июн','июл','авг','сен','окт','ноя','дек'];
+  for (var y = 2014; y <= 2025; y++)
+    for (var m = 0; m < 12; m++) lbl.push(months[m] + '\'' + String(y).slice(2));
+  for (var m2 = 0; m2 < 5; m2++) lbl.push(months[m2] + '\'26');
+
+  var pe = [
+    // 2014
+    5.43,5.34,4.96,4.77,5.25,5.48,5.01,5.02,4.86,4.89,4.99,4.64,
+    // 2015
+    5.44,6.27,5.91,6.64,6.23,6.10,5.81,5.70,5.52,5.80,6.06,5.59,
+    // 2016
+    6.08,6.52,6.67,6.85,6.60,6.62,6.61,6.51,6.31,6.14,6.37,6.71,
+    // 2017
+    6.55,5.95,5.91,6.14,5.96,6.00,6.15,6.37,6.61,6.48,6.51,6.28,
+    // 2018
+    6.62,6.36,6.31,6.11,5.91,5.77,5.76,5.58,5.63,5.25,5.26,5.14,
+    // 2019
+    5.65,5.49,5.38,5.56,5.64,5.95,5.88,5.83,6.03,6.42,6.54,6.85,
+    // 2020
+    6.74,6.07,6.58,7.79,8.39,8.83,9.09,8.99,8.21,7.31,8.33,8.22,
+    // 2021
+    7.70,7.65,7.48,7.16,7.49,7.36,6.87,6.55,6.95,6.91,6.33,5.81,
+    // 2022
+    4.97,3.41,3.10,3.50,3.61,3.88,3.93,4.26,3.48,3.85,3.86,3.32,
+    // 2023
+    3.43,3.97,4.28,4.60,5.43,4.73,4.86,5.11,4.18,4.38,4.37,4.21,
+    // 2024
+    4.43,4.61,4.43,4.53,4.27,4.19,4.03,3.62,4.11,3.65,3.58,3.78,
+    // 2025
+    3.80,4.03,3.96,3.92,3.86,4.00,3.88,4.03,3.81,3.74,3.82,4.07,
+    // 2026 янв-май
+    4.10,4.10,3.97,3.71,3.46
+  ];
+
+  var NORM = 6.4;
+
+  var ctx = document.getElementById('pe2-chart');
+  if (!ctx) return;
+  new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: lbl,
+      datasets: [
+        {
+          label: 'P/E',
+          data: pe,
+          borderColor: '#00BA38',
+          backgroundColor: 'rgba(0,186,56,.08)',
+          borderWidth: 2,
+          pointRadius: 0,
+          tension: 0.35,
+          fill: true
+        },
+        {
+          label: 'Норма 6,4x',
+          data: pe.map(function() { return NORM; }),
+          borderColor: 'rgba(255,255,255,.32)',
+          backgroundColor: 'transparent',
+          borderWidth: 1.5,
+          borderDash: [6, 4],
+          pointRadius: 0,
+          tension: 0
+        }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      animation: { duration: 400 },
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: 'rgba(30,30,30,.92)',
+          bodyColor: '#fff', padding: 10,
+          filter: function(item) { return item.datasetIndex === 0; },
+          callbacks: {
+            label: function(c) { return ' P/E: ' + c.raw.toFixed(2) + 'x'; }
+          }
+        }
+      },
+      scales: {
+        x: {
+          grid: { color: 'rgba(255,255,255,.06)' },
+          ticks: {
+            color: 'rgba(255,255,255,.4)', font: { size: 9 },
+            maxRotation: 0, autoSkip: false,
+            callback: function(val, idx) {
+              return idx % 12 === 0 ? this.getLabelForValue(val) : '';
+            }
+          }
+        },
+        y: {
+          min: 2,
+          grid: { color: 'rgba(255,255,255,.06)' },
+          ticks: {
+            color: 'rgba(255,255,255,.45)', font: { size: 10 },
+            callback: function(v) { return v + 'x'; }
+          }
+        }
+      }
+    },
+    plugins: [{
+      id: 'pe2-norm-label',
+      afterDraw: function(chart) {
+        var ds1 = chart.getDatasetMeta(1);
+        if (!ds1.data.length) return;
+        var pt = ds1.data[ds1.data.length - 1];
+        var ctx2 = chart.ctx;
+        ctx2.save();
+        ctx2.font = '600 10px Inter,sans-serif';
+        ctx2.fillStyle = 'rgba(255,255,255,.5)';
+        ctx2.textAlign = 'right';
+        ctx2.fillText('норма ~' + NORM + 'x', pt.x - 4, pt.y - 5);
+        ctx2.restore();
+      }
+    }]
+  });
+})();
+
+// ── Покупки/продажи иностранной валюты и золота ───────────────────────────
+(function() {
+  var lbl = [];
+  var months = ['янв','фев','мар','апр','май','июн','июл','авг','сен','окт','ноя','дек'];
+  for (var y = 2018; y <= 2025; y++)
+    for (var m = 0; m < 12; m++) lbl.push(months[m] + '\'' + String(y).slice(2));
+  for (var m2 = 0; m2 < 5; m2++) lbl.push(months[m2] + '\'26');
+
+  var fx = [
+    // 2018
+    257, 298, 193, 241, 323, 298, 380, 348, 383, 427, 476, 526,
+    // 2019
+    366, 194, 266, 310, 255, 301, 310, 246, 235, 213, 196, 214,
+    // 2020
+    248, 133, -78, -65, -65, -54, -50, -51, -103, -204, -200, 46,
+    // 2021
+    106, 148, 124, 186, 221, 225, 298, 317, 318, 502, 518, 586,
+    // 2022: янв — пик 635, фев-апр — мораторий биржи (≈0), май-авг — негативные, сен-дек — восстановление
+    635, 4, 3, -55, -160, -75, -40, -35, 20, 41, 276, 399,
+    // 2023
+    621, -69, 73, 94, 111, 71, 124, 173, 88, 67, 72, 70,
+    // 2024
+    114, 42, 28, -36, -36, -32, 8, 3, 0, 0, -8, -20,
+    // 2025: начало ~0, летом небольшие негативы, осень — крупные продажи
+    8, 12, 10, 8, 6, 5, -36, -36, -32, -123, -227, -192,
+    // 2026 (янв–май)
+    110, 208, 170, 140, 120
+  ];
+
+  var ctx = document.getElementById('fx-gold-chart');
+  if (!ctx) return;
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: lbl,
+      datasets: [{
+        data: fx,
+        backgroundColor: fx.map(function(v) {
+          return v >= 0 ? 'rgba(0,186,56,.68)' : 'rgba(230,30,20,.68)';
+        }),
+        borderColor: fx.map(function(v) {
+          return v >= 0 ? '#00BA38' : '#E61E14';
+        }),
+        borderWidth: 1,
+        borderRadius: 2,
+        categoryPercentage: 0.85,
+        barPercentage: 0.9
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      animation: { duration: 400 },
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: 'rgba(20,20,20,.92)',
+          bodyColor: '#fff', padding: 10,
+          callbacks: {
+            label: function(c) {
+              var sign = c.raw >= 0 ? '+' : '';
+              return ' ' + sign + c.raw.toFixed(0) + ' млрд руб.';
+            }
+          }
+        }
+      },
+      scales: {
+        x: {
+          grid: { color: 'rgba(0,0,0,.06)' },
+          ticks: {
+            color: '#929498', font: { size: 9 },
+            maxRotation: 45, minRotation: 45,
+            autoSkip: true, maxTicksLimit: 22
+          }
+        },
+        y: {
+          grid: { color: 'rgba(0,0,0,.08)' },
+          ticks: { color: '#929498', font: { size: 10 } }
+        }
+      }
+    },
+    plugins: [{
+      id: 'fx-zero',
+      afterDraw: function(chart) {
+        var y0 = chart.scales.y.getPixelForValue(0);
+        var c2 = chart.ctx;
+        c2.save();
+        c2.strokeStyle = 'rgba(0,0,0,.3)';
+        c2.lineWidth = 1;
+        c2.setLineDash([]);
+        c2.beginPath();
+        c2.moveTo(chart.chartArea.left, y0);
+        c2.lineTo(chart.chartArea.right, y0);
+        c2.stroke();
+        c2.restore();
+      }
+    }]
+  });
+})();
+
 // ── ПИФ: денежный рынок + облигации ──────────────────────────────────────
 (function() {
   var lbl = [
@@ -5553,8 +5851,8 @@ function switchIssuer(id) {
       labels: lbl,
       datasets: [
         { label:'Денежный рынок', data:mm,
-          backgroundColor: mm.map(function(v){ return v>=0?'rgba(230,30,20,.65)':'rgba(230,30,20,.35)'; }),
-          borderColor: mm.map(function(v){ return v>=0?'#E61E14':'rgba(230,30,20,.5)'; }),
+          backgroundColor: mm.map(function(v){ return v>=0?'rgba(30,98,210,.68)':'rgba(30,98,210,.35)'; }),
+          borderColor: mm.map(function(v){ return v>=0?'#1E62D2':'rgba(30,98,210,.5)'; }),
           borderWidth:1, borderRadius:2, stack:'s', categoryPercentage:0.8, barPercentage:1 },
         { label:'Облигации', data:ob,
           backgroundColor:'rgba(0,186,56,.62)',
