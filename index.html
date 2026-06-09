@@ -2190,6 +2190,12 @@ setInterval(fetchStocks, 60_000);
 // Ставка ЦБ (хранится вручную)
 let cbRate = parseFloat(localStorage.getItem('ak-cbrate') || '14.5');
 document.getElementById('cbrate-display').textContent = cbRate.toFixed(1) + '%';
+
+// ОФЗ 10л — инициализация при загрузке из localStorage (до первого вызова API)
+(function() {
+  const v = parseFloat(localStorage.getItem('ak-ofzrate') || '0');
+  if (v > 0) document.getElementById('ofzrate-display').textContent = v.toFixed(1) + '%';
+})();
 function updateCBRate() {
   const v = parseFloat(prompt('Текущая ключевая ставка ЦБ, %:', cbRate));
   if (!isNaN(v)) { cbRate = v; localStorage.setItem('ak-cbrate', v); document.getElementById('cbrate-display').textContent = v.toFixed(1) + '%'; fetchSentiment(); }
@@ -2304,9 +2310,9 @@ async function fetchSentiment() {
     if (bestRow && bestRow[1] > 0) ofzFromApi = bestRow[1];
   } catch {}
 
-  // Приоритет: API → ручное значение
+  // Приоритет: ручное значение → API (ручное не перезаписывается при обновлении страницы)
   const ofzManual = parseFloat(localStorage.getItem('ak-ofzrate') || '0');
-  const ofzYield  = ofzFromApi ?? (ofzManual > 0 ? ofzManual : null);
+  const ofzYield  = ofzManual > 0 ? ofzManual : (ofzFromApi ?? null);
 
   if (ofzYield) {
     applySpread(ofzYield);
