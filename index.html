@@ -1775,6 +1775,30 @@
     <div class="updated" style="margin-top:7px">Размер = стоимость позиции · Цвет = доходность с покупки · hover — детали</div>
   </div>
 
+  <!-- Grouped bar: доходность по классам активов -->
+  <div class="card col-7">
+    <div class="card-title">
+      Доходность по классам активов
+      <div style="display:flex;gap:12px;align-items:center;font-weight:400;text-transform:none;letter-spacing:0;font-size:.65rem">
+        <span style="display:flex;align-items:center;gap:4px"><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#5BA4F5"></span>За май</span>
+        <span style="display:flex;align-items:center;gap:4px"><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#A78BFA"></span>YTD 2026</span>
+        <span style="display:flex;align-items:center;gap:4px"><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#4DD9AC"></span>С 24.03.2022</span>
+      </div>
+    </div>
+    <div style="height:220px;position:relative"><canvas id="pf-grouped-chart"></canvas></div>
+    <div class="updated" style="margin-top:6px">С 24.03.2022 — только Акции и ОФЗ (БПИФ и Корп.обл добавлены позже) · оценка</div>
+  </div>
+
+  <!-- Scatter: риск/доходность акций -->
+  <div class="card col-5">
+    <div class="card-title">
+      Риск / доходность акций
+      <span style="font-weight:400;text-transform:none;letter-spacing:0;font-size:.65rem">размер = стоимость позиции</span>
+    </div>
+    <div style="height:220px;position:relative"><canvas id="pf-scatter-chart"></canvas></div>
+    <div class="updated" style="margin-top:6px">Волатильность — оценка · доходность с даты покупки</div>
+  </div>
+
   <!-- ОФЗ — детальная таблица позиций -->
   <div class="card col-12">
     <div class="card-title">
@@ -4727,6 +4751,209 @@ renderLeads();
         }).join('') +
       '</div>';
     }).join('');
+  }
+})();
+
+// ─── Клиентский портфель — grouped bar + scatter ─────────────────────────
+(function() {
+  var DTICK = { color: 'rgba(255,255,255,.4)', font: { size: 9, family: 'Inter' } };
+  var DGRID = { color: 'rgba(255,255,255,.07)' };
+  var DBASE = { responsive: true, maintainAspectRatio: false, animation: { duration: 400 } };
+
+  // ── 1. Grouped bar: доходность по классам активов ─────────────────────────
+  var gbEl = document.getElementById('pf-grouped-chart');
+  if (gbEl) {
+    // Классы активов: Акции, ОФЗ, БПИФ Ден.рынок, Корп.обл
+    // Периоды: За май / YTD 2026 / С 24.03.2022
+    // YTD внутренне согласован: 0.541×(−9.4)+0.259×8+0.193×6.5+0.007×8 ≈ −1.69% (факт)
+    var PERIODS = [
+      { label: 'За май',       color: 'rgba(91,164,245,.80)',  data: [-1.7,  0.6,  1.2,  1.8] },
+      { label: 'YTD 2026',    color: 'rgba(167,139,250,.80)', data: [-9.4,  8.0,  6.5,  8.0] },
+      { label: 'С 24.03.2022', color: 'rgba(77,217,172,.80)', data: [44.0, 17.65, null, null] },
+    ];
+
+    new Chart(gbEl.getContext('2d'), {
+      type: 'bar',
+      data: {
+        labels: ['Акции', 'ОФЗ', 'БПИФ\nДен.рынок', 'Корп.\nобл.'],
+        datasets: PERIODS.map(function(p) {
+          return {
+            label: p.label,
+            data: p.data,
+            backgroundColor: p.color,
+            borderColor: p.color.replace(/[\d.]+\)$/, '1)'),
+            borderWidth: 1,
+            borderRadius: 3,
+            borderSkipped: false,
+          };
+        })
+      },
+      options: Object.assign({}, DBASE, {
+        interaction: { mode: 'index', intersect: false },
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            callbacks: {
+              label: function(item) {
+                var v = item.raw;
+                if (v === null) return null;
+                return ' ' + item.dataset.label + ': ' + (v >= 0 ? '+' : '') + v.toFixed(1) + '%';
+              }
+            }
+          }
+        },
+        scales: {
+          x: {
+            grid: { display: false },
+            border: { display: false },
+            ticks: Object.assign({}, DTICK, { maxRotation: 0 })
+          },
+          y: {
+            grid: DGRID,
+            border: { display: false },
+            ticks: Object.assign({}, DTICK, {
+              callback: function(v) { return (v >= 0 ? '+' : '') + v + '%'; }
+            })
+          }
+        }
+      }),
+      plugins: [{
+        id: 'gbZero',
+        afterDraw: function(chart) {
+          var c = chart.ctx, ca = chart.chartArea;
+          var y0 = chart.scales.y.getPixelForValue(0);
+          if (y0 < ca.top || y0 > ca.bottom) return;
+          c.save();
+          c.strokeStyle = 'rgba(255,255,255,.25)';
+          c.lineWidth = 1;
+          c.beginPath(); c.moveTo(ca.left, y0); c.lineTo(ca.right, y0); c.stroke();
+          c.restore();
+        }
+      }]
+    });
+  }
+
+  // ── 2. Scatter (bubble): риск / доходность ───────────────────────────────
+  var scEl = document.getElementById('pf-scatter-chart');
+  if (scEl) {
+    var STOCKS = [
+      { ticker: 'SBER', name: 'Сбербанк',        vol: 38, ret: 122, val: 9.39 },
+      { ticker: 'TCSG', name: 'Т-Технологии',    vol: 55, ret:  22, val: 5.90 },
+      { ticker: 'YNDX', name: 'Яндекс',          vol: 50, ret:  17, val: 4.85 },
+      { ticker: 'NVTK', name: 'НОВАТЭК',         vol: 42, ret:   1, val: 2.61 },
+      { ticker: 'HHRU', name: 'Хэдхантер',       vol: 48, ret:   7, val: 2.03 },
+      { ticker: 'TATN', name: 'Татнефть',        vol: 37, ret:  -3, val: 1.19 },
+      { ticker: 'SIBN', name: 'Газпром нефть',   vol: 38, ret:  -6, val: 1.15 },
+      { ticker: 'PHOR', name: 'ФосАгро',         vol: 43, ret: -14, val: 1.06 },
+      { ticker: 'UPRO', name: 'Юнипро',          vol: 58, ret: -35, val: 0.97 },
+      { ticker: 'GMKN', name: 'НорНикель',       vol: 44, ret:   1, val: 0.94 },
+    ];
+
+    function scColor(ret, alpha) {
+      var t = ret >= 0 ? Math.min(ret / 80, 1) : Math.min(Math.abs(ret) / 35, 1);
+      var r, g, b;
+      if (ret >= 0) {
+        r = Math.round(96 - 96*t); g = Math.round(100 + 51*t); b = Math.round(104 - 44*t);
+      } else {
+        r = Math.round(96 + 96*t); g = Math.round(100 - 43*t); b = Math.round(104 - 61*t);
+      }
+      return 'rgba(' + r + ',' + g + ',' + b + ',' + alpha + ')';
+    }
+
+    new Chart(scEl.getContext('2d'), {
+      type: 'bubble',
+      data: {
+        datasets: [{
+          data: STOCKS.map(function(d) {
+            return { x: d.vol, y: d.ret, r: Math.round(4 + Math.sqrt(d.val) * 3.5) };
+          }),
+          backgroundColor: STOCKS.map(function(d) { return scColor(d.ret, 0.75); }),
+          borderColor:     STOCKS.map(function(d) { return scColor(d.ret, 1.0);  }),
+          borderWidth: 1.5,
+        }]
+      },
+      options: Object.assign({}, DBASE, {
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            callbacks: {
+              label: function(item) {
+                var d = STOCKS[item.dataIndex];
+                var sign = d.ret >= 0 ? '+' : '';
+                return [
+                  ' ' + d.name + ' (' + d.ticker + ')',
+                  ' Доходность: ' + sign + d.ret + '%',
+                  ' Волатильность: ~' + d.vol + '% год.',
+                  ' Стоимость: ' + d.val.toFixed(2) + ' млн'
+                ];
+              }
+            }
+          }
+        },
+        scales: {
+          x: {
+            min: 30, max: 65,
+            grid: DGRID,
+            border: { display: false },
+            ticks: Object.assign({}, DTICK, {
+              callback: function(v) { return v + '%'; }
+            }),
+            title: {
+              display: true,
+              text: 'Волатильность (оценка), % год.',
+              color: 'rgba(255,255,255,.35)',
+              font: { size: 8, family: 'Inter' }
+            }
+          },
+          y: {
+            grid: DGRID,
+            border: { display: false },
+            ticks: Object.assign({}, DTICK, {
+              callback: function(v) { return (v >= 0 ? '+' : '') + v + '%'; }
+            }),
+            title: {
+              display: true,
+              text: 'Доходность с покупки, %',
+              color: 'rgba(255,255,255,.35)',
+              font: { size: 8, family: 'Inter' }
+            }
+          }
+        }
+      }),
+      plugins: [{
+        id: 'scLabels',
+        afterDraw: function(chart) {
+          var ctx2 = chart.ctx;
+          var meta = chart.getDatasetMeta(0);
+          ctx2.save();
+          ctx2.font = '600 9px Inter, sans-serif';
+          ctx2.textAlign = 'center';
+          ctx2.textBaseline = 'middle';
+          meta.data.forEach(function(pt, i) {
+            var d = STOCKS[i];
+            // Смещаем подпись чуть выше пузыря чтобы не перекрывать
+            var offset = pt.options.radius + 7;
+            ctx2.fillStyle = 'rgba(255,255,255,.85)';
+            ctx2.fillText(d.ticker, pt.x, pt.y - offset);
+          });
+          ctx2.restore();
+        }
+      }, {
+        // Горизонтальная нулевая линия
+        id: 'scZero',
+        afterDraw: function(chart) {
+          var c = chart.ctx, ca = chart.chartArea;
+          var y0 = chart.scales.y.getPixelForValue(0);
+          if (y0 < ca.top || y0 > ca.bottom) return;
+          c.save();
+          c.strokeStyle = 'rgba(255,255,255,.2)';
+          c.lineWidth = 1;
+          c.setLineDash([4, 4]);
+          c.beginPath(); c.moveTo(ca.left, y0); c.lineTo(ca.right, y0); c.stroke();
+          c.restore();
+        }
+      }]
+    });
   }
 })();
 
