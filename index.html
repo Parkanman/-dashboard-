@@ -153,6 +153,16 @@
       justify-content: space-between;
     }
 
+    /* ── Flex-утилиты ── */
+    .f-row   { display:flex; align-items:center; }
+    .f-row-g4{ display:flex; align-items:center; gap:4px; }
+    .f-row-g5{ display:flex; align-items:center; gap:5px; }
+    .f-row-g6{ display:flex; align-items:center; gap:6px; }
+    .f-row-g8{ display:flex; align-items:center; gap:8px; }
+    .f-between{ display:flex; align-items:center; justify-content:space-between; }
+    .f-col-g4 { display:flex; flex-direction:column; gap:4px; }
+    .f-col-g5 { display:flex; flex-direction:column; gap:5px; }
+
     /* ── Метрика ── */
     .metric-row { display: flex; align-items: flex-end; gap: 10px; }
     .metric-value {
@@ -4226,6 +4236,42 @@ function editLeads() {
 
 renderLeads();
 
+// ─── Общие утилиты Chart.js (портфель) ───────────────────────────────────
+var CH_BASE = { responsive: true, maintainAspectRatio: false, animation: { duration: 400 } };
+var CH_TICK = { color: 'rgba(255,255,255,.4)', font: { size: 9, family: 'Inter' } };
+var CH_GRID = { color: 'rgba(255,255,255,.07)' };
+
+// Нулевая линия — параметризованный плагин
+function makeZeroLine(id, color, dashed) {
+  return {
+    id: id,
+    afterDraw: function(chart) {
+      var c = chart.ctx, ca = chart.chartArea;
+      var y0 = chart.scales.y.getPixelForValue(0);
+      if (y0 < ca.top || y0 > ca.bottom) return;
+      c.save();
+      c.strokeStyle = color || 'rgba(255,255,255,.2)';
+      c.lineWidth = 1;
+      if (dashed) c.setLineDash([4, 4]);
+      c.beginPath(); c.moveTo(ca.left, y0); c.lineTo(ca.right, y0); c.stroke();
+      c.restore();
+    }
+  };
+}
+
+// Цвет по доходности: красный(−35%+) → серый(0%) → зелёный(+80%+)
+function retColor(pct, alpha) {
+  var a = (alpha === undefined) ? 1 : alpha;
+  var t = pct >= 0 ? Math.min(pct / 80, 1) : Math.min(Math.abs(pct) / 35, 1);
+  var r, g, b;
+  if (pct >= 0) {
+    r = Math.round(96 - 96*t); g = Math.round(100 + 51*t); b = Math.round(104 - 44*t);
+  } else {
+    r = Math.round(96 + 96*t); g = Math.round(100 - 43*t); b = Math.round(104 - 61*t);
+  }
+  return 'rgba(' + r + ',' + g + ',' + b + ',' + a + ')';
+}
+
 // ─── Клиентский портфель — donut структуры активов ──────────────────────
 (function() {
   var el = document.getElementById('pf-donut');
@@ -4292,10 +4338,6 @@ renderLeads();
   var contribEl = document.getElementById('pf-contrib-chart');
   if (!perfEl && !contribEl) return;
 
-  var DTICK = { color: 'rgba(255,255,255,.4)', font: { size: 9, family: 'Inter' } };
-  var DGRID = { color: 'rgba(255,255,255,.07)' };
-  var DBASE = { responsive: true, maintainAspectRatio: false, animation: { duration: 400 } };
-
   // ── 1. Накопленная доходность vs IMOEX (квартально с 24.03.2022) ─────────
   if (perfEl) {
     var QL = [
@@ -4357,7 +4399,7 @@ renderLeads();
           }
         ]
       },
-      options: Object.assign({}, DBASE, {
+      options: { ...CH_BASE,
         interaction: { mode: 'index', intersect: false },
         plugins: {
           legend: { display: false },
@@ -4387,23 +4429,23 @@ renderLeads();
           x: {
             grid: { display: false },
             border: { display: false },
-            ticks: Object.assign({}, DTICK, {
+            ticks: { ...CH_TICK,
               maxRotation: 0,
               autoSkip: false,
               callback: function(val, i) {
                 return (i % 4 === 0 || i === QL.length - 1) ? QL[i] : '';
               }
-            })
+            }
           },
           y: {
-            grid: DGRID,
+            grid: CH_GRID,
             border: { display: false },
-            ticks: Object.assign({}, DTICK, {
+            ticks: { ...CH_TICK,
               callback: function(v) { return (v >= 0 ? '+' : '') + v + '%'; }
-            })
+            }
           }
         }
-      }),
+      },
       plugins: [{
         id: 'pfZeroLine',
         afterDraw: function(chart) {
@@ -4442,7 +4484,7 @@ renderLeads();
           borderSkipped: false
         }]
       },
-      options: Object.assign({}, DBASE, {
+      options: { ...CH_BASE,
         indexAxis: 'y',
         plugins: {
           legend: { display: false },
@@ -4465,19 +4507,19 @@ renderLeads();
               }
             },
             border: { display: false },
-            ticks: Object.assign({}, DTICK, {
+            ticks: { ...CH_TICK,
               callback: function(v) { return (v > 0 ? '+' : '') + v; }
-            })
+            }
           },
           y: {
             grid: { display: false },
             border: { display: false },
-            ticks: Object.assign({}, DTICK, {
+            ticks: { ...CH_TICK,
               font: { size: 10, weight: '700', family: 'Inter' }
-            })
+            }
           }
         }
-      })
+      }
     });
   }
 })();
@@ -4514,8 +4556,6 @@ renderLeads();
     'rgba(77,217,172,.82)',
     'rgba(91,164,245,.60)',
   ];
-
-  var DTICK = { color: 'rgba(255,255,255,.4)', font: { size: 9, family: 'Inter' } };
 
   new Chart(wfEl.getContext('2d'), {
     type: 'bar',
@@ -4557,19 +4597,19 @@ renderLeads();
         x: {
           grid: { display: false },
           border: { display: false },
-          ticks: Object.assign({}, DTICK, { maxRotation: 0 })
+          ticks: { ...CH_TICK, maxRotation: 0 }
         },
         y: {
           min: 54700,
           max: 56100,
           grid: { color: 'rgba(255,255,255,.07)' },
           border: { display: false },
-          ticks: Object.assign({}, DTICK, {
+          ticks: { ...CH_TICK,
             stepSize: 300,
             callback: function(v) {
               return (v / 1000).toFixed(1).replace('.', ',') + ' млн';
             }
-          })
+          }
         }
       }
     },
@@ -4635,16 +4675,6 @@ renderLeads();
     { ticker: 'GMKN', name: 'НорНикель',       val: 0.94, perf:   1 },
   ];
   var TOTAL_EQ = STOCKS.reduce(function(s, d) { return s + d.val; }, 0);
-
-  // Интерполяция цвета по доходности: красный(-35%) → серый(0%) → зелёный(+80%+)
-  function perfBg(pct) {
-    var t = pct >= 0 ? Math.min(pct / 80, 1) : Math.min(Math.abs(pct) / 35, 1);
-    if (pct >= 0) {
-      return 'rgb(' + Math.round(96 - 96*t) + ',' + Math.round(100 + 51*t) + ',' + Math.round(104 - 44*t) + ')';
-    } else {
-      return 'rgb(' + Math.round(96 + 96*t) + ',' + Math.round(100 - 43*t) + ',' + Math.round(104 - 61*t) + ')';
-    }
-  }
 
   // ── 1. Доnat секторов ─────────────────────────────────────────────────────
   var sectEl = document.getElementById('pf-sectors-chart');
@@ -4738,7 +4768,7 @@ renderLeads();
       return '<div style="display:flex;gap:2px;flex:' + rowVal + '">' +
         row.map(function(d) {
           var sign = d.perf >= 0 ? '+' : '';
-          var bg   = perfBg(d.perf);
+          var bg   = retColor(d.perf);
           var big  = d.val >= 2.0;       // показываем стоимость только у крупных позиций
           return '<div style="flex:' + d.val + ';background:' + bg +
             ';border-radius:3px;padding:' + (big ? '6px 9px' : '5px 6px') +
@@ -4756,10 +4786,6 @@ renderLeads();
 
 // ─── Клиентский портфель — grouped bar + scatter ─────────────────────────
 (function() {
-  var DTICK = { color: 'rgba(255,255,255,.4)', font: { size: 9, family: 'Inter' } };
-  var DGRID = { color: 'rgba(255,255,255,.07)' };
-  var DBASE = { responsive: true, maintainAspectRatio: false, animation: { duration: 400 } };
-
   // ── 1. Grouped bar: доходность по классам активов ─────────────────────────
   var gbEl = document.getElementById('pf-grouped-chart');
   if (gbEl) {
@@ -4788,7 +4814,7 @@ renderLeads();
           };
         })
       },
-      options: Object.assign({}, DBASE, {
+      options: { ...CH_BASE,
         interaction: { mode: 'index', intersect: false },
         plugins: {
           legend: { display: false },
@@ -4806,30 +4832,18 @@ renderLeads();
           x: {
             grid: { display: false },
             border: { display: false },
-            ticks: Object.assign({}, DTICK, { maxRotation: 0 })
+            ticks: { ...CH_TICK, maxRotation: 0 }
           },
           y: {
-            grid: DGRID,
+            grid: CH_GRID,
             border: { display: false },
-            ticks: Object.assign({}, DTICK, {
+            ticks: { ...CH_TICK,
               callback: function(v) { return (v >= 0 ? '+' : '') + v + '%'; }
-            })
+            }
           }
         }
-      }),
-      plugins: [{
-        id: 'gbZero',
-        afterDraw: function(chart) {
-          var c = chart.ctx, ca = chart.chartArea;
-          var y0 = chart.scales.y.getPixelForValue(0);
-          if (y0 < ca.top || y0 > ca.bottom) return;
-          c.save();
-          c.strokeStyle = 'rgba(255,255,255,.25)';
-          c.lineWidth = 1;
-          c.beginPath(); c.moveTo(ca.left, y0); c.lineTo(ca.right, y0); c.stroke();
-          c.restore();
-        }
-      }]
+      },
+      plugins: [makeZeroLine('gbZero', 'rgba(255,255,255,.25)', false)]
     });
   }
 
@@ -4849,17 +4863,6 @@ renderLeads();
       { ticker: 'GMKN', name: 'НорНикель',       vol: 44, ret:   1, val: 0.94 },
     ];
 
-    function scColor(ret, alpha) {
-      var t = ret >= 0 ? Math.min(ret / 80, 1) : Math.min(Math.abs(ret) / 35, 1);
-      var r, g, b;
-      if (ret >= 0) {
-        r = Math.round(96 - 96*t); g = Math.round(100 + 51*t); b = Math.round(104 - 44*t);
-      } else {
-        r = Math.round(96 + 96*t); g = Math.round(100 - 43*t); b = Math.round(104 - 61*t);
-      }
-      return 'rgba(' + r + ',' + g + ',' + b + ',' + alpha + ')';
-    }
-
     new Chart(scEl.getContext('2d'), {
       type: 'bubble',
       data: {
@@ -4867,12 +4870,12 @@ renderLeads();
           data: STOCKS.map(function(d) {
             return { x: d.vol, y: d.ret, r: Math.round(4 + Math.sqrt(d.val) * 3.5) };
           }),
-          backgroundColor: STOCKS.map(function(d) { return scColor(d.ret, 0.75); }),
-          borderColor:     STOCKS.map(function(d) { return scColor(d.ret, 1.0);  }),
+          backgroundColor: STOCKS.map(function(d) { return retColor(d.ret, 0.75); }),
+          borderColor:     STOCKS.map(function(d) { return retColor(d.ret, 1.0);  }),
           borderWidth: 1.5,
         }]
       },
-      options: Object.assign({}, DBASE, {
+      options: { ...CH_BASE,
         plugins: {
           legend: { display: false },
           tooltip: {
@@ -4893,11 +4896,11 @@ renderLeads();
         scales: {
           x: {
             min: 30, max: 65,
-            grid: DGRID,
+            grid: CH_GRID,
             border: { display: false },
-            ticks: Object.assign({}, DTICK, {
+            ticks: { ...CH_TICK,
               callback: function(v) { return v + '%'; }
-            }),
+            },
             title: {
               display: true,
               text: 'Волатильность (оценка), % год.',
@@ -4906,11 +4909,11 @@ renderLeads();
             }
           },
           y: {
-            grid: DGRID,
+            grid: CH_GRID,
             border: { display: false },
-            ticks: Object.assign({}, DTICK, {
+            ticks: { ...CH_TICK,
               callback: function(v) { return (v >= 0 ? '+' : '') + v + '%'; }
-            }),
+            },
             title: {
               display: true,
               text: 'Доходность с покупки, %',
@@ -4919,7 +4922,7 @@ renderLeads();
             }
           }
         }
-      }),
+      },
       plugins: [{
         id: 'scLabels',
         afterDraw: function(chart) {
@@ -4938,21 +4941,7 @@ renderLeads();
           });
           ctx2.restore();
         }
-      }, {
-        // Горизонтальная нулевая линия
-        id: 'scZero',
-        afterDraw: function(chart) {
-          var c = chart.ctx, ca = chart.chartArea;
-          var y0 = chart.scales.y.getPixelForValue(0);
-          if (y0 < ca.top || y0 > ca.bottom) return;
-          c.save();
-          c.strokeStyle = 'rgba(255,255,255,.2)';
-          c.lineWidth = 1;
-          c.setLineDash([4, 4]);
-          c.beginPath(); c.moveTo(ca.left, y0); c.lineTo(ca.right, y0); c.stroke();
-          c.restore();
-        }
-      }]
+      }, makeZeroLine('scZero', 'rgba(255,255,255,.2)', true)]
     });
   }
 })();
