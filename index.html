@@ -617,8 +617,24 @@
       --green-bg: rgba(0,186,56,.2);
     }
     .section-graphite .card:hover { box-shadow: 0 2px 8px rgba(0,0,0,.2),0 8px 24px rgba(0,0,0,.2); }
-    .section-graphite .card .badge.up { background: rgba(0,186,56,.13); color: rgba(0,186,56,.72); }
-    .section-black    .card .badge.up { background: rgba(0,186,56,.10); color: rgba(0,186,56,.68); }
+    .section-graphite .card .badge.up   { background: rgba(0,186,56,.13);      color: rgba(0,186,56,.72); }
+    .section-black    .card .badge.up   { background: rgba(0,186,56,.10);      color: rgba(0,186,56,.68); }
+    .section-graphite .card .badge.flat { background: rgba(255,255,255,.10);   color: rgba(255,255,255,.5); }
+    .section-black    .card .badge.flat { background: rgba(255,255,255,.08);   color: rgba(255,255,255,.45); }
+    .section-graphite .card .badge.down { background: rgba(230,30,20,.12);     color: rgba(230,30,20,.75); }
+    .section-black    .card .badge.down { background: rgba(230,30,20,.10);     color: rgba(230,30,20,.70); }
+
+    /* Разделитель групп внутри секций */
+    .grid-group-hd {
+      grid-column: 1 / -1;
+      display: flex; align-items: center; gap: 12px;
+      padding: 14px 0 6px;
+    }
+    .grid-group-hd-label {
+      font-size: .58rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: .13em; color: #929498; white-space: nowrap;
+    }
+    .grid-group-hd-line { flex: 1; height: 1px; background: rgba(0,0,0,.14); }
     .section-graphite .sentiment-item { background: rgba(255,255,255,.07); }
     .section-graphite .sent-bidir-track { background: rgba(255,255,255,.15); }
     .section-graphite .edit-btn { border-color: rgba(255,255,255,.2); color: rgba(255,255,255,.5); }
@@ -855,7 +871,8 @@
       background:rgba(0,0,0,.06);color:rgba(0,0,0,.5);cursor:pointer;transition:all .15s;
     }
     .issuer-tab:hover { background:rgba(0,0,0,.12);color:rgba(0,0,0,.75); }
-    .issuer-tab.active { background:#E61E14;border-color:#E61E14;color:#fff; }
+    #tab-sber.active  { background:#00BA38;border-color:#00BA38;color:#fff; }
+    #tab-tcsg.active  { background:#FFDD2D;border-color:#FFDD2D;color:#1E1E1E; }
 
     /* KPI строки эмитента */
     .em-kpi-row {
@@ -1263,6 +1280,11 @@
     <div class="updated" style="margin-top:4px">Банк России · апр 2026; 2020–2023 — оценка</div>
   </div>
 
+  <div class="grid-group-hd">
+    <span class="grid-group-hd-label">Кредит и реальная экономика</span>
+    <span class="grid-group-hd-line"></span>
+  </div>
+
   <!-- Кредитный импульс -->
   <div class="card col-12">
     <div class="card-title">
@@ -1377,6 +1399,11 @@
     </div>
   </div>
 
+  <div class="grid-group-hd">
+    <span class="grid-group-hd-label">Оценка рынка</span>
+    <span class="grid-group-hd-line"></span>
+  </div>
+
   <!-- P/E российского рынка акций -->
   <div class="card col-12">
     <div class="card-title">
@@ -1486,6 +1513,11 @@
         </div>
 
       </div>
+    </div>
+
+    <div class="grid-group-hd">
+      <span class="grid-group-hd-label">Потоки капитала</span>
+      <span class="grid-group-hd-line"></span>
     </div>
 
     <!-- Покупки/продажи валюты и золота -->
@@ -2055,96 +2087,96 @@
     Эмитенты
     <div class="issuer-tabs" id="issuer-tabs">
       <button class="issuer-tab active" onclick="switchIssuer('sber')" id="tab-sber">Сбербанк <span style="font-weight:400;opacity:.6">SBER</span></button>
+      <button class="issuer-tab" onclick="switchIssuer('tcsg')" id="tab-tcsg">Т-Технологии <span style="font-weight:400;opacity:.6">T</span></button>
     </div>
   </div>
   <div class="grid">
 
     <!-- ── KPI: col-4 ─────────────────────────────────────────── -->
     <div class="card col-4" data-issuer="sber" style="display:flex;flex-direction:column">
-      <div class="card-title" style="display:flex;align-items:center;justify-content:space-between">
-        <span>Сбербанк · 5М 2026</span>
-        <span class="em-ticker">SBER</span>
+
+      <!-- Заголовок зелёным, без тикера -->
+      <div style="font-size:.8rem;font-weight:800;color:#00BA38;letter-spacing:.04em;text-transform:uppercase;padding-bottom:14px;border-bottom:1px solid rgba(255,255,255,.1);margin-bottom:4px">
+        Сбербанк · 5М 2026
       </div>
 
-      <div class="em-section-hd">Чистая прибыль (РСБУ)</div>
+      <!-- Сетка строк: label | value | delta   (числа в одной колонке, единицы — в лейбле) -->
+      <div style="display:grid;grid-template-columns:1fr 72px 68px;align-items:baseline;row-gap:0;font-variant-numeric:tabular-nums">
 
-      <div class="em-kpi-row">
-        <div>
-          <div class="em-kpi-label">Май 2026</div>
-          <div class="em-kpi-val">169,4 <span style="font-size:.72rem;font-weight:400;color:rgba(255,255,255,.5)">млрд ₽</span></div>
-        </div>
-        <div style="text-align:right">
-          <span class="badge up" style="font-size:.68rem">+20,5% г/г</span>
-        </div>
-      </div>
+        <!-- ── Чистая прибыль ── -->
+        <div class="em-section-hd" style="grid-column:1/-1">Чистая прибыль (РСБУ)</div>
 
-      <div class="em-kpi-row">
-        <div>
-          <div class="em-kpi-label">5М 2026</div>
-          <div class="em-kpi-val">827,2 <span style="font-size:.72rem;font-weight:400;color:rgba(255,255,255,.5)">млрд ₽</span></div>
-        </div>
-        <div style="text-align:right">
-          <span class="badge up" style="font-size:.68rem">+21,1% г/г</span>
-        </div>
-      </div>
+        <div class="em-kpi-label">Май 2026 <span style="opacity:.5">млрд ₽</span></div>
+        <div style="font-size:.92rem;font-weight:700;color:#fff;text-align:right;padding:6px 0">169,4</div>
+        <div style="font-size:.68rem;font-weight:600;color:#00BA38;text-align:right;padding:6px 0;white-space:nowrap">+20,5% г/г</div>
 
-      <div class="em-section-hd">Рентабельность</div>
+        <div style="grid-column:1/-1;height:1px;background:rgba(255,255,255,.06);margin:1px 0"></div>
 
-      <div class="em-kpi-row">
+        <div class="em-kpi-label">5М 2026 <span style="opacity:.5">млрд ₽</span></div>
+        <div style="font-size:.92rem;font-weight:700;color:#fff;text-align:right;padding:6px 0">827,2</div>
+        <div style="font-size:.68rem;font-weight:600;color:#00BA38;text-align:right;padding:6px 0;white-space:nowrap">+21,1% г/г</div>
+
+        <!-- ── Рентабельность ── -->
+        <div class="em-section-hd" style="grid-column:1/-1">Рентабельность</div>
+
         <div class="em-kpi-label">ROE · 5М 2026</div>
-        <div style="text-align:right">
-          <div class="em-kpi-val">23,2%</div>
-          <div class="em-kpi-sub">ROE май · 22,1%</div>
-        </div>
+        <div style="font-size:.92rem;font-weight:700;color:#fff;text-align:right;padding:6px 0">23,2%</div>
+        <div style="font-size:.68rem;color:rgba(255,255,255,.4);text-align:right;padding:6px 0;white-space:nowrap">май 22,1%</div>
+
+        <div style="grid-column:1/-1;height:1px;background:rgba(255,255,255,.06);margin:1px 0"></div>
+
+        <div class="em-kpi-label">Расх. / Дох.</div>
+        <div style="font-size:.92rem;font-weight:700;color:#fff;text-align:right;padding:6px 0">26,1%</div>
+        <div></div>
+
+        <div style="grid-column:1/-1;height:1px;background:rgba(255,255,255,.06);margin:1px 0"></div>
+
+        <div class="em-kpi-label">Стоим. риска <span style="opacity:.5">5М</span></div>
+        <div style="font-size:.92rem;font-weight:700;color:#fff;text-align:right;padding:6px 0">1,5%</div>
+        <div></div>
+
+        <!-- ── Капитал ── -->
+        <div class="em-section-hd" style="grid-column:1/-1">Капитал · 01.06.2026</div>
+
+        <div class="em-kpi-label">Н1.0 <span style="opacity:.5">мин 8,0%</span></div>
+        <div style="font-size:.92rem;font-weight:700;color:#fff;text-align:right;padding:6px 0">14,4%</div>
+        <div style="font-size:.68rem;color:#00BA38;text-align:right;padding:6px 0;white-space:nowrap">+0,1 пп</div>
+
+        <div style="grid-column:1/-1;height:1px;background:rgba(255,255,255,.06);margin:1px 0"></div>
+
+        <div class="em-kpi-label">Н1.1 <span style="opacity:.5">мин 4,5%</span></div>
+        <div style="font-size:.92rem;font-weight:700;color:#fff;text-align:right;padding:6px 0">12,0%</div>
+        <div></div>
+
+        <!-- ── Кредитный портфель ── -->
+        <div class="em-section-hd" style="grid-column:1/-1">Кредитный портфель · май 2026</div>
+
+        <div class="em-kpi-label">Розничный <span style="opacity:.5">трлн ₽</span></div>
+        <div style="font-size:.92rem;font-weight:700;color:#fff;text-align:right;padding:6px 0">19,5</div>
+        <div style="font-size:.68rem;color:rgba(255,255,255,.4);text-align:right;padding:6px 0;white-space:nowrap">+0,9% м/м</div>
+
+        <div style="grid-column:1/-1;height:1px;background:rgba(255,255,255,.06);margin:1px 0"></div>
+
+        <div class="em-kpi-label">Корпоративный <span style="opacity:.5">трлн ₽</span></div>
+        <div style="font-size:.92rem;font-weight:700;color:#fff;text-align:right;padding:6px 0">30,8</div>
+        <div style="font-size:.68rem;color:rgba(255,255,255,.4);text-align:right;padding:6px 0;white-space:nowrap">+2,2% YTD</div>
+
+        <!-- ── Дивиденды ── -->
+        <div class="em-section-hd" style="grid-column:1/-1">Дивиденды <span style="font-weight:400;opacity:.5;text-transform:none;letter-spacing:0">50% прибыли</span></div>
+
+        <div class="em-kpi-label">За 2025 год <span style="opacity:.5">₽/акц.</span></div>
+        <div style="font-size:.92rem;font-weight:700;color:#00BA38;text-align:right;padding:6px 0">35,0</div>
+        <div style="font-size:.68rem;font-weight:600;color:#00BA38;text-align:right;padding:6px 0;white-space:nowrap">10,9%</div>
+
+        <div style="grid-column:1/-1;height:1px;background:rgba(255,255,255,.06);margin:1px 0"></div>
+
+        <div class="em-kpi-label">5М 2026 расч. <span style="opacity:.5">₽/акц.</span></div>
+        <div style="font-size:.92rem;font-weight:700;color:rgba(255,255,255,.7);text-align:right;padding:6px 0">18,3</div>
+        <div style="font-size:.68rem;color:rgba(255,255,255,.45);text-align:right;padding:6px 0;white-space:nowrap">5,7%</div>
+
       </div>
 
-      <div class="em-kpi-row">
-        <div class="em-kpi-label">Опер. расходы / доходы</div>
-        <div class="em-kpi-val">26,1%</div>
-      </div>
-
-      <div class="em-kpi-row">
-        <div class="em-kpi-label">Стоимость риска (5М)</div>
-        <div class="em-kpi-val">1,5%</div>
-      </div>
-
-      <div class="em-section-hd">Капитал · на 01.06.2026</div>
-
-      <div class="em-kpi-row">
-        <div class="em-kpi-label">Достаточность Н1.0</div>
-        <div style="text-align:right">
-          <div class="em-kpi-val">14,4%</div>
-          <div class="em-kpi-sub">мин 8,0% · +0,1 пп м/м</div>
-        </div>
-      </div>
-
-      <div class="em-kpi-row">
-        <div class="em-kpi-label">Н1.1 (базовый)</div>
-        <div style="text-align:right">
-          <div class="em-kpi-val">12,0%</div>
-          <div class="em-kpi-sub">мин 4,5%</div>
-        </div>
-      </div>
-
-      <div class="em-section-hd">Кредитный портфель · май 2026</div>
-
-      <div class="em-kpi-row">
-        <div class="em-kpi-label">Розничный</div>
-        <div style="text-align:right">
-          <div class="em-kpi-val">19,5 <span style="font-size:.72rem;font-weight:400;color:rgba(255,255,255,.5)">трлн ₽</span></div>
-          <div class="em-kpi-sub">+0,9% м/м · +4,0% YTD</div>
-        </div>
-      </div>
-
-      <div class="em-kpi-row">
-        <div class="em-kpi-label">Корпоративный</div>
-        <div style="text-align:right">
-          <div class="em-kpi-val">30,8 <span style="font-size:.72rem;font-weight:400;color:rgba(255,255,255,.5)">трлн ₽</span></div>
-          <div class="em-kpi-sub">+2,2% YTD</div>
-        </div>
-      </div>
-
-      <div class="updated" style="margin-top:auto;padding-top:10px">Пресс-релиз Сбербанк · май 2026 (РСБУ)</div>
+      <div class="updated" style="margin-top:auto;padding-top:12px">Пресс-релиз Сбербанк · май 2026 (РСБУ) · Расч.: 50% ЧП / 22 587 млн акций · цена 319,81 ₽</div>
     </div>
 
     <!-- ── Прибыль по РСБУ: col-8 ──────────────────────────── -->
@@ -2237,6 +2269,150 @@
         <canvas id="sber-nci-chart"></canvas>
       </div>
       <div class="updated" style="margin-top:4px">Пресс-релизы Сбербанк (РСБУ) · окт 2022 — май 2026</div>
+    </div>
+
+    <!-- ══════════════ Т-ТЕХНОЛОГИИ ══════════════ -->
+
+    <!-- ── KPI: col-4 ─────────────────────────────────────────── -->
+    <div class="card col-4" data-issuer="tcsg" style="display:none;flex-direction:column">
+
+      <div style="font-size:.8rem;font-weight:800;color:#FFDD2D;letter-spacing:.04em;text-transform:uppercase;padding-bottom:14px;border-bottom:1px solid rgba(255,255,255,.1);margin-bottom:4px">
+        Т-Технологии · Q1 2026
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 72px 68px;align-items:baseline;row-gap:0;font-variant-numeric:tabular-nums">
+
+        <!-- Чистая прибыль -->
+        <div class="em-section-hd" style="grid-column:1/-1">Чистая прибыль (IFRS)</div>
+
+        <div class="em-kpi-label">Q1 2026 <span style="opacity:.5">млрд ₽</span></div>
+        <div style="font-size:.92rem;font-weight:700;color:#fff;text-align:right;padding:6px 0">35,0</div>
+        <div style="font-size:.68rem;font-weight:600;color:#00BA38;text-align:right;padding:6px 0;white-space:nowrap">+4% г/г</div>
+
+        <div style="grid-column:1/-1;height:1px;background:rgba(255,255,255,.06);margin:1px 0"></div>
+
+        <div class="em-kpi-label">Акц. Q1 2026 <span style="opacity:.5">млрд ₽</span></div>
+        <div style="font-size:.92rem;font-weight:700;color:#fff;text-align:right;padding:6px 0">38,8</div>
+        <div style="font-size:.68rem;font-weight:600;color:#00BA38;text-align:right;padding:6px 0;white-space:nowrap">+17% г/г</div>
+
+        <!-- Доходы -->
+        <div class="em-section-hd" style="grid-column:1/-1">Выручка Q1 2026</div>
+
+        <div class="em-kpi-label">Чист. выручка <span style="opacity:.5">млрд ₽</span></div>
+        <div style="font-size:.92rem;font-weight:700;color:#fff;text-align:right;padding:6px 0">197,5</div>
+        <div style="font-size:.68rem;font-weight:600;color:#00BA38;text-align:right;padding:6px 0;white-space:nowrap">+25% г/г</div>
+
+        <div style="grid-column:1/-1;height:1px;background:rgba(255,255,255,.06);margin:1px 0"></div>
+
+        <div class="em-kpi-label">ЧПД <span style="opacity:.5">млрд ₽</span></div>
+        <div style="font-size:.92rem;font-weight:700;color:#fff;text-align:right;padding:6px 0">144,7</div>
+        <div style="font-size:.68rem;font-weight:600;color:#00BA38;text-align:right;padding:6px 0;white-space:nowrap">+30% г/г</div>
+
+        <div style="grid-column:1/-1;height:1px;background:rgba(255,255,255,.06);margin:1px 0"></div>
+
+        <div class="em-kpi-label">ЧКД <span style="opacity:.5">млрд ₽</span></div>
+        <div style="font-size:.92rem;font-weight:700;color:#fff;text-align:right;padding:6px 0">43,0</div>
+        <div style="font-size:.68rem;font-weight:600;color:#00BA38;text-align:right;padding:6px 0;white-space:nowrap">+20% г/г</div>
+
+        <!-- Рентабельность -->
+        <div class="em-section-hd" style="grid-column:1/-1">Рентабельность</div>
+
+        <div class="em-kpi-label">ROE группы</div>
+        <div style="font-size:.92rem;font-weight:700;color:#fff;text-align:right;padding:6px 0">26,7%</div>
+        <div style="font-size:.68rem;font-weight:600;color:#00BA38;text-align:right;padding:6px 0;white-space:nowrap">+2,2 пп</div>
+
+        <div style="grid-column:1/-1;height:1px;background:rgba(255,255,255,.06);margin:1px 0"></div>
+
+        <div class="em-kpi-label">NIM</div>
+        <div style="font-size:.92rem;font-weight:700;color:#fff;text-align:right;padding:6px 0">10,9%</div>
+        <div style="font-size:.68rem;font-weight:600;color:#00BA38;text-align:right;padding:6px 0;white-space:nowrap">+0,9 пп</div>
+
+        <div style="grid-column:1/-1;height:1px;background:rgba(255,255,255,.06);margin:1px 0"></div>
+
+        <div class="em-kpi-label">C/I ratio</div>
+        <div style="font-size:.92rem;font-weight:700;color:#fff;text-align:right;padding:6px 0">47,3%</div>
+        <div style="font-size:.68rem;color:rgba(255,255,255,.4);text-align:right;padding:6px 0;white-space:nowrap">−0,7 пп</div>
+
+        <div style="grid-column:1/-1;height:1px;background:rgba(255,255,255,.06);margin:1px 0"></div>
+
+        <div class="em-kpi-label">Стоим. риска</div>
+        <div style="font-size:.92rem;font-weight:700;color:#fff;text-align:right;padding:6px 0">5,3%</div>
+        <div style="font-size:.68rem;color:rgba(255,255,255,.4);text-align:right;padding:6px 0;white-space:nowrap">+0,2 пп</div>
+
+        <!-- Баланс -->
+        <div class="em-section-hd" style="grid-column:1/-1">Баланс · 31.03.2026</div>
+
+        <div class="em-kpi-label">Активы <span style="opacity:.5">трлн ₽</span></div>
+        <div style="font-size:.92rem;font-weight:700;color:#fff;text-align:right;padding:6px 0">5,93</div>
+        <div style="font-size:.68rem;font-weight:600;color:#00BA38;text-align:right;padding:6px 0;white-space:nowrap">+25% г/г</div>
+
+        <div style="grid-column:1/-1;height:1px;background:rgba(255,255,255,.06);margin:1px 0"></div>
+
+        <div class="em-kpi-label">Кред. портфель <span style="opacity:.5">трлн ₽</span></div>
+        <div style="font-size:.92rem;font-weight:700;color:#fff;text-align:right;padding:6px 0">3,24</div>
+        <div style="font-size:.68rem;font-weight:600;color:#00BA38;text-align:right;padding:6px 0;white-space:nowrap">+28% г/г</div>
+
+        <div style="grid-column:1/-1;height:1px;background:rgba(255,255,255,.06);margin:1px 0"></div>
+
+        <div class="em-kpi-label">Ср-ва клиентов <span style="opacity:.5">трлн ₽</span></div>
+        <div style="font-size:.92rem;font-weight:700;color:#fff;text-align:right;padding:6px 0">4,18</div>
+        <div style="font-size:.68rem;font-weight:600;color:#00BA38;text-align:right;padding:6px 0;white-space:nowrap">+13% г/г</div>
+
+        <div style="grid-column:1/-1;height:1px;background:rgba(255,255,255,.06);margin:1px 0"></div>
+
+        <div class="em-kpi-label">Капитал T1</div>
+        <div style="font-size:.92rem;font-weight:700;color:#fff;text-align:right;padding:6px 0">13,5%</div>
+        <div style="font-size:.68rem;font-weight:600;color:#00BA38;text-align:right;padding:6px 0;white-space:nowrap">+0,4 пп</div>
+
+        <!-- Клиенты -->
+        <div class="em-section-hd" style="grid-column:1/-1">Клиентская база</div>
+
+        <div class="em-kpi-label">Всего <span style="opacity:.5">млн</span></div>
+        <div style="font-size:.92rem;font-weight:700;color:#fff;text-align:right;padding:6px 0">54,9</div>
+        <div style="font-size:.68rem;font-weight:600;color:#00BA38;text-align:right;padding:6px 0;white-space:nowrap">+10% г/г</div>
+
+        <div style="grid-column:1/-1;height:1px;background:rgba(255,255,255,.06);margin:1px 0"></div>
+
+        <div class="em-kpi-label">Активных <span style="opacity:.5">млн</span></div>
+        <div style="font-size:.92rem;font-weight:700;color:#fff;text-align:right;padding:6px 0">34,2</div>
+        <div style="font-size:.68rem;font-weight:600;color:#00BA38;text-align:right;padding:6px 0;white-space:nowrap">+4% г/г</div>
+
+        <!-- Дивиденды -->
+        <div class="em-section-hd" style="grid-column:1/-1">Дивиденды <span style="font-weight:400;opacity:.5;text-transform:none;letter-spacing:0">ежеквартальные</span></div>
+
+        <div class="em-kpi-label">Q1 2026 <span style="opacity:.5">₽/акц.</span></div>
+        <div style="font-size:.92rem;font-weight:700;color:#00BA38;text-align:right;padding:6px 0">4,6</div>
+        <div style="font-size:.68rem;color:rgba(255,255,255,.4);text-align:right;padding:6px 0;white-space:nowrap">+2% кв/кв</div>
+
+        <div style="grid-column:1/-1;height:1px;background:rgba(255,255,255,.06);margin:1px 0"></div>
+
+        <div class="em-kpi-label">Ориентир 2026</div>
+        <div style="font-size:.92rem;font-weight:700;color:#fff;text-align:right;padding:6px 0;grid-column:2/-1">+20%+ г/г</div>
+
+      </div>
+
+      <div class="updated" style="margin-top:auto;padding-top:12px">Пресс-релиз Т-Технологии · Q1 2026 (IFRS) · 21.05.2026</div>
+    </div>
+
+    <!-- ── Сегменты: col-8 ──────────────────────────────────────── -->
+    <div class="card col-8" data-issuer="tcsg" style="display:none;flex-direction:column">
+      <div class="card-title" style="display:flex;align-items:center;justify-content:space-between">
+        <span>Чистая выручка по сегментам, млрд руб.</span>
+        <span style="display:flex;gap:10px">
+          <span style="display:flex;align-items:center;gap:4px">
+            <span style="display:inline-block;width:10px;height:10px;background:rgba(30,98,210,.65);border-radius:2px"></span>
+            <span style="font-size:.62rem;color:var(--gray)">Q1 2025</span>
+          </span>
+          <span style="display:flex;align-items:center;gap:4px">
+            <span style="display:inline-block;width:10px;height:10px;background:rgba(0,186,56,.68);border-radius:2px"></span>
+            <span style="font-size:.62rem;color:var(--gray)">Q1 2026</span>
+          </span>
+        </span>
+      </div>
+      <div style="flex:1;min-height:280px;position:relative">
+        <canvas id="tcsg-segments-chart"></canvas>
+      </div>
+      <div class="updated" style="margin-top:6px">Пресс-релиз Т-Технологии · Q1 2026 (IFRS)</div>
     </div>
 
   </div>
@@ -5335,12 +5511,107 @@ function retColor(pct, alpha) {
 
 function switchIssuer(id) {
   document.querySelectorAll('[data-issuer]').forEach(function(el) {
-    el.style.display = el.dataset.issuer === id ? '' : 'none';
+    if (el.dataset.issuer === id) {
+      el.style.display = el.style.flexDirection ? 'flex' : '';
+    } else {
+      el.style.display = 'none';
+    }
   });
   document.querySelectorAll('.issuer-tab').forEach(function(btn) {
     btn.classList.toggle('active', btn.id === 'tab-' + id);
   });
 }
+
+// ── Т-Технологии: сегменты Q1 2025 vs Q1 2026 ───────────────────────────
+(function() {
+  var ctx = document.getElementById('tcsg-segments-chart');
+  if (!ctx) return;
+  var segments = [
+    'Розничное\nфинансирование',
+    'B2B',
+    'Накопит. и\nинвест. услуги',
+    'Повседневные\nсервисы',
+    'Новые\nнаправления'
+  ];
+  var q1_2025 = [76.0, 42.5, 10.7, 27.4, 1.9];
+  var q1_2026 = [104.5, 52.3, 19.9, 23.7, 3.0];
+
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: segments,
+      datasets: [
+        {
+          label: 'Q1 2025',
+          data: q1_2025,
+          backgroundColor: 'rgba(30,98,210,.55)',
+          borderColor: '#1E62D2',
+          borderWidth: 1,
+          borderRadius: 3
+        },
+        {
+          label: 'Q1 2026',
+          data: q1_2026,
+          backgroundColor: 'rgba(0,186,56,.62)',
+          borderColor: '#00BA38',
+          borderWidth: 1,
+          borderRadius: 3
+        }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      animation: { duration: 400 },
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: 'rgba(30,30,30,.92)',
+          bodyColor: '#fff', padding: 10,
+          callbacks: {
+            label: function(c) {
+              var yoy = ((q1_2026[c.dataIndex] / q1_2025[c.dataIndex] - 1) * 100).toFixed(0);
+              if (c.datasetIndex === 1)
+                return ' Q1 2026: ' + c.raw.toFixed(1) + ' млрд  (+' + yoy + '% г/г)';
+              return ' Q1 2025: ' + c.raw.toFixed(1) + ' млрд';
+            }
+          }
+        }
+      },
+      scales: {
+        x: {
+          grid: { color: 'rgba(255,255,255,.06)' },
+          ticks: { color: 'rgba(255,255,255,.5)', font: { size: 9 } }
+        },
+        y: {
+          grid: { color: 'rgba(255,255,255,.06)' },
+          ticks: {
+            color: 'rgba(255,255,255,.45)', font: { size: 10 },
+            callback: function(v) { return v + ' млрд'; }
+          }
+        }
+      }
+    },
+    plugins: [{
+      id: 'tcsg-value-labels',
+      afterDraw: function(chart) {
+        var ctx2 = chart.ctx;
+        chart.data.datasets.forEach(function(ds, di) {
+          var meta = chart.getDatasetMeta(di);
+          meta.data.forEach(function(bar, i) {
+            var val = ds.data[i];
+            ctx2.save();
+            ctx2.font = '600 9px Inter,sans-serif';
+            ctx2.fillStyle = di === 1 ? '#00BA38' : 'rgba(150,190,255,.8)';
+            ctx2.textAlign = 'center';
+            ctx2.fillText(val.toFixed(1), bar.x, bar.y - 5);
+            ctx2.restore();
+          });
+        });
+      }
+    }]
+  });
+})();
 
 // ── График 1: Прибыль по РСБУ ────────────────────────────────────────────
 (function() {
