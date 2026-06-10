@@ -1803,13 +1803,19 @@
 <section class="section-block section-navy" id="sec-04">
   <div class="container">
   <div class="section-tag">04 / Клиентский портфель</div>
-  <div class="section-name">Мировой эксперт</div>
-  <div class="grid">
+  <div class="section-name" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px">
+    Мировой эксперт
+    <div class="issuer-tabs" id="client-tabs">
+      <button class="issuer-tab active" onclick="switchClient('c1')" id="ctab-c1">Клиент №1</button>
+      <button class="issuer-tab" onclick="switchClient('c2')" id="ctab-c2">Клиент №2</button>
+    </div>
+  </div>
+  <div id="c1-data" class="grid">
 
   <!-- KPI портфеля -->
   <div class="card col-4">
     <div class="card-title">
-      Портфель · Петров Р.В.
+      Портфель · Клиент №1
       <span style="font-weight:400;text-transform:none;letter-spacing:0;font-size:.68rem">Договор от 24.03.2022</span>
     </div>
 
@@ -2146,7 +2152,189 @@
     <div class="updated" style="margin-top:10px">* Купоны расчётные: Финрез − Прирост тела − НКД тек. · Данные: отчёт УК Альфа-Капитал, 01.05–04.06.2026</div>
   </div>
 
+  </div><!-- /c1-data -->
+
+  <!-- ══════════ КЛИЕНТ №2 ══════════ -->
+  <div id="c2-data" class="grid" style="display:none">
+
+  <!-- KPI портфеля -->
+  <div class="card col-4">
+    <div class="card-title">
+      Портфель · Клиент №2
+      <span style="font-weight:400;text-transform:none;letter-spacing:0;font-size:.68rem">Договор от 18.07.2023</span>
+    </div>
+    <div class="pf-kpi-val" id="c2-val">9,22 <span class="pf-kpi-cur">млн руб.</span></div>
+    <div class="pf-kpi-lbl" style="margin-bottom:16px">стоимость портфеля · 08.06.2026</div>
+    <div class="pf-kpi-row">
+      <span class="pf-label">С 08.06.2023</span>
+      <span class="pf-amount">+1,65 млн</span>
+      <span class="badge up pf-pct">+18,61%</span>
+    </div>
+    <div class="pf-kpi-row">
+      <span class="pf-label">YTD 2026</span>
+      <span class="pf-amount" style="color:#E61E14">−556 тыс.</span>
+      <span class="badge down pf-pct">−5,69%</span>
+    </div>
+    <div style="margin-top:14px;padding-top:14px;border-top:1px solid rgba(255,255,255,.1)">
+      <div style="font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.4);margin-bottom:8px">VS IMOEX · с 08.06.2023</div>
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div>
+          <div style="font-size:1rem;font-weight:800;color:#E61E14">−5,69%</div>
+          <div style="font-size:.62rem;color:rgba(255,255,255,.4);margin-top:1px">Портфель YTD</div>
+        </div>
+        <div style="font-size:.68rem;color:rgba(255,255,255,.4)">vs</div>
+        <div>
+          <div style="font-size:1rem;font-weight:800;color:#E61E14">−7,09%</div>
+          <div style="font-size:.62rem;color:rgba(255,255,255,.4);margin-top:1px">IMOEX с нач.</div>
+        </div>
+        <div>
+          <span class="badge up" style="font-size:.75rem">Опередил +25,70 п.п.</span>
+        </div>
+      </div>
+    </div>
   </div>
+
+  <!-- Структура портфеля + ключевые метрики -->
+  <div class="card col-8">
+    <div class="card-title">Структура и ключевые метрики портфеля</div>
+    <div style="display:grid;grid-template-columns:200px 1fr;gap:20px;align-items:center">
+      <div style="position:relative;height:200px"><canvas id="c2-donut"></canvas></div>
+      <div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px">
+          <span style="display:flex;align-items:center;gap:5px"><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#1E62D2"></span><span style="font-size:.68rem;color:rgba(255,255,255,.55)">Акции</span></span>
+          <span style="display:flex;align-items:center;gap:5px"><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#4DD9AC"></span><span style="font-size:.68rem;color:rgba(255,255,255,.55)">ОФЗ</span></span>
+          <span style="display:flex;align-items:center;gap:5px"><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:rgba(255,255,255,.3)"></span><span style="font-size:.68rem;color:rgba(255,255,255,.55)">Деньги</span></span>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+          <div style="background:rgba(255,255,255,.06);border-radius:8px;padding:10px 12px">
+            <div style="font-size:.6rem;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.07em;margin-bottom:4px">Финрез общий</div>
+            <div style="font-size:1.1rem;font-weight:800;color:#00BA38">+1 652 982 ₽</div>
+            <div style="font-size:.65rem;color:rgba(255,255,255,.35);margin-top:2px">с 08.06.2023</div>
+          </div>
+          <div style="background:rgba(255,255,255,.06);border-radius:8px;padding:10px 12px">
+            <div style="font-size:.6rem;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.07em;margin-bottom:4px">Акции, финрез</div>
+            <div style="font-size:1.1rem;font-weight:800;color:#00BA38">+355 510 ₽</div>
+            <div style="font-size:.65rem;color:rgba(255,255,255,.35);margin-top:2px">включая дивиденды</div>
+          </div>
+          <div style="background:rgba(255,255,255,.06);border-radius:8px;padding:10px 12px">
+            <div style="font-size:.6rem;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.07em;margin-bottom:4px">ОФЗ, финрез</div>
+            <div style="font-size:1.1rem;font-weight:800;color:#00BA38">+482 392 ₽</div>
+            <div style="font-size:.65rem;color:rgba(255,255,255,.35);margin-top:2px">купоны + прирост</div>
+          </div>
+          <div style="background:rgba(255,255,255,.06);border-radius:8px;padding:10px 12px">
+            <div style="font-size:.6rem;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.07em;margin-bottom:4px">РЕПО, доход</div>
+            <div style="font-size:1.1rem;font-weight:800;color:#00BA38">+404 379 ₽</div>
+            <div style="font-size:.65rem;color:rgba(255,255,255,.35);margin-top:2px">процентный доход</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="updated" style="margin-top:8px">Отчёт УК Альфа-Капитал · 08.06.2023 – 08.06.2026</div>
+  </div>
+
+  <!-- Позиции в акциях -->
+  <div class="card col-6">
+    <div class="card-title">
+      Позиции в акциях
+      <span style="font-weight:400;text-transform:none;letter-spacing:0">7,05 млн · 76,5% портфеля</span>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr auto auto;gap:0;font-size:.78rem">
+      <div style="font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.35);padding:0 0 8px;border-bottom:1px solid rgba(255,255,255,.1)">Бумага</div>
+      <div style="font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.35);padding:0 8px 8px;border-bottom:1px solid rgba(255,255,255,.1);text-align:right">Стоимость</div>
+      <div style="font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.35);padding:0 0 8px;border-bottom:1px solid rgba(255,255,255,.1);text-align:right">Финрез</div>
+      <!-- SBER -->
+      <div style="padding:8px 0 6px;border-bottom:1px solid rgba(255,255,255,.06)"><div style="font-weight:700;color:#fff">SBER</div><div style="font-size:.65rem;color:rgba(255,255,255,.4)">Сбербанк ао</div></div>
+      <div style="padding:8px 8px 6px;border-bottom:1px solid rgba(255,255,255,.06);text-align:right;color:#fff;font-weight:600">2,34 млн</div>
+      <div style="padding:8px 0 6px;border-bottom:1px solid rgba(255,255,255,.06);text-align:right"><span class="badge up" style="font-size:.7rem">+32,2%</span></div>
+      <!-- TCSG -->
+      <div style="padding:8px 0 6px;border-bottom:1px solid rgba(255,255,255,.06)"><div style="font-weight:700;color:#fff">TCSG</div><div style="font-size:.65rem;color:rgba(255,255,255,.4)">Т-Технологии</div></div>
+      <div style="padding:8px 8px 6px;border-bottom:1px solid rgba(255,255,255,.06);text-align:right;color:#fff;font-weight:600">1,77 млн</div>
+      <div style="padding:8px 0 6px;border-bottom:1px solid rgba(255,255,255,.06);text-align:right"><span class="badge up" style="font-size:.7rem">+15,4%</span></div>
+      <!-- YNDX -->
+      <div style="padding:8px 0 6px;border-bottom:1px solid rgba(255,255,255,.06)"><div style="font-weight:700;color:#fff">YNDX</div><div style="font-size:.65rem;color:rgba(255,255,255,.4)">Яндекс ао</div></div>
+      <div style="padding:8px 8px 6px;border-bottom:1px solid rgba(255,255,255,.06);text-align:right;color:#fff;font-weight:600">1,00 млн</div>
+      <div style="padding:8px 0 6px;border-bottom:1px solid rgba(255,255,255,.06);text-align:right"><span class="badge up" style="font-size:.7rem">+9,8%</span></div>
+      <!-- AFLT -->
+      <div style="padding:8px 0 6px;border-bottom:1px solid rgba(255,255,255,.06)"><div style="font-weight:700;color:#fff">AFLT</div><div style="font-size:.65rem;color:rgba(255,255,255,.4)">Аэрофлот ао</div></div>
+      <div style="padding:8px 8px 6px;border-bottom:1px solid rgba(255,255,255,.06);text-align:right;color:#fff;font-weight:600">0,96 млн</div>
+      <div style="padding:8px 0 6px;border-bottom:1px solid rgba(255,255,255,.06);text-align:right"><span class="badge down" style="font-size:.7rem">−25,7%</span></div>
+      <!-- OZON -->
+      <div style="padding:8px 0 6px;border-bottom:1px solid rgba(255,255,255,.06)"><div style="font-weight:700;color:#fff">OZON</div><div style="font-size:.65rem;color:rgba(255,255,255,.4)">Ozon</div></div>
+      <div style="padding:8px 8px 6px;border-bottom:1px solid rgba(255,255,255,.06);text-align:right;color:#fff;font-weight:600">0,41 млн</div>
+      <div style="padding:8px 0 6px;border-bottom:1px solid rgba(255,255,255,.06);text-align:right"><span class="badge up" style="font-size:.7rem">+5,5%</span></div>
+      <!-- UPRO -->
+      <div style="padding:8px 0 6px;border-bottom:1px solid rgba(255,255,255,.06)"><div style="font-weight:700;color:#fff">UPRO</div><div style="font-size:.65rem;color:rgba(255,255,255,.4)">Юнипро ао</div></div>
+      <div style="padding:8px 8px 6px;border-bottom:1px solid rgba(255,255,255,.06);text-align:right;color:#fff;font-weight:600">0,28 млн</div>
+      <div style="padding:8px 0 6px;border-bottom:1px solid rgba(255,255,255,.06);text-align:right"><span class="badge down" style="font-size:.7rem">−42,2%</span></div>
+      <!-- SNGS -->
+      <div style="padding:8px 0 6px;border-bottom:1px solid rgba(255,255,255,.06)"><div style="font-weight:700;color:#fff">SNGS</div><div style="font-size:.65rem;color:rgba(255,255,255,.4)">Сургутнефтегаз</div></div>
+      <div style="padding:8px 8px 6px;border-bottom:1px solid rgba(255,255,255,.06);text-align:right;color:#fff;font-weight:600">0,19 млн</div>
+      <div style="padding:8px 0 6px;border-bottom:1px solid rgba(255,255,255,.06);text-align:right"><span class="badge down" style="font-size:.7rem">−20,2%</span></div>
+      <!-- GAZP -->
+      <div style="padding:8px 0 0"><div style="font-weight:700;color:#fff">GAZP</div><div style="font-size:.65rem;color:rgba(255,255,255,.4)">Газпром ао</div></div>
+      <div style="padding:8px 8px 0;text-align:right;color:#fff;font-weight:600">0,11 млн</div>
+      <div style="padding:8px 0 0;text-align:right"><span class="badge down" style="font-size:.7rem">−13,6%</span></div>
+    </div>
+    <div style="margin-top:10px;padding-top:10px;border-top:1px solid rgba(255,255,255,.1);display:flex;justify-content:space-between;font-size:.72rem">
+      <span style="color:rgba(255,255,255,.45)">Финрез по акциям:</span>
+      <span style="font-weight:700;color:#00BA38">+355 510 ₽</span>
+    </div>
+    <div style="display:flex;justify-content:space-between;font-size:.72rem;margin-top:4px">
+      <span style="color:rgba(255,255,255,.45)">Дивиденды:</span>
+      <span style="font-weight:700;color:#00BA38">+642 402 ₽</span>
+    </div>
+  </div>
+
+  <!-- Вклад акций в финрез -->
+  <div class="card col-6">
+    <div class="card-title">Вклад акций в финрез, тыс. руб.</div>
+    <div style="height:260px;position:relative"><canvas id="c2-contribution"></canvas></div>
+    <div class="updated" style="margin-top:6px">Финрез включает дивиденды · с 08.06.2023</div>
+  </div>
+
+  <!-- ОФЗ-ПД -->
+  <div class="card col-12">
+    <div class="card-title" style="display:flex;align-items:center;justify-content:space-between">
+      <span>Облигации ОФЗ-ПД</span>
+      <span style="font-weight:400;text-transform:none;letter-spacing:0">1,65 млн руб. · 17,9% портфеля · Финрез: <span style="color:#00BA38">+482 392 ₽</span> · +31,5%</span>
+    </div>
+    <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr;gap:0">
+      <div class="ofz-hdr">Выпуск</div>
+      <div class="ofz-hdr">Погашение</div>
+      <div class="ofz-hdr r">Стоимость с НКД</div>
+      <div class="ofz-hdr r">Купоны + прирост</div>
+      <div class="ofz-hdr r">Финрез</div>
+      <!-- ОФЗ-ПД 230 -->
+      <div class="ofz-cell"><div><div style="font-size:.85rem;font-weight:700;color:#fff">ОФЗ-ПД 230</div><div style="font-size:.68rem;color:rgba(255,255,255,.4)">1 458 шт · RU000A100EF5</div></div></div>
+      <div class="ofz-cell dim">мар 2039</div>
+      <div class="ofz-cell r" style="color:#fff;font-weight:600">920 508 ₽</div>
+      <div class="ofz-cell r" style="color:#00BA38;font-weight:600">+264 838 ₽</div>
+      <div class="ofz-cell r"><span class="badge up" style="font-size:.72rem">+30,4%</span></div>
+      <!-- ОФЗ-ПД 238 -->
+      <div class="ofz-cell"><div><div style="font-size:.85rem;font-weight:700;color:#fff">ОФЗ-ПД 238</div><div style="font-size:.68rem;color:rgba(255,255,255,.4)">691 шт · RU000A1038V6</div></div></div>
+      <div class="ofz-cell dim">май 2041</div>
+      <div class="ofz-cell r" style="color:#fff;font-weight:600">392 999 ₽</div>
+      <div class="ofz-cell r" style="color:#00BA38;font-weight:600">+117 213 ₽</div>
+      <div class="ofz-cell r"><span class="badge up" style="font-size:.72rem">+31,4%</span></div>
+      <!-- ОФЗ-ПД 240 -->
+      <div class="ofz-cell" style="border-bottom:none"><div><div style="font-size:.85rem;font-weight:700;color:#fff">ОФЗ-ПД 240</div><div style="font-size:.68rem;color:rgba(255,255,255,.4)">522 шт · RU000A103BR0</div></div></div>
+      <div class="ofz-cell dim" style="border-bottom:none">июл 2036</div>
+      <div class="ofz-cell r" style="color:#fff;font-weight:600;border-bottom:none">332 697 ₽</div>
+      <div class="ofz-cell r" style="color:#00BA38;font-weight:600;border-bottom:none">+100 340 ₽</div>
+      <div class="ofz-cell r" style="border-bottom:none"><span class="badge up" style="font-size:.72rem">+33,6%</span></div>
+      <!-- Итого -->
+      <div style="grid-column:1/-1;height:1px;background:rgba(255,255,255,.15);margin:6px 0"></div>
+      <div class="ofz-total" style="color:#fff">Итого по блоку</div>
+      <div class="ofz-total dim"></div>
+      <div class="ofz-total r" style="color:#fff">1 646 204 ₽</div>
+      <div class="ofz-total r" style="color:#00BA38">+482 392 ₽</div>
+      <div class="ofz-total r"><span class="badge up">+31,5%</span></div>
+    </div>
+    <div class="updated" style="margin-top:10px">Отчёт УК Альфа-Капитал · 08.06.2023 – 08.06.2026</div>
+  </div>
+
+  </div><!-- /c2-data -->
+
   </div>
 </section>
 
@@ -5579,6 +5767,93 @@ function retColor(pct, alpha) {
 })();
 
 // ─── Секция 05: Эмитенты ──────────────────────────────────────────────────
+
+// ── Переключение клиентов (секция 04) ────────────────────────────────────
+function switchClient(id) {
+  document.getElementById('c1-data').style.display = id === 'c1' ? '' : 'none';
+  document.getElementById('c2-data').style.display = id === 'c2' ? '' : 'none';
+  document.querySelectorAll('#client-tabs .issuer-tab').forEach(function(btn) {
+    btn.classList.toggle('active', btn.id === 'ctab-' + id);
+  });
+  if (id === 'c2') initClient2Charts();
+}
+
+var c2ChartsInited = false;
+function initClient2Charts() {
+  if (c2ChartsInited) return;
+  c2ChartsInited = true;
+
+  // Donut структура портфеля
+  var donutCtx = document.getElementById('c2-donut');
+  if (donutCtx) {
+    new Chart(donutCtx, {
+      type: 'doughnut',
+      data: {
+        labels: ['Акции', 'ОФЗ', 'Деньги и РЕПО'],
+        datasets: [{ data: [76.46, 17.85, 5.69],
+          backgroundColor: ['#1E62D2', '#4DD9AC', 'rgba(255,255,255,.25)'],
+          borderWidth: 0, hoverOffset: 6 }]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        cutout: '68%',
+        plugins: {
+          legend: { display: false },
+          tooltip: { callbacks: { label: function(c) { return ' ' + c.label + ': ' + c.raw + '%'; } } }
+        }
+      },
+      plugins: [{
+        id: 'c2-center',
+        afterDraw: function(chart) {
+          var ctx2 = chart.ctx, cx = chart.chartArea.left + chart.chartArea.width/2, cy = chart.chartArea.top + chart.chartArea.height/2;
+          ctx2.save();
+          ctx2.font = '700 14px Inter,sans-serif'; ctx2.fillStyle = '#fff'; ctx2.textAlign = 'center';
+          ctx2.fillText('9,22 млн', cx, cy - 4);
+          ctx2.font = '400 10px Inter,sans-serif'; ctx2.fillStyle = 'rgba(255,255,255,.45)';
+          ctx2.fillText('руб.', cx, cy + 12);
+          ctx2.restore();
+        }
+      }]
+    });
+  }
+
+  // Горизонтальный бар — вклад акций в финрез
+  var contCtx = document.getElementById('c2-contribution');
+  if (contCtx) {
+    var tickers  = ['SBER','TCSG','YNDX','OZON','GAZP','SNGS','UPRO','AFLT'];
+    var finrezKt = [630.2, 255.4, 95.5, 22.7, -20.0, -49.1, -206.4, -372.8];
+    new Chart(contCtx, {
+      type: 'bar',
+      data: {
+        labels: tickers,
+        datasets: [{
+          data: finrezKt,
+          backgroundColor: finrezKt.map(function(v){ return v>=0?'rgba(0,186,56,.65)':'rgba(230,30,20,.65)'; }),
+          borderColor:      finrezKt.map(function(v){ return v>=0?'#00BA38':'#E61E14'; }),
+          borderWidth: 1, borderRadius: 3
+        }]
+      },
+      options: {
+        indexAxis: 'y',
+        responsive: true, maintainAspectRatio: false,
+        plugins: { legend: { display: false },
+          tooltip: { callbacks: { label: function(c){ return ' ' + (c.raw>=0?'+':'') + c.raw.toFixed(1) + ' тыс. ₽'; } } }
+        },
+        scales: {
+          x: { grid:{ color:'rgba(255,255,255,.06)' }, ticks:{ color:'rgba(255,255,255,.4)', font:{size:9}, callback:function(v){return v+'к';} } },
+          y: { grid:{ display:false }, ticks:{ color:'rgba(255,255,255,.55)', font:{size:10,weight:'700'} } }
+        }
+      },
+      plugins: [{
+        id:'c2-zero', afterDraw: function(chart){
+          var x0=chart.scales.x.getPixelForValue(0), c2=chart.ctx;
+          c2.save(); c2.strokeStyle='rgba(255,255,255,.2)'; c2.lineWidth=1; c2.setLineDash([]);
+          c2.beginPath(); c2.moveTo(x0,chart.chartArea.top); c2.lineTo(x0,chart.chartArea.bottom); c2.stroke(); c2.restore();
+        }
+      }]
+    });
+  }
+}
 
 function switchIssuer(id) {
   document.querySelectorAll('[data-issuer]').forEach(function(el) {
