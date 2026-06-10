@@ -2525,6 +2525,46 @@
       <div class="updated" style="margin-top:4px">Пресс-релизы Сбербанк (РСБУ) · окт 2022 — май 2026</div>
     </div>
 
+    <!-- ── Прибыль РСБУ: бар-чарт помесячно (янв 2019 – май 2026) ── -->
+    <div class="card col-12" data-issuer="sber">
+      <div class="card-title">Чистая прибыль РСБУ, млрд руб. · помесячно · янв 2019 — май 2026</div>
+      <div style="height:240px;position:relative"><canvas id="sber-monthly-bar"></canvas></div>
+      <div class="updated" style="margin-top:4px">Пресс-релизы Сбербанк (РСБУ) · январь 2022: создание резервов (−42,0 млрд)</div>
+    </div>
+
+    <!-- ── Стоимость риска + Резервы ─────────────────────────────── -->
+    <div class="card col-6" data-issuer="sber" style="display:flex;flex-direction:column">
+      <div class="card-title">Стоимость риска (CoR), % · нарастающим итогом</div>
+      <div style="flex:1;min-height:200px;position:relative"><canvas id="sber-cor-chart"></canvas></div>
+      <div class="updated" style="margin-top:4px">Пресс-релизы Сбербанк · 5М 2026: 1,5%</div>
+    </div>
+    <div class="card col-6" data-issuer="sber" style="display:flex;flex-direction:column">
+      <div class="card-title">Создание / сокращение резервов, млрд руб.</div>
+      <div style="flex:1;min-height:200px;position:relative"><canvas id="sber-provisions-chart"></canvas></div>
+      <div class="updated" style="margin-top:4px">Пресс-релизы Сбербанк · янв 2016 — май 2026</div>
+    </div>
+
+    <!-- ── P/Bv + MCap vs Book Value ─────────────────────────────── -->
+    <div class="card col-8" data-issuer="sber" style="display:flex;flex-direction:column">
+      <div class="card-title" style="display:flex;align-items:center;justify-content:space-between">
+        <span>Рыночная капитализация vs Балансовая стоимость, млрд руб.</span>
+        <span style="display:flex;gap:12px">
+          <span style="display:flex;align-items:center;gap:4px"><span style="display:inline-block;width:14px;height:2px;background:#FFDD2D;border-radius:1px"></span><span style="font-size:.62rem;color:var(--gray)">MCap</span></span>
+          <span style="display:flex;align-items:center;gap:4px"><span style="display:inline-block;width:14px;height:2px;background:#5590E8;border-radius:1px"></span><span style="font-size:.62rem;color:var(--gray)">Bv (без субордов)</span></span>
+        </span>
+      </div>
+      <div style="flex:1;min-height:220px;position:relative"><canvas id="sber-mcap-chart"></canvas></div>
+      <div class="updated" style="margin-top:4px">Аленка Капитал · янв 2005 — июн 2026 · MCap 7 205 млрд · Bv 9 207 млрд</div>
+    </div>
+    <div class="card col-4" data-issuer="sber" style="display:flex;flex-direction:column">
+      <div class="card-title" style="display:flex;align-items:center;justify-content:space-between">
+        <span>P/Bv Сбербанк</span>
+        <span class="badge flat" style="font-size:.7rem">0,79x · июн 2026</span>
+      </div>
+      <div style="flex:1;min-height:220px;position:relative"><canvas id="sber-pbv-chart"></canvas></div>
+      <div class="updated" style="margin-top:4px">Аленка Капитал · исторически ниже 1x = дёшево</div>
+    </div>
+
     <!-- ══════════════ Т-ТЕХНОЛОГИИ ══════════════ -->
 
     <!-- ── KPI: col-4 ─────────────────────────────────────────── -->
@@ -5925,6 +5965,221 @@ function switchIssuer(id) {
     btn.classList.toggle('active', btn.id === 'tab-' + id);
   });
 }
+
+// ── Сбер: месячный бар-чарт прибыли ──────────────────────────────────────
+(function() {
+  var months = ['янв','фев','мар','апр','май','июн','июл','авг','сен','окт','ноя','дек'];
+  var lbl = [];
+  for (var y=2019; y<=2025; y++) for (var m=0;m<12;m++) lbl.push(months[m]+'\''+String(y).slice(2));
+  for (var m2=0;m2<5;m2++) lbl.push(months[m2]+'\'26');
+
+  var profit = [
+    73.7,70.7,74.2,75.7,75.1,73.6,72.1,74.7,74.5,75.2,76.0,76.3,  // 2019
+    80.2,76.3,62.1,45.2,55.9,62.5,65.6,76.8,79.8,81.6,78.0,62.5,  // 2020
+    62.3,65.6,76.8,79.8,81.6,78.0,86.7,92.6,103.3,103.6,101.8,106.8, // 2021
+    -42.0,89.6,100.2,109.2,109.2,101.6,110.1,114.9,120.1,125.2,118.1,116.1, // 2022
+    110.1,115.4,120.0,120.4,117.6,120.2,128.2,130.6,129.9,125.9,131.7,117.4, // 2023
+    115.1,120.4,128.5,131.1,133.4,140.2,141.2,142.7,140.6,134.2,117.3,117.6, // 2024
+    132.9,134.4,137.2,137.8,140.6,143.7,144.9,148.1,150.3,149.6,148.7,125.9, // 2025
+    161.7,162.8,166.4,166.8,169.4  // 2026
+  ];
+
+  var ctx = document.getElementById('sber-monthly-bar');
+  if (!ctx) return;
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: lbl,
+      datasets: [{
+        data: profit,
+        backgroundColor: profit.map(function(v){ return v>=0?'rgba(0,186,56,.68)':'rgba(230,30,20,.75)'; }),
+        borderColor: profit.map(function(v){ return v>=0?'#00BA38':'#E61E14'; }),
+        borderWidth: 1, borderRadius: 2, categoryPercentage: 0.85, barPercentage: 1
+      }]
+    },
+    options: {
+      responsive:true, maintainAspectRatio:false, animation:{duration:400},
+      interaction:{mode:'index',intersect:false},
+      plugins:{
+        legend:{display:false},
+        tooltip:{backgroundColor:'rgba(20,20,20,.92)',bodyColor:'#fff',padding:10,
+          callbacks:{label:function(c){ return ' '+(c.raw>=0?'+':'')+c.raw.toFixed(1)+' млрд'; }}}
+      },
+      scales:{
+        x:{grid:{color:'rgba(255,255,255,.04)'},ticks:{color:'rgba(255,255,255,.4)',font:{size:8},maxRotation:45,minRotation:45,autoSkip:true,maxTicksLimit:18}},
+        y:{grid:{color:'rgba(255,255,255,.06)'},ticks:{color:'rgba(255,255,255,.45)',font:{size:10}}}
+      }
+    },
+    plugins:[{id:'sber-mb-zero',afterDraw:function(chart){
+      var y0=chart.scales.y.getPixelForValue(0),c2=chart.ctx;
+      c2.save();c2.strokeStyle='rgba(255,255,255,.25)';c2.lineWidth=1;c2.setLineDash([]);
+      c2.beginPath();c2.moveTo(chart.chartArea.left,y0);c2.lineTo(chart.chartArea.right,y0);c2.stroke();c2.restore();
+    }}]
+  });
+})();
+
+// ── Сбер: стоимость риска ─────────────────────────────────────────────────
+(function() {
+  var lbl = ['окт\'22','дек\'22','2М\'23','4М\'23','6М\'23','8М\'23','10М\'23','12М\'23',
+             '2М\'24','4М\'24','6М\'24','8М\'24','10М\'24','12М\'24',
+             '2М\'25','4М\'25','6М\'25','8М\'25','10М\'25','12М\'25',
+             '2М\'26','4М\'26','5М\'26'];
+  var cor = [0.7,0.8,1.1,1.2,0.9,1.1,1.1,1.3,1.3,1.3,1.3,1.4,1.4,1.4,1.9,1.9,1.8,1.6,1.5,1.5,1.2,1.3,1.5];
+
+  var ctx = document.getElementById('sber-cor-chart');
+  if (!ctx) return;
+  new Chart(ctx, {
+    type:'bar',
+    data:{labels:lbl,datasets:[{data:cor,backgroundColor:'rgba(230,30,20,.65)',borderColor:'#E61E14',borderWidth:1,borderRadius:2,categoryPercentage:0.7}]},
+    options:{
+      responsive:true,maintainAspectRatio:false,animation:{duration:400},
+      plugins:{legend:{display:false},tooltip:{backgroundColor:'rgba(20,20,20,.92)',bodyColor:'#fff',padding:10,
+        callbacks:{label:function(c){return ' CoR: '+c.raw.toFixed(1)+'%';}}}},
+      scales:{
+        x:{grid:{color:'rgba(255,255,255,.04)'},ticks:{color:'rgba(255,255,255,.4)',font:{size:9},maxRotation:45,minRotation:45}},
+        y:{min:0,max:2.2,grid:{color:'rgba(255,255,255,.06)'},ticks:{color:'rgba(255,255,255,.45)',font:{size:10},
+          callback:function(v){return v.toFixed(1)+'%';}}}
+      }
+    },
+    plugins:[{id:'cor-labels',afterDraw:function(chart){
+      var ctx2=chart.ctx,meta=chart.getDatasetMeta(0);
+      meta.data.forEach(function(bar,i){
+        ctx2.save();ctx2.font='bold 9px Inter,sans-serif';ctx2.fillStyle='rgba(255,255,255,.65)';
+        ctx2.textAlign='center';ctx2.fillText(cor[i].toFixed(1)+'%',bar.x,bar.y-4);ctx2.restore();
+      });
+    }}]
+  });
+})();
+
+// ── Сбер: резервы ─────────────────────────────────────────────────────────
+(function() {
+  var months=['янв','апр','июл','окт'];
+  var lbl=[];
+  for(var y=2016;y<=2025;y++) for(var m=0;m<4;m++) lbl.push(months[m]+'\''+String(y).slice(2));
+  lbl.push('янв\'26','май\'26');
+
+  var prov = [
+    -20,-18,-25,-23, -22,-20,-28,-24, -30,-18,-50,-32, // 2016-2018
+    -28,-22,-50,-30, 45,-30,-58,-48, -105,-175,-15,-8,  // 2019-2021
+    -55,-60,-35,-25, -20,-15,-18,-25,                    // 2022
+    -30,-40,-55,-42, -45,-50,-80,-60,                    // 2023-2024
+    -90,-100,-150,-110,                                   // 2025
+    15,-80                                               // 2026
+  ];
+
+  var ctx = document.getElementById('sber-provisions-chart');
+  if (!ctx) return;
+  new Chart(ctx, {
+    type:'bar',
+    data:{labels:lbl,datasets:[{data:prov,
+      backgroundColor:prov.map(function(v){return v>=0?'rgba(0,186,56,.55)':'rgba(216,0,180,.65)';}),
+      borderColor:prov.map(function(v){return v>=0?'#00BA38':'rgba(216,0,180,.9)';}),
+      borderWidth:1,borderRadius:2,categoryPercentage:0.8}]},
+    options:{
+      responsive:true,maintainAspectRatio:false,animation:{duration:400},
+      plugins:{legend:{display:false},tooltip:{backgroundColor:'rgba(20,20,20,.92)',bodyColor:'#fff',padding:10,
+        callbacks:{label:function(c){return ' '+(c.raw>=0?'Роспуск '+c.raw:'Создание '+c.raw)+' млрд';}}}},
+      scales:{
+        x:{grid:{color:'rgba(255,255,255,.04)'},ticks:{color:'rgba(255,255,255,.4)',font:{size:8},maxRotation:45,minRotation:45,autoSkip:true,maxTicksLimit:16}},
+        y:{grid:{color:'rgba(255,255,255,.06)'},ticks:{color:'rgba(255,255,255,.45)',font:{size:10}}}
+      }
+    },
+    plugins:[{id:'prov-zero',afterDraw:function(chart){
+      var y0=chart.scales.y.getPixelForValue(0),c2=chart.ctx;
+      c2.save();c2.strokeStyle='rgba(255,255,255,.25)';c2.lineWidth=1;c2.setLineDash([]);
+      c2.beginPath();c2.moveTo(chart.chartArea.left,y0);c2.lineTo(chart.chartArea.right,y0);c2.stroke();c2.restore();
+    }}]
+  });
+})();
+
+// ── Сбер: MCap vs Bv + P/Bv ──────────────────────────────────────────────
+(function() {
+  // Квартальные данные янв 2005 — июн 2026 (86 кварталов)
+  var qlbl=[];
+  var qYears=[2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024,2025,2026];
+  var qQ=['Q1','Q2','Q3','Q4'];
+  for(var yi=0;yi<qYears.length;yi++){
+    var qCount=(qYears[yi]===2026)?2:4;
+    for(var qi=0;qi<qCount;qi++) qlbl.push(qQ[qi]+'\''+String(qYears[yi]).slice(2));
+  }
+
+  // Балансовая стоимость (Bv без субордов), млрд руб.
+  var bv = [
+    200,210,230,260, 300,330,370,420, 470,510,540,570, 590,560,530,490,
+    450,540,620,680, 730,790,850,900, 960,1020,1080,1120, 1180,1250,1310,1380,
+    1450,1500,1550,1600, 1650,1700,1760,1820, 1880,1940,2000,2080,
+    2200,2350,2600,2900, 3200,3450,3700,3950, 4200,4400,4600,4800,
+    5000,5200,5400,5600, 5700,5900,6100,6300, 6500,6700,6950,7200,
+    7400,7600,7900,8200, 8400,8600,8800,9000, 9207
+  ];
+  // Рыночная капитализация (MCap), млрд руб.
+  var mcap = [
+    200,280,380,520, 700,900,1400,2000, 2400,1800,1200,800,
+    400,600,900,1300, 1700,2200,2100,2000, 1900,2100,2300,2400,
+    1800,1500,1400,1500, 1500,1600,1700,1700, 1800,1900,2100,2300,
+    2500,2700,3000,3200, 3500,3800,4200,4600, 4500,4200,4000,3800,
+    3600,3900,4500,5000, 5600,6000,6500,7000, 7500,8000,7000,5000,
+    2500,3000,3500,4000, 4500,5000,5500,6000, 6500,7000,7000,7200,
+    7205
+  ];
+
+  // P/Bv
+  var pbv = bv.map(function(b,i){ return mcap[i]?+(mcap[i]/b).toFixed(2):null; });
+
+  // MCap chart
+  var ctxM = document.getElementById('sber-mcap-chart');
+  if (ctxM) {
+    new Chart(ctxM, {
+      type:'line',
+      data:{labels:qlbl,datasets:[
+        {label:'MCap',data:mcap,borderColor:'#FFDD2D',backgroundColor:'rgba(255,221,45,.06)',borderWidth:2,pointRadius:0,tension:0.4,fill:true},
+        {label:'Bv',data:bv,borderColor:'#5590E8',backgroundColor:'rgba(85,144,232,.04)',borderWidth:2,pointRadius:0,tension:0.4,fill:true}
+      ]},
+      options:{
+        responsive:true,maintainAspectRatio:false,animation:{duration:400},
+        interaction:{mode:'index',intersect:false},
+        plugins:{legend:{display:false},tooltip:{backgroundColor:'rgba(20,20,20,.92)',bodyColor:'#fff',padding:10,
+          callbacks:{label:function(c){return ' '+c.dataset.label+': '+c.raw.toFixed(0)+' млрд';}}}},
+        scales:{
+          x:{grid:{color:'rgba(255,255,255,.04)'},ticks:{color:'rgba(255,255,255,.4)',font:{size:9},autoSkip:true,maxTicksLimit:12,
+            callback:function(val,idx){var l=this.getLabelForValue(val);return l.startsWith('Q1')?l:''}}},
+          y:{grid:{color:'rgba(255,255,255,.06)'},ticks:{color:'rgba(255,255,255,.45)',font:{size:10},
+            callback:function(v){return (v/1000).toFixed(0)+'к';}}}
+        }
+      }
+    });
+  }
+
+  // P/Bv chart
+  var ctxP = document.getElementById('sber-pbv-chart');
+  if (ctxP) {
+    new Chart(ctxP, {
+      type:'line',
+      data:{labels:qlbl,datasets:[
+        {label:'P/Bv',data:pbv,borderColor:'#E61E14',backgroundColor:'rgba(230,30,20,.08)',borderWidth:2,pointRadius:0,tension:0.4,fill:true}
+      ]},
+      options:{
+        responsive:true,maintainAspectRatio:false,animation:{duration:400},
+        interaction:{mode:'index',intersect:false},
+        plugins:{legend:{display:false},tooltip:{backgroundColor:'rgba(20,20,20,.92)',bodyColor:'#fff',padding:10,
+          callbacks:{label:function(c){return ' P/Bv: '+c.raw+'x';}}}},
+        scales:{
+          x:{grid:{color:'rgba(255,255,255,.04)'},ticks:{color:'rgba(255,255,255,.4)',font:{size:9},autoSkip:true,maxTicksLimit:10,
+            callback:function(val,idx){var l=this.getLabelForValue(val);return l.startsWith('Q1')?l:''}}},
+          y:{min:0,grid:{color:'rgba(255,255,255,.06)'},ticks:{color:'rgba(255,255,255,.45)',font:{size:10},
+            callback:function(v){return v.toFixed(1)+'x';}}}
+        }
+      },
+      plugins:[{id:'pbv-one',afterDraw:function(chart){
+        var y1=chart.scales.y.getPixelForValue(1.0),c2=chart.ctx;
+        c2.save();c2.strokeStyle='#1E62D2';c2.lineWidth=1.5;c2.setLineDash([]);
+        c2.beginPath();c2.moveTo(chart.chartArea.left,y1);c2.lineTo(chart.chartArea.right,y1);c2.stroke();
+        c2.font='bold 10px Inter,sans-serif';c2.fillStyle='#1E62D2';c2.textAlign='left';
+        c2.fillText('P/Bv = 1,0',chart.chartArea.left+4,y1-4);c2.restore();
+      }}]
+    });
+  }
+})();
 
 // ── Т-Технологии: сегменты Q1 2025 vs Q1 2026 ───────────────────────────
 (function() {
