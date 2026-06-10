@@ -1587,6 +1587,78 @@
       <div class="updated" style="margin-top:4px">Банк России · янв 2019 — май 2026</div>
     </div>
 
+    <!-- Рис. 30: Покупки/продажи акций по участникам -->
+    <div class="card col-12">
+      <div class="card-title" style="display:flex;align-items:center;justify-content:space-between">
+        <span>Покупки / продажи акций по категориям участников, млрд руб.</span>
+        <span style="font-weight:400;font-size:.65rem;text-transform:none;letter-spacing:0;color:var(--gray)">среднемесячные · вторичные торги · ЦБ РФ</span>
+      </div>
+      <div style="height:260px;position:relative">
+        <canvas id="flows-equity-chart"></canvas>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:12px;margin-top:8px">
+        <span style="display:flex;align-items:center;gap:4px"><span style="display:inline-block;width:10px;height:10px;background:#1E62D2;border-radius:2px"></span><span style="font-size:.62rem;color:var(--gray)">Физические лица</span></span>
+        <span style="display:flex;align-items:center;gap:4px"><span style="display:inline-block;width:10px;height:10px;background:#E8800A;border-radius:2px"></span><span style="font-size:.62rem;color:var(--gray)">СЗКО</span></span>
+        <span style="display:flex;align-items:center;gap:4px"><span style="display:inline-block;width:10px;height:10px;background:rgba(56,189,248,.8);border-radius:2px"></span><span style="font-size:.62rem;color:var(--gray)">Нерезиденты</span></span>
+        <span style="display:flex;align-items:center;gap:4px"><span style="display:inline-block;width:10px;height:10px;background:rgba(200,185,120,.85);border-radius:2px"></span><span style="font-size:.62rem;color:var(--gray)">Прочие банки</span></span>
+        <span style="display:flex;align-items:center;gap:4px"><span style="display:inline-block;width:10px;height:10px;background:rgba(160,160,160,.8);border-radius:2px"></span><span style="font-size:.62rem;color:var(--gray)">НФО (соб.)</span></span>
+        <span style="display:flex;align-items:center;gap:4px"><span style="display:inline-block;width:10px;height:10px;background:#E61E14;border-radius:2px"></span><span style="font-size:.62rem;color:var(--gray)">Дов. управление</span></span>
+        <span style="display:flex;align-items:center;gap:4px"><span style="display:inline-block;width:10px;height:10px;background:rgba(20,178,170,.8);border-radius:2px"></span><span style="font-size:.62rem;color:var(--gray)">Нефин. организации</span></span>
+      </div>
+      <div class="updated" style="margin-top:4px">Рис. 30 · ОРФР май 2026 · ПАО Московская Биржа · апрель–май 2026: точные данные; 2024–1к2026: оценка по отчёту</div>
+    </div>
+
+    <!-- Таблица П-2: Куда идут деньги ФЛ -->
+    <div class="card col-12">
+      <div class="card-title">
+        Куда идут деньги физических лиц · май 2026
+        <span style="font-weight:400;text-transform:none;letter-spacing:0">млрд руб. · Таблица П-2 · ОРФР</span>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:4px">
+        <div style="background:rgba(0,0,0,.06);border-radius:8px;padding:12px 14px;border-left:3px solid rgba(230,30,20,.6)">
+          <div style="font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#929498;margin-bottom:6px">Депозиты рублёвые</div>
+          <div style="font-size:1.3rem;font-weight:800;color:var(--black)">+375,1</div>
+          <div style="font-size:.65rem;color:#929498;margin-top:2px">млрд ₽ · крупнейший приток</div>
+        </div>
+        <div style="background:rgba(0,0,0,.06);border-radius:8px;padding:12px 14px;border-left:3px solid rgba(230,30,20,.4)">
+          <div style="font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#929498;margin-bottom:6px">Счета эскроу</div>
+          <div style="font-size:1.3rem;font-weight:800;color:var(--black)">+381,2</div>
+          <div style="font-size:.65rem;color:#929498;margin-top:2px">млрд ₽ · ипотека / ДДУ</div>
+        </div>
+        <div style="background:rgba(0,0,0,.06);border-radius:8px;padding:12px 14px;border-left:3px solid rgba(30,98,210,.5)">
+          <div style="font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#929498;margin-bottom:6px">Иностр. валюта</div>
+          <div style="font-size:1.3rem;font-weight:800;color:var(--black)">+151,1</div>
+          <div style="font-size:.65rem;color:#929498;margin-top:2px">млрд ₽ · спот-покупки</div>
+        </div>
+        <div style="background:rgba(0,0,0,.06);border-radius:8px;padding:12px 14px;border-left:3px solid rgba(0,186,56,.5)">
+          <div style="font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#929498;margin-bottom:6px">Корп. облигации</div>
+          <div style="font-size:1.3rem;font-weight:800;color:var(--black)">+81,7</div>
+          <div style="font-size:.65rem;color:#929498;margin-top:2px">млрд ₽ · вторичный рынок</div>
+        </div>
+        <div style="background:rgba(0,0,0,.06);border-radius:8px;padding:12px 14px;border-left:3px solid rgba(0,186,56,.35)">
+          <div style="font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#929498;margin-bottom:6px">ОФЗ</div>
+          <div style="font-size:1.3rem;font-weight:800;color:var(--black)">+43,5</div>
+          <div style="font-size:.65rem;color:#929498;margin-top:2px">млрд ₽ · вторичный рынок</div>
+        </div>
+        <div style="background:rgba(0,0,0,.06);border-radius:8px;padding:12px 14px;border-left:3px solid rgba(30,98,210,.7)">
+          <div style="font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#929498;margin-bottom:6px">Акции</div>
+          <div style="font-size:1.3rem;font-weight:800;color:var(--black)">+19,9</div>
+          <div style="font-size:.65rem;color:#929498;margin-top:2px">млрд ₽ · вторичный рынок</div>
+        </div>
+        <div style="background:rgba(0,0,0,.06);border-radius:8px;padding:12px 14px;border-left:3px solid rgba(0,186,56,.25)">
+          <div style="font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#929498;margin-bottom:6px">БПИФ деньги</div>
+          <div style="font-size:1.3rem;font-weight:800;color:var(--black)">+3,3</div>
+          <div style="font-size:.65rem;color:#929498;margin-top:2px">млрд ₽</div>
+        </div>
+        <div style="background:rgba(0,0,0,.06);border-radius:8px;padding:12px 14px;border-left:3px solid rgba(230,30,20,.7)">
+          <div style="font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#929498;margin-bottom:6px">Прочие КИ</div>
+          <div style="font-size:1.3rem;font-weight:800;color:#E61E14">−449,4</div>
+          <div style="font-size:.65rem;color:#929498;margin-top:2px">млрд ₽ · отток из фондов</div>
+        </div>
+      </div>
+      <div class="updated" style="margin-top:8px">Таблица П-2 · ОРФР май 2026 · Банк России</div>
+    </div>
+
   </div>
   </div>
 </section>
@@ -6082,6 +6154,137 @@ function switchIssuer(id) {
         c2.restore();
       }
     }]
+  });
+})();
+
+// ── Рис. 30: Покупки/продажи акций по категориям участников ──────────────
+(function() {
+  var labels = [
+    '1к\'24','2к\'24','3к\'24','4к\'24',
+    '1к\'25','2к\'25','3к\'25','4к\'25',
+    '1к\'26','апр\'26','май\'26'
+  ];
+
+  // Все значения — среднемесячные за период, млрд руб.
+  // Апрель и май 2026 — точные данные из ОРФР; остальные — оценка по графику
+  var datasets = [
+    { label: 'Физические лица',    color: '#1E62D2',
+      data: [14.2, 34.8, 20.1, 28.5, 17.6, 22.3, 28.1, 12.4, 15.2, 43.7, 19.9] },
+    { label: 'СЗКО',               color: '#E8800A',
+      data: [ 5.1,  5.3,  4.8,  8.2,  5.0,  6.1,  7.2,  8.3,  5.1, -10.0,  8.0] },
+    { label: 'Нерезиденты',        color: 'rgba(56,189,248,.85)',
+      data: [ 1.8,  2.1,  1.4,  1.2,  1.1,  1.3,  1.2,  1.0,  1.0,   0.0,  1.0] },
+    { label: 'Прочие банки',       color: 'rgba(200,185,120,.9)',
+      data: [ 2.0,  2.1,  1.8,  2.0,  1.9,  2.0,  1.8,  1.7,  1.8,  -2.0,  2.0] },
+    { label: 'НФО (соб.)',         color: 'rgba(160,160,160,.85)',
+      data: [-2.1, -2.3, -2.8, -2.0, -1.2, -1.8, -1.5, -1.8, -2.0,  -4.5, -4.5] },
+    { label: 'Дов. управление',    color: '#E61E14',
+      data: [-3.2, -4.1, -3.5, -2.8, -1.3, -1.5, -1.8, -1.6, -1.4, -10.3,-10.3] },
+    { label: 'Нефин. организации', color: 'rgba(20,178,170,.85)',
+      data: [ 2.2, -0.1,  0.2, -0.1,  0.1,  0.1,  0.0,  0.0, -0.7, -12.0,  5.0] }
+  ];
+
+  var ctx = document.getElementById('flows-equity-chart');
+  if (!ctx) return;
+
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: labels,
+      datasets: datasets.map(function(d) {
+        return {
+          label: d.label,
+          data: d.data,
+          backgroundColor: d.color,
+          borderColor: d.color,
+          borderWidth: 0,
+          borderRadius: 2,
+          stack: 'flow'
+        };
+      })
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      animation: { duration: 400 },
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: 'rgba(20,20,20,.92)',
+          bodyColor: '#fff', padding: 10,
+          callbacks: {
+            label: function(c) {
+              if (c.raw === 0) return null;
+              var s = c.raw > 0 ? '+' : '';
+              return ' ' + c.dataset.label + ': ' + s + c.raw.toFixed(1) + ' млрд';
+            }
+          }
+        }
+      },
+      scales: {
+        x: {
+          stacked: true,
+          grid: { color: 'rgba(0,0,0,.06)' },
+          ticks: { color: '#929498', font: { size: 9 } }
+        },
+        y: {
+          stacked: true,
+          grid: { color: 'rgba(0,0,0,.08)' },
+          ticks: {
+            color: '#929498', font: { size: 9 },
+            callback: function(v) { return v + ' млрд'; }
+          }
+        }
+      }
+    },
+    plugins: [
+      {
+        id: 'zero-line-flows',
+        afterDraw: function(chart) {
+          var y0 = chart.scales.y.getPixelForValue(0);
+          var c2 = chart.ctx;
+          c2.save();
+          c2.strokeStyle = 'rgba(0,0,0,.3)';
+          c2.lineWidth = 1.5; c2.setLineDash([]);
+          c2.beginPath();
+          c2.moveTo(chart.chartArea.left, y0);
+          c2.lineTo(chart.chartArea.right, y0);
+          c2.stroke(); c2.restore();
+        }
+      },
+      {
+        id: 'year-separators',
+        afterDraw: function(chart) {
+          // Вертикальные разделители между годами: после 4к'24 и после 4к'25
+          var xScale = chart.scales.x;
+          var separators = [3.5, 7.5]; // между индексами 3-4 и 7-8
+          var c2 = chart.ctx;
+          separators.forEach(function(pos) {
+            var x = xScale.getPixelForValue(pos);
+            c2.save();
+            c2.strokeStyle = 'rgba(0,0,0,.2)';
+            c2.lineWidth = 1; c2.setLineDash([4, 3]);
+            c2.beginPath();
+            c2.moveTo(x, chart.chartArea.top);
+            c2.lineTo(x, chart.chartArea.bottom);
+            c2.stroke(); c2.restore();
+          });
+          // Подписи годов
+          c2.save();
+          c2.font = '600 9px Inter,sans-serif';
+          c2.fillStyle = '#929498';
+          c2.textAlign = 'center';
+          var y = chart.chartArea.bottom + 28;
+          var x24 = (xScale.getPixelForValue(0) + xScale.getPixelForValue(3)) / 2;
+          var x25 = (xScale.getPixelForValue(4) + xScale.getPixelForValue(7)) / 2;
+          var x26 = (xScale.getPixelForValue(8) + xScale.getPixelForValue(10)) / 2;
+          c2.fillText('2024', x24, y);
+          c2.fillText('2025', x25, y);
+          c2.fillText('2026', x26, y);
+          c2.restore();
+        }
+      }
+    ]
   });
 })();
 
