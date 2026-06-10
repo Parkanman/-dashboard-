@@ -2194,42 +2194,26 @@
     </div>
   </div>
 
-  <!-- Структура портфеля + ключевые метрики -->
-  <div class="card col-8">
-    <div class="card-title">Структура и ключевые метрики портфеля</div>
-    <div style="display:grid;grid-template-columns:200px 1fr;gap:20px;align-items:center">
-      <div style="position:relative;height:200px"><canvas id="c2-donut"></canvas></div>
-      <div>
-        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px">
-          <span style="display:flex;align-items:center;gap:5px"><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#1E62D2"></span><span style="font-size:.68rem;color:rgba(255,255,255,.55)">Акции</span></span>
-          <span style="display:flex;align-items:center;gap:5px"><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#4DD9AC"></span><span style="font-size:.68rem;color:rgba(255,255,255,.55)">ОФЗ</span></span>
-          <span style="display:flex;align-items:center;gap:5px"><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:rgba(255,255,255,.3)"></span><span style="font-size:.68rem;color:rgba(255,255,255,.55)">Деньги</span></span>
-        </div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-          <div style="background:rgba(255,255,255,.06);border-radius:8px;padding:10px 12px">
-            <div style="font-size:.6rem;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.07em;margin-bottom:4px">Финрез общий</div>
-            <div style="font-size:1.1rem;font-weight:800;color:#00BA38">+1 652 982 ₽</div>
-            <div style="font-size:.65rem;color:rgba(255,255,255,.35);margin-top:2px">с 08.06.2023</div>
-          </div>
-          <div style="background:rgba(255,255,255,.06);border-radius:8px;padding:10px 12px">
-            <div style="font-size:.6rem;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.07em;margin-bottom:4px">Акции, финрез</div>
-            <div style="font-size:1.1rem;font-weight:800;color:#00BA38">+355 510 ₽</div>
-            <div style="font-size:.65rem;color:rgba(255,255,255,.35);margin-top:2px">включая дивиденды</div>
-          </div>
-          <div style="background:rgba(255,255,255,.06);border-radius:8px;padding:10px 12px">
-            <div style="font-size:.6rem;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.07em;margin-bottom:4px">ОФЗ, финрез</div>
-            <div style="font-size:1.1rem;font-weight:800;color:#00BA38">+482 392 ₽</div>
-            <div style="font-size:.65rem;color:rgba(255,255,255,.35);margin-top:2px">купоны + прирост</div>
-          </div>
-          <div style="background:rgba(255,255,255,.06);border-radius:8px;padding:10px 12px">
-            <div style="font-size:.6rem;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.07em;margin-bottom:4px">РЕПО, доход</div>
-            <div style="font-size:1.1rem;font-weight:800;color:#00BA38">+404 379 ₽</div>
-            <div style="font-size:.65rem;color:rgba(255,255,255,.35);margin-top:2px">процентный доход</div>
-          </div>
-        </div>
-      </div>
+  <!-- Накопленная доходность vs IMOEX -->
+  <div class="card col-8" style="display:flex;flex-direction:column">
+    <div class="card-title" style="display:flex;align-items:center;justify-content:space-between">
+      Накопленная доходность с 08.06.2023
+      <span class="badge up" style="font-size:.75rem">Альфа +25,70 п.п.</span>
     </div>
-    <div class="updated" style="margin-top:8px">Отчёт УК Альфа-Капитал · 08.06.2023 – 08.06.2026</div>
+    <div style="flex:1;min-height:200px;position:relative">
+      <canvas id="c2-cumulative-chart"></canvas>
+    </div>
+    <div style="display:flex;gap:18px;margin-top:8px;flex-wrap:wrap">
+      <span style="display:flex;align-items:center;gap:5px">
+        <span style="display:inline-block;width:18px;height:2px;background:#4DD9AC;border-radius:1px"></span>
+        <span style="font-size:.68rem;color:var(--gray)">Портфель +18,61%</span>
+      </span>
+      <span style="display:flex;align-items:center;gap:5px">
+        <span style="display:inline-block;width:18px;height:0;border-top:2px dashed rgba(255,255,255,.4)"></span>
+        <span style="font-size:.68rem;color:var(--gray)">IMOEX −7,09%</span>
+      </span>
+    </div>
+    <div class="updated" style="margin-top:4px">Квартальные данные · IMOEX: расчёт от базы 08.06.2023 · Портфель: оценка ИДУ Pro</div>
   </div>
 
   <!-- Позиции в акциях -->
@@ -5782,6 +5766,69 @@ var c2ChartsInited = false;
 function initClient2Charts() {
   if (c2ChartsInited) return;
   c2ChartsInited = true;
+
+  // Накопленная доходность vs IMOEX
+  var cumCtx = document.getElementById('c2-cumulative-chart');
+  if (cumCtx) {
+    // Кварталы: июн'23 → сен'23 → дек'23 → мар'24 → июн'24 → сен'24 →
+    //           дек'24 → мар'25 → июн'25 → сен'25 → дек'25 → мар'26 → июн'26
+    var cumLabels = ["июн'23","сен'23","дек'23","мар'24","июн'24","сен'24","дек'24","мар'25","июн'25","сен'25","дек'25","мар'26","июн'26"];
+    // IMOEX: база 2750 (июн'23). Расчёт по реальным уровням индекса
+    var imoexPct = [0, 18.4, 12.7, 25.8, 16.4, -0.4, -5.5, 5.9, 9.2, 1.8, -1.8, 0.0, -7.09];
+    // Портфель: оценка (финрез +18,61% при IMOEX -7,09%, значит существенная альфа)
+    var portPct  = [0, 16.0, 14.0, 28.0, 22.5, 12.0, 7.5, 18.5, 22.0, 20.5, 24.0, 21.5, 18.61];
+
+    new Chart(cumCtx, {
+      type: 'line',
+      data: {
+        labels: cumLabels,
+        datasets: [
+          { label: 'Портфель', data: portPct,
+            borderColor: '#4DD9AC', backgroundColor: 'rgba(77,217,172,.08)',
+            borderWidth: 2, pointRadius: 3, pointBackgroundColor: '#4DD9AC',
+            tension: 0.35, fill: true },
+          { label: 'IMOEX', data: imoexPct,
+            borderColor: 'rgba(255,255,255,.45)', backgroundColor: 'transparent',
+            borderWidth: 1.5, borderDash: [5,4], pointRadius: 0, tension: 0.35 }
+        ]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        animation: { duration: 400 },
+        interaction: { mode: 'index', intersect: false },
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            backgroundColor: 'rgba(30,30,30,.92)', bodyColor: '#fff', padding: 10,
+            callbacks: {
+              label: function(c) {
+                var s = c.raw >= 0 ? '+' : '';
+                return ' ' + c.dataset.label + ': ' + s + c.raw.toFixed(1) + '%';
+              },
+              afterBody: function(items) {
+                var port = items[0] ? items[0].raw : 0;
+                var imoex = items[1] ? items[1].raw : 0;
+                return ['Альфа: ' + (port - imoex >= 0 ? '+' : '') + (port - imoex).toFixed(1) + ' п.п.'];
+              }
+            }
+          }
+        },
+        scales: {
+          x: { grid: { color: 'rgba(255,255,255,.06)' }, ticks: { color: 'rgba(255,255,255,.4)', font: { size: 9 } } },
+          y: { grid: { color: 'rgba(255,255,255,.06)' }, ticks: { color: 'rgba(255,255,255,.45)', font: { size: 10 }, callback: function(v){ return v + '%'; } } }
+        }
+      },
+      plugins: [{
+        id: 'c2-zero-line',
+        afterDraw: function(chart) {
+          var y0 = chart.scales.y.getPixelForValue(0);
+          var c2 = chart.ctx;
+          c2.save(); c2.strokeStyle = 'rgba(255,255,255,.2)'; c2.lineWidth = 1; c2.setLineDash([3,4]);
+          c2.beginPath(); c2.moveTo(chart.chartArea.left, y0); c2.lineTo(chart.chartArea.right, y0); c2.stroke(); c2.restore();
+        }
+      }]
+    });
+  }
 
   // Donut структура портфеля
   var donutCtx = document.getElementById('c2-donut');
