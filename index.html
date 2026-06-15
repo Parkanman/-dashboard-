@@ -2227,11 +2227,49 @@
     <div class="updated" style="margin-top:4px">Квартальные данные · IMOEX: расчёт от базы 08.06.2023 · Портфель: оценка ИДУ Pro</div>
   </div>
 
+  <!-- Структура портфеля -->
+  <div class="card col-4">
+    <div class="card-title">Структура портфеля</div>
+    <div style="height:200px;position:relative"><canvas id="c2-donut"></canvas></div>
+    <div style="margin-top:12px;display:flex;flex-direction:column;gap:6px">
+      <div style="display:flex;align-items:center;justify-content:space-between">
+        <div style="display:flex;align-items:center;gap:7px">
+          <span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#5BA4F5;flex-shrink:0"></span>
+          <span style="font-size:.78rem;color:var(--graphite)">Акции</span>
+        </div>
+        <div style="display:flex;gap:10px;align-items:center">
+          <span style="font-size:.78rem;font-weight:700;color:var(--black)">7,05 млн</span>
+          <span style="font-size:.72rem;color:var(--gray);width:38px;text-align:right">76,5%</span>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:space-between">
+        <div style="display:flex;align-items:center;gap:7px">
+          <span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#4DD9AC;flex-shrink:0"></span>
+          <span style="font-size:.78rem;color:var(--graphite)">ОФЗ</span>
+        </div>
+        <div style="display:flex;gap:10px;align-items:center">
+          <span style="font-size:.78rem;font-weight:700;color:var(--black)">1,65 млн</span>
+          <span style="font-size:.72rem;color:var(--gray);width:38px;text-align:right">17,9%</span>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:space-between">
+        <div style="display:flex;align-items:center;gap:7px">
+          <span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#FFD166;flex-shrink:0"></span>
+          <span style="font-size:.78rem;color:var(--graphite)">Деньги и РЕПО</span>
+        </div>
+        <div style="display:flex;gap:10px;align-items:center">
+          <span style="font-size:.78rem;font-weight:700;color:var(--black)">0,52 млн</span>
+          <span style="font-size:.72rem;color:var(--gray);width:38px;text-align:right">5,6%</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Позиции в акциях -->
-  <div class="card col-6">
+  <div class="card col-4">
     <div class="card-title">
       Позиции в акциях
-      <span style="font-weight:400;text-transform:none;letter-spacing:0">7,05 млн · 76,5% портфеля</span>
+      <span style="font-weight:400;text-transform:none;letter-spacing:0">7,05 млн · 76,5%</span>
     </div>
     <div style="display:grid;grid-template-columns:1fr auto auto;gap:0;font-size:.78rem">
       <div style="font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.35);padding:0 0 8px;border-bottom:1px solid rgba(255,255,255,.1)">Бумага</div>
@@ -2281,7 +2319,7 @@
   </div>
 
   <!-- Вклад акций в финрез -->
-  <div class="card col-6">
+  <div class="card col-4">
     <div class="card-title">Вклад акций в финрез, тыс. руб.</div>
     <div style="height:260px;position:relative"><canvas id="c2-contribution"></canvas></div>
     <div class="updated" style="margin-top:6px">Финрез включает дивиденды · с 08.06.2023</div>
@@ -5883,34 +5921,47 @@ function initClient2Charts() {
     });
   }
 
-  // Donut структура портфеля
+  // Donut структура портфеля — Клиент №2
   var donutCtx = document.getElementById('c2-donut');
   if (donutCtx) {
     new Chart(donutCtx, {
       type: 'doughnut',
       data: {
         labels: ['Акции', 'ОФЗ', 'Деньги и РЕПО'],
-        datasets: [{ data: [76.46, 17.85, 5.69],
-          backgroundColor: ['#1E62D2', '#4DD9AC', 'rgba(255,255,255,.25)'],
-          borderWidth: 0, hoverOffset: 6 }]
+        datasets: [{
+          data: [76.46, 17.85, 5.69],
+          backgroundColor: ['#5BA4F5', '#4DD9AC', '#FFD166'],
+          borderWidth: 2,
+          borderColor: '#494C53',
+          hoverOffset: 6
+        }]
       },
       options: {
         responsive: true, maintainAspectRatio: false,
-        cutout: '68%',
+        cutout: '60%',
+        animation: { duration: 500 },
         plugins: {
           legend: { display: false },
-          tooltip: { callbacks: { label: function(c) { return ' ' + c.label + ': ' + c.raw + '%'; } } }
+          tooltip: { callbacks: {
+            label: function(c) {
+              var vals = ['7,05 млн', '1,65 млн', '0,52 млн'];
+              return ' ' + c.label + ': ' + vals[c.dataIndex] + ' (' + c.raw.toFixed(1) + '%)';
+            }
+          }}
         }
       },
       plugins: [{
         id: 'c2-center',
         afterDraw: function(chart) {
-          var ctx2 = chart.ctx, cx = chart.chartArea.left + chart.chartArea.width/2, cy = chart.chartArea.top + chart.chartArea.height/2;
+          var ctx2 = chart.ctx;
+          var cx = (chart.chartArea.left + chart.chartArea.right) / 2;
+          var cy = (chart.chartArea.top + chart.chartArea.bottom) / 2;
           ctx2.save();
-          ctx2.font = '700 14px Inter,sans-serif'; ctx2.fillStyle = '#fff'; ctx2.textAlign = 'center';
-          ctx2.fillText('9,22 млн', cx, cy - 4);
-          ctx2.font = '400 10px Inter,sans-serif'; ctx2.fillStyle = 'rgba(255,255,255,.45)';
-          ctx2.fillText('руб.', cx, cy + 12);
+          ctx2.textAlign = 'center'; ctx2.textBaseline = 'middle';
+          ctx2.font = 'bold 14px Inter, sans-serif'; ctx2.fillStyle = '#FFFFFF';
+          ctx2.fillText('9,22 млн', cx, cy - 8);
+          ctx2.font = '10px Inter, sans-serif'; ctx2.fillStyle = 'rgba(255,255,255,.5)';
+          ctx2.fillText('руб.', cx, cy + 9);
           ctx2.restore();
         }
       }]
