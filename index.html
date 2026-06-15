@@ -874,7 +874,8 @@
     #tab-sber.active  { background:#00BA38;border-color:#00BA38;color:#fff; }
     #tab-tcsg.active  { background:#FFDD2D;border-color:#FFDD2D;color:#1E1E1E; }
     #ctab-c1.active,
-    #ctab-c2.active   { background:#E61E14;border-color:#E61E14;color:#fff; }
+    #ctab-c2.active,
+    #ctab-c3.active   { background:#E61E14;border-color:#E61E14;color:#fff; }
 
     /* KPI строки эмитента */
     .em-kpi-row {
@@ -1810,6 +1811,7 @@
     <div class="issuer-tabs" id="client-tabs">
       <button class="issuer-tab active" onclick="switchClient('c1')" id="ctab-c1">Клиент №1</button>
       <button class="issuer-tab" onclick="switchClient('c2')" id="ctab-c2">Клиент №2</button>
+      <button class="issuer-tab" onclick="switchClient('c3')" id="ctab-c3">Клиент №3</button>
     </div>
   </div>
   <div id="c1-data" class="grid">
@@ -2367,6 +2369,108 @@
   </div>
 
   </div><!-- /c2-data -->
+
+  <!-- ══════════ КЛИЕНТ №3 ══════════ -->
+  <div id="c3-data" class="grid" style="display:none">
+
+  <!-- KPI -->
+  <div class="card col-4">
+    <div class="card-title">
+      Портфель · Клиент №3
+      <span style="font-weight:400;text-transform:none;letter-spacing:0;font-size:.68rem">с 17.11.2016</span>
+    </div>
+    <div style="margin-bottom:14px">
+      <div style="font-size:2.4rem;font-weight:800;color:var(--black);letter-spacing:-.04em;line-height:1">284,4 <span style="font-size:1.1rem;font-weight:600;color:var(--graphite)">млн руб.</span></div>
+      <div style="font-size:.72rem;color:var(--gray);margin-top:4px">стоимость портфеля · 10.06.2026</div>
+    </div>
+    <div style="border-top:1px solid var(--silver);padding-top:10px;margin-bottom:12px">
+      <div class="pf-row">
+        <span class="pf-label">YTD 2026</span>
+        <div class="pf-vals">
+          <span style="font-size:.78rem;color:rgba(255,255,255,.8);font-weight:600">−16,4 млн</span>
+          <span class="badge down" style="font-size:.72rem">−5,45%</span>
+        </div>
+      </div>
+      <div class="pf-row">
+        <span class="pf-label">С 17.11.2016</span>
+        <div class="pf-vals">
+          <span style="font-size:.78rem;color:#00BA38;font-weight:700">+117,9 млн</span>
+          <span class="badge up" style="font-size:.72rem">+82,32%</span>
+        </div>
+      </div>
+    </div>
+    <div style="background:rgba(255,255,255,.06);border-radius:8px;padding:10px 12px">
+      <div style="font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--gray);margin-bottom:6px">7 стратегий управления</div>
+      <div style="font-size:.72rem;color:rgba(255,255,255,.55);line-height:1.7">
+        Мировые облигации · Казначей 4.0<br>
+        Мировой Эксперт $ · Казначей 5.0<br>
+        Промпарки 2 · Альфа Квант 2.0<br>
+        Альфа Рос. Бизнес 2.1
+      </div>
+    </div>
+  </div>
+
+  <!-- Валюта -->
+  <div class="card col-4">
+    <div class="card-title">По валюте</div>
+    <div style="height:200px;position:relative"><canvas id="c3-currency-donut"></canvas></div>
+    <div style="margin-top:12px;display:flex;flex-direction:column;gap:6px">
+      <div style="display:flex;align-items:center;justify-content:space-between">
+        <div style="display:flex;align-items:center;gap:7px">
+          <span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#1E62D2;flex-shrink:0"></span>
+          <span style="font-size:.78rem;color:var(--graphite)">USD</span>
+        </div>
+        <div style="display:flex;gap:10px">
+          <span style="font-size:.78rem;font-weight:700;color:var(--black)">179,8 млн</span>
+          <span style="font-size:.72rem;color:var(--gray);width:38px;text-align:right">63,2%</span>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:space-between">
+        <div style="display:flex;align-items:center;gap:7px">
+          <span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#4DD9AC;flex-shrink:0"></span>
+          <span style="font-size:.78rem;color:var(--graphite)">RUB</span>
+        </div>
+        <div style="display:flex;gap:10px">
+          <span style="font-size:.78rem;font-weight:700;color:var(--black)">96,0 млн</span>
+          <span style="font-size:.72rem;color:var(--gray);width:38px;text-align:right">34,0%</span>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:space-between">
+        <div style="display:flex;align-items:center;gap:7px">
+          <span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#FFD166;flex-shrink:0"></span>
+          <span style="font-size:.78rem;color:var(--graphite)">GBP</span>
+        </div>
+        <div style="display:flex;gap:10px">
+          <span style="font-size:.78rem;font-weight:700;color:var(--black)">7,8 млн</span>
+          <span style="font-size:.72rem;color:var(--gray);width:38px;text-align:right">2,8%</span>
+        </div>
+      </div>
+    </div>
+    <div class="updated" style="margin-top:8px">ООО УК Альфа-Капитал · 10.06.2026</div>
+  </div>
+
+  <!-- Классы активов -->
+  <div class="card col-4">
+    <div class="card-title">По классам активов</div>
+    <div style="height:200px;position:relative"><canvas id="c3-assets-donut"></canvas></div>
+    <div style="margin-top:12px;display:flex;flex-direction:column;gap:5px">
+      <div style="display:flex;justify-content:space-between"><div style="display:flex;align-items:center;gap:6px"><span style="width:9px;height:9px;border-radius:2px;background:#1E62D2;display:inline-block;flex-shrink:0"></span><span style="font-size:.72rem;color:var(--graphite)">Корп. облигации</span></div><span style="font-size:.72rem;font-weight:700;color:var(--black)">58,9%</span></div>
+      <div style="display:flex;justify-content:space-between"><div style="display:flex;align-items:center;gap:6px"><span style="width:9px;height:9px;border-radius:2px;background:#4DD9AC;display:inline-block;flex-shrink:0"></span><span style="font-size:.72rem;color:var(--graphite)">БПИФ / ЗПИФ</span></div><span style="font-size:.72rem;font-weight:700;color:var(--black)">17,3%</span></div>
+      <div style="display:flex;justify-content:space-between"><div style="display:flex;align-items:center;gap:6px"><span style="width:9px;height:9px;border-radius:2px;background:#E8800A;display:inline-block;flex-shrink:0"></span><span style="font-size:.72rem;color:var(--graphite)">Акции (иностр., заблок.)</span></div><span style="font-size:.72rem;font-weight:700;color:var(--black)">9,0%</span></div>
+      <div style="display:flex;justify-content:space-between"><div style="display:flex;align-items:center;gap:6px"><span style="width:9px;height:9px;border-radius:2px;background:#5BA4F5;display:inline-block;flex-shrink:0"></span><span style="font-size:.72rem;color:var(--graphite)">ОФЗ / гос. бумаги РФ</span></div><span style="font-size:.72rem;font-weight:700;color:var(--black)">7,9%</span></div>
+      <div style="display:flex;justify-content:space-between"><div style="display:flex;align-items:center;gap:6px"><span style="width:9px;height:9px;border-radius:2px;background:#FFD166;display:inline-block;flex-shrink:0"></span><span style="font-size:.72rem;color:var(--graphite)">Структурные продукты</span></div><span style="font-size:.72rem;font-weight:700;color:var(--black)">2,7%</span></div>
+      <div style="display:flex;justify-content:space-between"><div style="display:flex;align-items:center;gap:6px"><span style="width:9px;height:9px;border-radius:2px;background:#A8B4C2;display:inline-block;flex-shrink:0"></span><span style="font-size:.72rem;color:var(--graphite)">Деньги и прочее</span></div><span style="font-size:.72rem;font-weight:700;color:var(--black)">4,2%</span></div>
+    </div>
+  </div>
+
+  <!-- Конкретные бумаги / стратегии -->
+  <div class="card col-12">
+    <div class="card-title">По стратегиям — стоимость позиций, млн руб. · 10.06.2026</div>
+    <div style="height:260px;position:relative"><canvas id="c3-strategies-chart"></canvas></div>
+    <div class="updated" style="margin-top:6px">ООО УК Альфа-Капитал · USD позиции пересчитаны по курсу ЦБ · иностр. акции заблокированы</div>
+  </div>
+
+  </div><!-- /c3-data -->
 
   </div>
 </section>
@@ -5847,13 +5951,119 @@ function retColor(pct, alpha) {
 function switchClient(id) {
   document.getElementById('c1-data').style.display = id === 'c1' ? '' : 'none';
   document.getElementById('c2-data').style.display = id === 'c2' ? '' : 'none';
+  document.getElementById('c3-data').style.display = id === 'c3' ? '' : 'none';
   document.querySelectorAll('#client-tabs .issuer-tab').forEach(function(btn) {
     btn.classList.toggle('active', btn.id === 'ctab-' + id);
   });
   if (id === 'c2') initClient2Charts();
+  if (id === 'c3') initClient3Charts();
 }
 
 var c2ChartsInited = false;
+
+// ── Клиент №3 (Ишмяров) ──────────────────────────────────────────────────
+var c3ChartsInited = false;
+function initClient3Charts() {
+  if (c3ChartsInited) return;
+  c3ChartsInited = true;
+
+  var C3_BG = '#494C53', C3_BORDER = 2;
+
+  function makeDonut(id, labels, data, colors, centerLine1, centerLine2) {
+    var ctx = document.getElementById(id);
+    if (!ctx) return;
+    new Chart(ctx, {
+      type: 'doughnut',
+      data: {
+        labels: labels,
+        datasets: [{ data: data, backgroundColor: colors, borderWidth: C3_BORDER, borderColor: C3_BG, hoverOffset: 6 }]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false, cutout: '60%', animation: { duration: 500 },
+        plugins: {
+          legend: { display: false },
+          tooltip: { callbacks: { label: function(c) { return ' ' + c.label + ': ' + c.raw.toFixed(1) + '%'; } } }
+        }
+      },
+      plugins: [{
+        id: id + '-center',
+        afterDraw: function(chart) {
+          var ctx2 = chart.ctx;
+          var cx = (chart.chartArea.left + chart.chartArea.right) / 2;
+          var cy = (chart.chartArea.top + chart.chartArea.bottom) / 2;
+          ctx2.save(); ctx2.textAlign = 'center'; ctx2.textBaseline = 'middle';
+          ctx2.font = 'bold 13px Inter,sans-serif'; ctx2.fillStyle = '#fff';
+          ctx2.fillText(centerLine1, cx, cy - 8);
+          ctx2.font = '10px Inter,sans-serif'; ctx2.fillStyle = 'rgba(255,255,255,.5)';
+          ctx2.fillText(centerLine2, cx, cy + 9);
+          ctx2.restore();
+        }
+      }]
+    });
+  }
+
+  // 1. Бублик по валюте
+  makeDonut('c3-currency-donut',
+    ['USD', 'RUB', 'GBP'],
+    [63.22, 34.02, 2.76],
+    ['#1E62D2', '#4DD9AC', '#FFD166'],
+    '284,4 млн', 'руб.');
+
+  // 2. Бублик по классам активов
+  makeDonut('c3-assets-donut',
+    ['Корп. облигации', 'БПИФ / ЗПИФ', 'Акции (иностр.)', 'ОФЗ / гос. РФ', 'Структурные', 'Деньги и прочее'],
+    [58.88, 17.26, 9.01, 7.88, 2.68, 4.29],
+    ['#1E62D2', '#4DD9AC', '#E8800A', '#5BA4F5', '#FFD166', '#A8B4C2'],
+    '284,4 млн', 'руб.');
+
+  // 3. Горизонтальный бар по стратегиям
+  var ctx3 = document.getElementById('c3-strategies-chart');
+  if (!ctx3) return;
+  var strats = ['Мировые облигации', 'Казначей 4.0', 'Мировой Эксперт $\n(иностр., заблок.)', 'Казначей 5.0', 'Промпарки 2', 'Альфа Квант 2.0', 'Рос. Бизнес 2.1'];
+  var vals   = [156.21, 63.11, 33.79, 20.17, 7.21, 2.55, 1.40];
+  var colors = ['#1E62D2','#4DD9AC','#E8800A','#5BA4F5','#FFD166','#A8B4C2','#7A8B9A'];
+
+  new Chart(ctx3, {
+    type: 'bar',
+    data: {
+      labels: strats,
+      datasets: [{
+        data: vals,
+        backgroundColor: colors.map(function(c){ return c + 'AA'; }),
+        borderColor: colors,
+        borderWidth: 1, borderRadius: 3
+      }]
+    },
+    options: {
+      indexAxis: 'y',
+      responsive: true, maintainAspectRatio: false, animation: { duration: 400 },
+      plugins: {
+        legend: { display: false },
+        tooltip: { backgroundColor: 'rgba(20,20,20,.92)', bodyColor: '#fff', padding: 10,
+          callbacks: { label: function(c) { return ' ' + c.raw.toFixed(2) + ' млн ₽  (' + (c.raw/284.44*100).toFixed(1) + '%)'; } } }
+      },
+      scales: {
+        x: { grid: { color: 'rgba(255,255,255,.06)' }, ticks: { color: 'rgba(255,255,255,.45)', font: { size: 10 },
+          callback: function(v) { return v + ' млн'; } } },
+        y: { grid: { display: false }, ticks: { color: 'rgba(255,255,255,.6)', font: { size: 10, weight: '600' } } }
+      }
+    },
+    plugins: [{
+      id: 'c3-bar-labels',
+      afterDraw: function(chart) {
+        var ctx2 = chart.ctx, meta = chart.getDatasetMeta(0);
+        meta.data.forEach(function(bar, i) {
+          ctx2.save();
+          ctx2.font = 'bold 10px Inter,sans-serif';
+          ctx2.fillStyle = '#fff';
+          ctx2.textAlign = 'left';
+          ctx2.fillText(vals[i].toFixed(1) + ' млн', bar.x + 5, bar.y + 4);
+          ctx2.restore();
+        });
+      }
+    }]
+  });
+}
 function initClient2Charts() {
   if (c2ChartsInited) return;
   c2ChartsInited = true;
