@@ -2457,12 +2457,12 @@
   <div class="card col-12">
     <div class="card-title">Структура портфеля по конкретным бумагам · 191 357 105,89 ₽</div>
 
-    <div style="display:grid;grid-template-columns:1fr 260px;gap:28px;align-items:start;margin-top:4px">
+    <div style="display:grid;grid-template-columns:1fr 300px;gap:28px;align-items:start;margin-top:4px">
 
     <!-- Левая часть: таблица -->
     <div>
     <!-- Шапка -->
-    <div style="display:grid;grid-template-columns:1fr 155px 65px;gap:0;font-size:.75rem">
+    <div style="display:grid;grid-template-columns:minmax(160px,340px) 155px 65px;gap:0;font-size:.75rem">
       <div style="font-size:.58rem;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:rgba(255,255,255,.3);padding:0 0 9px;border-bottom:1px solid rgba(255,255,255,.15)">Инструмент</div>
       <div style="font-size:.58rem;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:rgba(255,255,255,.3);padding:0 0 9px;text-align:right;border-bottom:1px solid rgba(255,255,255,.15)">Сумма</div>
       <div style="font-size:.58rem;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:rgba(255,255,255,.3);padding:0 0 9px;text-align:right;border-bottom:1px solid rgba(255,255,255,.15)">% класса</div>
@@ -2540,27 +2540,56 @@
     </div>
     </div><!-- /левая часть -->
 
-    <!-- Правая часть: бублик -->
-    <div>
-      <div style="height:220px;position:relative"><canvas id="c3-table-donut"></canvas></div>
-      <div style="display:flex;flex-direction:column;gap:8px;margin-top:14px">
-        <div style="display:flex;align-items:center;justify-content:space-between">
-          <div style="display:flex;align-items:center;gap:7px"><span style="width:10px;height:10px;border-radius:2px;background:#00BA38;display:inline-block;flex-shrink:0"></span><span style="font-size:.75rem;color:rgba(255,255,255,.65)">Обл. долларовые</span></div>
-          <span style="font-size:.8rem;font-weight:700;color:#00BA38">54,3%</span>
-        </div>
-        <div style="display:flex;align-items:center;justify-content:space-between">
-          <div style="display:flex;align-items:center;gap:7px"><span style="width:10px;height:10px;border-radius:2px;background:#5BA4F5;display:inline-block;flex-shrink:0"></span><span style="font-size:.75rem;color:rgba(255,255,255,.65)">Обл. рублёвые</span></div>
-          <span style="font-size:.8rem;font-weight:700;color:#5BA4F5">28,6%</span>
-        </div>
-        <div style="display:flex;align-items:center;justify-content:space-between">
-          <div style="display:flex;align-items:center;gap:7px"><span style="width:10px;height:10px;border-radius:2px;background:#1E62D2;display:inline-block;flex-shrink:0"></span><span style="font-size:.75rem;color:rgba(255,255,255,.65)">ОФЗ</span></div>
-          <span style="font-size:.8rem;font-weight:700;color:#1E62D2">14,6%</span>
-        </div>
-        <div style="display:flex;align-items:center;justify-content:space-between">
-          <div style="display:flex;align-items:center;gap:7px"><span style="width:10px;height:10px;border-radius:2px;background:#A8B4C2;display:inline-block;flex-shrink:0"></span><span style="font-size:.75rem;color:rgba(255,255,255,.65)">Кэш</span></div>
-          <span style="font-size:.8rem;font-weight:700;color:#A8B4C2">2,5%</span>
+    <!-- Правая часть: два бублика -->
+    <div style="display:flex;flex-direction:column;gap:20px">
+
+      <!-- Бублик 1: по классам -->
+      <div>
+        <div style="font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:rgba(255,255,255,.35);margin-bottom:8px">По классам активов</div>
+        <div style="display:grid;grid-template-columns:140px 1fr;gap:12px;align-items:center">
+          <div style="height:140px;position:relative"><canvas id="c3-table-donut"></canvas></div>
+          <div style="display:flex;flex-direction:column;gap:7px">
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:8px">
+              <div style="display:flex;align-items:center;gap:6px"><span style="width:8px;height:8px;border-radius:2px;background:#00BA38;display:inline-block;flex-shrink:0"></span><span style="font-size:.7rem;color:rgba(255,255,255,.6)">Обл. долл.</span></div>
+              <span style="font-size:.75rem;font-weight:700;color:#00BA38">54,3%</span>
+            </div>
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:8px">
+              <div style="display:flex;align-items:center;gap:6px"><span style="width:8px;height:8px;border-radius:2px;background:#5BA4F5;display:inline-block;flex-shrink:0"></span><span style="font-size:.7rem;color:rgba(255,255,255,.6)">Обл. руб.</span></div>
+              <span style="font-size:.75rem;font-weight:700;color:#5BA4F5">28,6%</span>
+            </div>
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:8px">
+              <div style="display:flex;align-items:center;gap:6px"><span style="width:8px;height:8px;border-radius:2px;background:#1E62D2;display:inline-block;flex-shrink:0"></span><span style="font-size:.7rem;color:rgba(255,255,255,.6)">ОФЗ</span></div>
+              <span style="font-size:.75rem;font-weight:700;color:#1E62D2">14,6%</span>
+            </div>
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:8px">
+              <div style="display:flex;align-items:center;gap:6px"><span style="width:8px;height:8px;border-radius:2px;background:#A8B4C2;display:inline-block;flex-shrink:0"></span><span style="font-size:.7rem;color:rgba(255,255,255,.6)">Кэш</span></div>
+              <span style="font-size:.75rem;font-weight:700;color:#A8B4C2">2,5%</span>
+            </div>
+          </div>
         </div>
       </div>
+
+      <!-- Разделитель -->
+      <div style="height:1px;background:rgba(255,255,255,.1)"></div>
+
+      <!-- Бублик 2: по валюте -->
+      <div>
+        <div style="font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:rgba(255,255,255,.35);margin-bottom:8px">По валюте</div>
+        <div style="display:grid;grid-template-columns:140px 1fr;gap:12px;align-items:center">
+          <div style="height:140px;position:relative"><canvas id="c3-currency-donut2"></canvas></div>
+          <div style="display:flex;flex-direction:column;gap:7px">
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:8px">
+              <div style="display:flex;align-items:center;gap:6px"><span style="width:8px;height:8px;border-radius:2px;background:#00BA38;display:inline-block;flex-shrink:0"></span><span style="font-size:.7rem;color:rgba(255,255,255,.6)">USD</span></div>
+              <span style="font-size:.75rem;font-weight:700;color:#00BA38">54,3%</span>
+            </div>
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:8px">
+              <div style="display:flex;align-items:center;gap:6px"><span style="width:8px;height:8px;border-radius:2px;background:#5BA4F5;display:inline-block;flex-shrink:0"></span><span style="font-size:.7rem;color:rgba(255,255,255,.6)">RUB</span></div>
+              <span style="font-size:.75rem;font-weight:700;color:#5BA4F5">45,7%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div><!-- /правая часть -->
 
     </div><!-- /двухколоночный грид -->
@@ -6100,12 +6129,19 @@ function initClient3Charts() {
     });
   }
 
-  // 0. Бублик в таблице (правая колонка)
+  // 0a. Бублик классов в таблице
   makeDonut('c3-table-donut',
     ['Обл. долларовые', 'Обл. рублёвые', 'ОФЗ', 'Кэш'],
     [54.35, 28.60, 14.55, 2.50],
     ['#00BA38', '#5BA4F5', '#1E62D2', '#A8B4C2'],
     '191,4 млн', 'руб.');
+
+  // 0b. Бублик по валюте в таблице (USD 54,3% / RUB 45,7%)
+  makeDonut('c3-currency-donut2',
+    ['USD', 'RUB'],
+    [54.35, 45.65],
+    ['#00BA38', '#5BA4F5'],
+    'Валюта', 'портфеля');
 
   // 1. Бублик по валюте
   makeDonut('c3-currency-donut',
