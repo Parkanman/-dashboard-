@@ -2457,8 +2457,12 @@
   <div class="card col-12">
     <div class="card-title">Структура портфеля по конкретным бумагам · 191 357 105,89 ₽</div>
 
+    <div style="display:grid;grid-template-columns:1fr 260px;gap:28px;align-items:start;margin-top:4px">
+
+    <!-- Левая часть: таблица -->
+    <div>
     <!-- Шапка -->
-    <div style="display:grid;grid-template-columns:1fr 155px 70px;gap:0;font-size:.75rem;margin-top:4px">
+    <div style="display:grid;grid-template-columns:1fr 155px 65px;gap:0;font-size:.75rem">
       <div style="font-size:.58rem;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:rgba(255,255,255,.3);padding:0 0 9px;border-bottom:1px solid rgba(255,255,255,.15)">Инструмент</div>
       <div style="font-size:.58rem;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:rgba(255,255,255,.3);padding:0 0 9px;text-align:right;border-bottom:1px solid rgba(255,255,255,.15)">Сумма</div>
       <div style="font-size:.58rem;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:rgba(255,255,255,.3);padding:0 0 9px;text-align:right;border-bottom:1px solid rgba(255,255,255,.15)">% класса</div>
@@ -2497,11 +2501,11 @@
       <div style="border-bottom:1px solid rgba(255,255,255,.07)"></div>
 
       <!-- ── Обл. долларовые ── -->
-      <div style="grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;background:rgba(30,98,210,.12);border-left:3px solid #1E62D2;padding:7px 10px 7px 10px;margin-top:4px;border-radius:0 4px 4px 0">
-        <span style="font-weight:800;color:#1E62D2;font-size:.78rem;text-transform:uppercase;letter-spacing:.06em">Облигации долларовые</span>
+      <div style="grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;background:rgba(0,186,56,.1);border-left:3px solid #00BA38;padding:7px 10px 7px 10px;margin-top:4px;border-radius:0 4px 4px 0">
+        <span style="font-weight:800;color:#00BA38;font-size:.78rem;text-transform:uppercase;letter-spacing:.06em">Облигации долларовые</span>
         <div style="display:flex;align-items:center;gap:16px">
-          <span style="font-weight:800;color:#1E62D2;font-variant-numeric:tabular-nums">103 995 127 ₽</span>
-          <span style="font-size:.82rem;font-weight:800;color:#1E62D2;min-width:40px;text-align:right">54,3%</span>
+          <span style="font-weight:800;color:#00BA38;font-variant-numeric:tabular-nums">103 995 127 ₽</span>
+          <span style="font-size:.82rem;font-weight:800;color:#00BA38;min-width:40px;text-align:right">54,3%</span>
         </div>
       </div>
       <div style="padding:6px 0 4px 14px;color:rgba(255,255,255,.7)">Газпром капитал об3П01</div>
@@ -2534,6 +2538,32 @@
       <div style="padding:12px 0 0;text-align:right;font-weight:800;color:#00BA38;font-size:.9rem">191 357 106 ₽</div>
       <div style="padding:12px 0 0;text-align:right;font-weight:800;color:#00BA38">100%</div>
     </div>
+    </div><!-- /левая часть -->
+
+    <!-- Правая часть: бублик -->
+    <div>
+      <div style="height:220px;position:relative"><canvas id="c3-table-donut"></canvas></div>
+      <div style="display:flex;flex-direction:column;gap:8px;margin-top:14px">
+        <div style="display:flex;align-items:center;justify-content:space-between">
+          <div style="display:flex;align-items:center;gap:7px"><span style="width:10px;height:10px;border-radius:2px;background:#00BA38;display:inline-block;flex-shrink:0"></span><span style="font-size:.75rem;color:rgba(255,255,255,.65)">Обл. долларовые</span></div>
+          <span style="font-size:.8rem;font-weight:700;color:#00BA38">54,3%</span>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between">
+          <div style="display:flex;align-items:center;gap:7px"><span style="width:10px;height:10px;border-radius:2px;background:#5BA4F5;display:inline-block;flex-shrink:0"></span><span style="font-size:.75rem;color:rgba(255,255,255,.65)">Обл. рублёвые</span></div>
+          <span style="font-size:.8rem;font-weight:700;color:#5BA4F5">28,6%</span>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between">
+          <div style="display:flex;align-items:center;gap:7px"><span style="width:10px;height:10px;border-radius:2px;background:#1E62D2;display:inline-block;flex-shrink:0"></span><span style="font-size:.75rem;color:rgba(255,255,255,.65)">ОФЗ</span></div>
+          <span style="font-size:.8rem;font-weight:700;color:#1E62D2">14,6%</span>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between">
+          <div style="display:flex;align-items:center;gap:7px"><span style="width:10px;height:10px;border-radius:2px;background:#A8B4C2;display:inline-block;flex-shrink:0"></span><span style="font-size:.75rem;color:rgba(255,255,255,.65)">Кэш</span></div>
+          <span style="font-size:.8rem;font-weight:700;color:#A8B4C2">2,5%</span>
+        </div>
+      </div>
+    </div><!-- /правая часть -->
+
+    </div><!-- /двухколоночный грид -->
 
     <div class="updated" style="margin-top:12px">ООО УК Альфа-Капитал · 10.06.2026 · Данные из отчёта по стратегиям</div>
   </div>
@@ -6070,6 +6100,13 @@ function initClient3Charts() {
     });
   }
 
+  // 0. Бублик в таблице (правая колонка)
+  makeDonut('c3-table-donut',
+    ['Обл. долларовые', 'Обл. рублёвые', 'ОФЗ', 'Кэш'],
+    [54.35, 28.60, 14.55, 2.50],
+    ['#00BA38', '#5BA4F5', '#1E62D2', '#A8B4C2'],
+    '191,4 млн', 'руб.');
+
   // 1. Бублик по валюте
   makeDonut('c3-currency-donut',
     ['USD', 'RUB', 'GBP'],
@@ -6077,12 +6114,12 @@ function initClient3Charts() {
     ['#1E62D2', '#4DD9AC', '#FFD166'],
     '284,4 млн', 'руб.');
 
-  // 2. Бублик по классам активов
+  // 2. Бублик по классам активов (рублёвые = синие, долларовые = зелёный)
   makeDonut('c3-assets-donut',
-    ['Корп. облигации', 'БПИФ / ЗПИФ', 'Акции (иностр.)', 'ОФЗ / гос. РФ', 'Структурные', 'Деньги и прочее'],
-    [58.88, 17.26, 9.01, 7.88, 2.68, 4.29],
-    ['#1E62D2', '#4DD9AC', '#E8800A', '#5BA4F5', '#FFD166', '#A8B4C2'],
-    '284,4 млн', 'руб.');
+    ['Обл. долларовые', 'Обл. рублёвые', 'ОФЗ', 'Кэш'],
+    [54.35, 28.60, 14.55, 2.50],
+    ['#00BA38', '#5BA4F5', '#1E62D2', '#A8B4C2'],
+    '191,4 млн', 'руб.');
 
   // 3. Горизонтальный бар по стратегиям
   var ctx3 = document.getElementById('c3-strategies-chart');
