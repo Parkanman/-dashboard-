@@ -2380,8 +2380,8 @@
       <span style="font-weight:400;text-transform:none;letter-spacing:0;font-size:.68rem">с 17.11.2016</span>
     </div>
     <div style="margin-bottom:14px">
-      <div style="font-size:2.4rem;font-weight:800;color:var(--black);letter-spacing:-.04em;line-height:1">284,4 <span style="font-size:1.1rem;font-weight:600;color:var(--graphite)">млн руб.</span></div>
-      <div style="font-size:.72rem;color:var(--gray);margin-top:4px">стоимость портфеля · 10.06.2026</div>
+      <div style="font-size:2.4rem;font-weight:800;color:var(--black);letter-spacing:-.04em;line-height:1">191,4 <span style="font-size:1.1rem;font-weight:600;color:var(--graphite)">млн руб.</span></div>
+      <div style="font-size:.72rem;color:var(--gray);margin-top:4px">облигационный портфель · 10.06.2026</div>
     </div>
     <div style="border-top:1px solid var(--silver);padding-top:10px;margin-bottom:12px">
       <div class="pf-row">
@@ -2400,74 +2400,142 @@
       </div>
     </div>
     <div style="background:rgba(255,255,255,.06);border-radius:8px;padding:10px 12px">
-      <div style="font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--gray);margin-bottom:6px">7 стратегий управления</div>
-      <div style="font-size:.72rem;color:rgba(255,255,255,.55);line-height:1.7">
-        Мировые облигации · Казначей 4.0<br>
-        Мировой Эксперт $ · Казначей 5.0<br>
-        Промпарки 2 · Альфа Квант 2.0<br>
-        Альфа Рос. Бизнес 2.1
+      <div style="font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--gray);margin-bottom:6px">Всего портфель · 284,4 млн</div>
+      <div style="font-size:.7rem;color:rgba(255,255,255,.45);line-height:1.6">
+        Облигации и кэш: 191,4 млн<br>
+        Иностр. акции (заблок.): ~93 млн
       </div>
     </div>
   </div>
 
-  <!-- Валюта -->
+  <!-- Бублик по классам -->
   <div class="card col-4">
-    <div class="card-title">По валюте</div>
+    <div class="card-title">По классам активов</div>
+    <div style="height:200px;position:relative"><canvas id="c3-assets-donut"></canvas></div>
+    <div style="margin-top:12px;display:flex;flex-direction:column;gap:6px">
+      <div style="display:flex;align-items:center;justify-content:space-between">
+        <div style="display:flex;align-items:center;gap:7px"><span style="width:10px;height:10px;border-radius:2px;background:#1E62D2;display:inline-block;flex-shrink:0"></span><span style="font-size:.78rem;color:var(--graphite)">Обл. долларовые</span></div>
+        <div style="display:flex;gap:10px"><span style="font-size:.78rem;font-weight:700;color:var(--black)">104,0 млн</span><span style="font-size:.72rem;color:var(--gray);width:38px;text-align:right">54,3%</span></div>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:space-between">
+        <div style="display:flex;align-items:center;gap:7px"><span style="width:10px;height:10px;border-radius:2px;background:#4DD9AC;display:inline-block;flex-shrink:0"></span><span style="font-size:.78rem;color:var(--graphite)">Обл. рублёвые</span></div>
+        <div style="display:flex;gap:10px"><span style="font-size:.78rem;font-weight:700;color:var(--black)">54,7 млн</span><span style="font-size:.72rem;color:var(--gray);width:38px;text-align:right">28,6%</span></div>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:space-between">
+        <div style="display:flex;align-items:center;gap:7px"><span style="width:10px;height:10px;border-radius:2px;background:#5BA4F5;display:inline-block;flex-shrink:0"></span><span style="font-size:.78rem;color:var(--graphite)">ОФЗ</span></div>
+        <div style="display:flex;gap:10px"><span style="font-size:.78rem;font-weight:700;color:var(--black)">27,8 млн</span><span style="font-size:.72rem;color:var(--gray);width:38px;text-align:right">14,6%</span></div>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:space-between">
+        <div style="display:flex;align-items:center;gap:7px"><span style="width:10px;height:10px;border-radius:2px;background:#A8B4C2;display:inline-block;flex-shrink:0"></span><span style="font-size:.78rem;color:var(--graphite)">Кэш</span></div>
+        <div style="display:flex;gap:10px"><span style="font-size:.78rem;font-weight:700;color:var(--black)">4,8 млн</span><span style="font-size:.72rem;color:var(--gray);width:38px;text-align:right">2,5%</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Бублик по валюте -->
+  <div class="card col-4">
+    <div class="card-title">По валюте (обл. портфель)</div>
     <div style="height:200px;position:relative"><canvas id="c3-currency-donut"></canvas></div>
     <div style="margin-top:12px;display:flex;flex-direction:column;gap:6px">
       <div style="display:flex;align-items:center;justify-content:space-between">
-        <div style="display:flex;align-items:center;gap:7px">
-          <span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#1E62D2;flex-shrink:0"></span>
-          <span style="font-size:.78rem;color:var(--graphite)">USD</span>
-        </div>
-        <div style="display:flex;gap:10px">
-          <span style="font-size:.78rem;font-weight:700;color:var(--black)">179,8 млн</span>
-          <span style="font-size:.72rem;color:var(--gray);width:38px;text-align:right">63,2%</span>
-        </div>
+        <div style="display:flex;align-items:center;gap:7px"><span style="width:10px;height:10px;border-radius:2px;background:#1E62D2;display:inline-block;flex-shrink:0"></span><span style="font-size:.78rem;color:var(--graphite)">USD</span></div>
+        <div style="display:flex;gap:10px"><span style="font-size:.78rem;font-weight:700;color:var(--black)">104,0 млн</span><span style="font-size:.72rem;color:var(--gray);width:38px;text-align:right">54,3%</span></div>
       </div>
       <div style="display:flex;align-items:center;justify-content:space-between">
-        <div style="display:flex;align-items:center;gap:7px">
-          <span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#4DD9AC;flex-shrink:0"></span>
-          <span style="font-size:.78rem;color:var(--graphite)">RUB</span>
-        </div>
-        <div style="display:flex;gap:10px">
-          <span style="font-size:.78rem;font-weight:700;color:var(--black)">96,0 млн</span>
-          <span style="font-size:.72rem;color:var(--gray);width:38px;text-align:right">34,0%</span>
-        </div>
+        <div style="display:flex;align-items:center;gap:7px"><span style="width:10px;height:10px;border-radius:2px;background:#4DD9AC;display:inline-block;flex-shrink:0"></span><span style="font-size:.78rem;color:var(--graphite)">RUB</span></div>
+        <div style="display:flex;gap:10px"><span style="font-size:.78rem;font-weight:700;color:var(--black)">82,6 млн</span><span style="font-size:.72rem;color:var(--gray);width:38px;text-align:right">43,2%</span></div>
       </div>
       <div style="display:flex;align-items:center;justify-content:space-between">
-        <div style="display:flex;align-items:center;gap:7px">
-          <span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#FFD166;flex-shrink:0"></span>
-          <span style="font-size:.78rem;color:var(--graphite)">GBP</span>
-        </div>
-        <div style="display:flex;gap:10px">
-          <span style="font-size:.78rem;font-weight:700;color:var(--black)">7,8 млн</span>
-          <span style="font-size:.72rem;color:var(--gray);width:38px;text-align:right">2,8%</span>
-        </div>
+        <div style="display:flex;align-items:center;gap:7px"><span style="width:10px;height:10px;border-radius:2px;background:#FFD166;display:inline-block;flex-shrink:0"></span><span style="font-size:.78rem;color:var(--graphite)">Кэш</span></div>
+        <div style="display:flex;gap:10px"><span style="font-size:.78rem;font-weight:700;color:var(--black)">4,8 млн</span><span style="font-size:.72rem;color:var(--gray);width:38px;text-align:right">2,5%</span></div>
       </div>
     </div>
     <div class="updated" style="margin-top:8px">ООО УК Альфа-Капитал · 10.06.2026</div>
   </div>
 
-  <!-- Классы активов -->
-  <div class="card col-4">
-    <div class="card-title">По классам активов</div>
-    <div style="height:200px;position:relative"><canvas id="c3-assets-donut"></canvas></div>
-    <div style="margin-top:12px;display:flex;flex-direction:column;gap:5px">
-      <div style="display:flex;justify-content:space-between"><div style="display:flex;align-items:center;gap:6px"><span style="width:9px;height:9px;border-radius:2px;background:#1E62D2;display:inline-block;flex-shrink:0"></span><span style="font-size:.72rem;color:var(--graphite)">Корп. облигации</span></div><span style="font-size:.72rem;font-weight:700;color:var(--black)">58,9%</span></div>
-      <div style="display:flex;justify-content:space-between"><div style="display:flex;align-items:center;gap:6px"><span style="width:9px;height:9px;border-radius:2px;background:#4DD9AC;display:inline-block;flex-shrink:0"></span><span style="font-size:.72rem;color:var(--graphite)">БПИФ / ЗПИФ</span></div><span style="font-size:.72rem;font-weight:700;color:var(--black)">17,3%</span></div>
-      <div style="display:flex;justify-content:space-between"><div style="display:flex;align-items:center;gap:6px"><span style="width:9px;height:9px;border-radius:2px;background:#E8800A;display:inline-block;flex-shrink:0"></span><span style="font-size:.72rem;color:var(--graphite)">Акции (иностр., заблок.)</span></div><span style="font-size:.72rem;font-weight:700;color:var(--black)">9,0%</span></div>
-      <div style="display:flex;justify-content:space-between"><div style="display:flex;align-items:center;gap:6px"><span style="width:9px;height:9px;border-radius:2px;background:#5BA4F5;display:inline-block;flex-shrink:0"></span><span style="font-size:.72rem;color:var(--graphite)">ОФЗ / гос. бумаги РФ</span></div><span style="font-size:.72rem;font-weight:700;color:var(--black)">7,9%</span></div>
-      <div style="display:flex;justify-content:space-between"><div style="display:flex;align-items:center;gap:6px"><span style="width:9px;height:9px;border-radius:2px;background:#FFD166;display:inline-block;flex-shrink:0"></span><span style="font-size:.72rem;color:var(--graphite)">Структурные продукты</span></div><span style="font-size:.72rem;font-weight:700;color:var(--black)">2,7%</span></div>
-      <div style="display:flex;justify-content:space-between"><div style="display:flex;align-items:center;gap:6px"><span style="width:9px;height:9px;border-radius:2px;background:#A8B4C2;display:inline-block;flex-shrink:0"></span><span style="font-size:.72rem;color:var(--graphite)">Деньги и прочее</span></div><span style="font-size:.72rem;font-weight:700;color:var(--black)">4,2%</span></div>
-    </div>
-  </div>
-
-  <!-- Конкретные бумаги / стратегии -->
+  <!-- Детальная таблица по инструментам -->
   <div class="card col-12">
-    <div class="card-title">По стратегиям — стоимость позиций, млн руб. · 10.06.2026</div>
-    <div style="height:260px;position:relative"><canvas id="c3-strategies-chart"></canvas></div>
-    <div class="updated" style="margin-top:6px">ООО УК Альфа-Капитал · USD позиции пересчитаны по курсу ЦБ · иностр. акции заблокированы</div>
+    <div class="card-title">Структура портфеля по конкретным бумагам · 191 357 105,89 ₽</div>
+
+    <!-- Шапка -->
+    <div style="display:grid;grid-template-columns:1fr 155px 70px;gap:0;font-size:.75rem;margin-top:4px">
+      <div style="font-size:.58rem;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:rgba(255,255,255,.3);padding:0 0 9px;border-bottom:1px solid rgba(255,255,255,.15)">Инструмент</div>
+      <div style="font-size:.58rem;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:rgba(255,255,255,.3);padding:0 0 9px;text-align:right;border-bottom:1px solid rgba(255,255,255,.15)">Сумма</div>
+      <div style="font-size:.58rem;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:rgba(255,255,255,.3);padding:0 0 9px;text-align:right;border-bottom:1px solid rgba(255,255,255,.15)">% класса</div>
+
+      <!-- ── ОФЗ ── -->
+      <div style="grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;background:rgba(91,164,245,.1);border-left:3px solid #5BA4F5;padding:7px 10px 7px 10px;margin-top:6px;border-radius:0 4px 4px 0">
+        <span style="font-weight:800;color:#5BA4F5;font-size:.78rem;text-transform:uppercase;letter-spacing:.06em">ОФЗ</span>
+        <div style="display:flex;align-items:center;gap:16px">
+          <span style="font-weight:800;color:#5BA4F5;font-variant-numeric:tabular-nums">27 835 169 ₽</span>
+          <span style="font-size:.82rem;font-weight:800;color:#5BA4F5;min-width:40px;text-align:right">14,6%</span>
+        </div>
+      </div>
+      <div style="padding:6px 0 4px 14px;color:rgba(255,255,255,.7)">СО ОФЗ 26248 Купон 45%</div>
+      <div style="padding:6px 0 4px;text-align:right;color:#fff;font-weight:600;font-variant-numeric:tabular-nums">5 000 000 ₽</div>
+      <div></div>
+      <div style="padding:3px 0 4px 14px;color:rgba(255,255,255,.7)">Опцион ОФЗ 26238</div>
+      <div style="padding:3px 0 4px;text-align:right;color:#fff;font-weight:600;font-variant-numeric:tabular-nums">2 571 296 ₽</div>
+      <div></div>
+      <div style="padding:3px 0 8px 14px;color:rgba(255,255,255,.7);border-bottom:1px solid rgba(255,255,255,.07)">ИПИФ ОФЗ Смарт Турбо</div>
+      <div style="padding:3px 0 8px;text-align:right;color:#fff;font-weight:600;font-variant-numeric:tabular-nums;border-bottom:1px solid rgba(255,255,255,.07)">20 263 873 ₽</div>
+      <div style="border-bottom:1px solid rgba(255,255,255,.07)"></div>
+
+      <!-- ── Обл. рублёвые ── -->
+      <div style="grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;background:rgba(77,217,172,.1);border-left:3px solid #4DD9AC;padding:7px 10px 7px 10px;margin-top:4px;border-radius:0 4px 4px 0">
+        <span style="font-weight:800;color:#4DD9AC;font-size:.78rem;text-transform:uppercase;letter-spacing:.06em">Облигации рублёвые</span>
+        <div style="display:flex;align-items:center;gap:16px">
+          <span style="font-weight:800;color:#4DD9AC;font-variant-numeric:tabular-nums">54 741 649 ₽</span>
+          <span style="font-size:.82rem;font-weight:800;color:#4DD9AC;min-width:40px;text-align:right">28,6%</span>
+        </div>
+      </div>
+      <div style="padding:6px 0 4px 14px;color:rgba(255,255,255,.7)">БПИФ Управляемые облигации</div>
+      <div style="padding:6px 0 4px;text-align:right;color:#fff;font-weight:600;font-variant-numeric:tabular-nums">47 301 855 ₽</div>
+      <div></div>
+      <div style="padding:3px 0 8px 14px;color:rgba(255,255,255,.7);border-bottom:1px solid rgba(255,255,255,.07)">Банк ВТБ об1П05undt</div>
+      <div style="padding:3px 0 8px;text-align:right;color:#fff;font-weight:600;font-variant-numeric:tabular-nums;border-bottom:1px solid rgba(255,255,255,.07)">7 439 795 ₽</div>
+      <div style="border-bottom:1px solid rgba(255,255,255,.07)"></div>
+
+      <!-- ── Обл. долларовые ── -->
+      <div style="grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;background:rgba(30,98,210,.12);border-left:3px solid #1E62D2;padding:7px 10px 7px 10px;margin-top:4px;border-radius:0 4px 4px 0">
+        <span style="font-weight:800;color:#1E62D2;font-size:.78rem;text-transform:uppercase;letter-spacing:.06em">Облигации долларовые</span>
+        <div style="display:flex;align-items:center;gap:16px">
+          <span style="font-weight:800;color:#1E62D2;font-variant-numeric:tabular-nums">103 995 127 ₽</span>
+          <span style="font-size:.82rem;font-weight:800;color:#1E62D2;min-width:40px;text-align:right">54,3%</span>
+        </div>
+      </div>
+      <div style="padding:6px 0 4px 14px;color:rgba(255,255,255,.7)">Газпром капитал об3П01</div>
+      <div style="padding:6px 0 4px;text-align:right;color:#fff;font-weight:600;font-variant-numeric:tabular-nums">51 698 436 ₽</div>
+      <div></div>
+      <div style="padding:3px 0 4px 14px;color:rgba(255,255,255,.7)">Банк ВТБ об12undt</div>
+      <div style="padding:3px 0 4px;text-align:right;color:#fff;font-weight:600;font-variant-numeric:tabular-nums">23 760 788 ₽</div>
+      <div></div>
+      <div style="padding:3px 0 4px 14px;color:rgba(255,255,255,.7)">Совкомбанк об20</div>
+      <div style="padding:3px 0 4px;text-align:right;color:#fff;font-weight:600;font-variant-numeric:tabular-nums">16 924 399 ₽</div>
+      <div></div>
+      <div style="padding:3px 0 8px 14px;color:rgba(255,255,255,.7);border-bottom:1px solid rgba(255,255,255,.07)">Совкомбанк об15</div>
+      <div style="padding:3px 0 8px;text-align:right;color:#fff;font-weight:600;font-variant-numeric:tabular-nums;border-bottom:1px solid rgba(255,255,255,.07)">11 611 504 ₽</div>
+      <div style="border-bottom:1px solid rgba(255,255,255,.07)"></div>
+
+      <!-- ── Кэш ── -->
+      <div style="grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;background:rgba(168,180,194,.1);border-left:3px solid #A8B4C2;padding:7px 10px 7px 10px;margin-top:4px;border-radius:0 4px 4px 0">
+        <span style="font-weight:800;color:#A8B4C2;font-size:.78rem;text-transform:uppercase;letter-spacing:.06em">Кэш</span>
+        <div style="display:flex;align-items:center;gap:16px">
+          <span style="font-weight:800;color:#A8B4C2;font-variant-numeric:tabular-nums">4 785 161 ₽</span>
+          <span style="font-size:.82rem;font-weight:800;color:#A8B4C2;min-width:40px;text-align:right">2,5%</span>
+        </div>
+      </div>
+      <div style="padding:6px 0 10px 14px;color:rgba(255,255,255,.7);border-bottom:1px solid rgba(255,255,255,.15)">Денежный Рынок</div>
+      <div style="padding:6px 0 10px;text-align:right;color:#fff;font-weight:600;font-variant-numeric:tabular-nums;border-bottom:1px solid rgba(255,255,255,.15)">4 785 161 ₽</div>
+      <div style="border-bottom:1px solid rgba(255,255,255,.15)"></div>
+
+      <!-- Итого -->
+      <div style="padding:12px 0 0;font-weight:800;color:#fff;font-size:.8rem">ИТОГО</div>
+      <div style="padding:12px 0 0;text-align:right;font-weight:800;color:#00BA38;font-size:.9rem">191 357 106 ₽</div>
+      <div style="padding:12px 0 0;text-align:right;font-weight:800;color:#00BA38">100%</div>
+    </div>
+
+    <div class="updated" style="margin-top:12px">ООО УК Альфа-Капитал · 10.06.2026 · Данные из отчёта по стратегиям</div>
   </div>
 
   </div><!-- /c3-data -->
