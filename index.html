@@ -1190,21 +1190,38 @@
   <!-- Показатели брокеров (ЦБ РФ) -->
   <div class="card col-7" style="display:flex;flex-direction:column">
     <div class="card-title">
-      Показатели брокеров
+      <span style="display:flex;align-items:center;gap:7px">
+        <svg width="17" height="16" viewBox="0 0 36 36" fill="none" style="flex-shrink:0;opacity:.85">
+          <circle cx="11" cy="22" r="5"   fill="#E61E14"/>
+          <circle cx="20" cy="22" r="3.8" fill="#E61E14"/>
+          <circle cx="27.5" cy="22" r="2.8" fill="#E61E14"/>
+          <circle cx="11"  cy="14" r="3.8" fill="#E61E14"/>
+          <circle cx="19"  cy="13" r="2.8" fill="#E61E14"/>
+          <circle cx="16"  cy="20" r="2.2" fill="#E61E14" opacity=".5"/>
+          <circle cx="24.5" cy="16.5" r="1.8" fill="#E61E14" opacity=".5"/>
+        </svg>
+        Показатели брокеров
+      </span>
       <span style="font-weight:400;text-transform:none;letter-spacing:0">I кв. 2026 · ЦБ РФ</span>
     </div>
     <div style="flex:1;min-height:0;display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px;margin-bottom:16px;min-width:0">
       <div style="min-width:0;display:flex;flex-direction:column">
         <div class="broker-chart-lbl">Нетто-взносы ФЛ, млрд руб.</div>
-        <div style="flex:1;min-height:0;position:relative;width:100%"><canvas id="bc-inflow"></canvas></div>
+        <div style="flex:1;min-height:0;position:relative;width:100%">
+          <canvas id="bc-inflow"></canvas>
+        </div>
       </div>
       <div style="min-width:0;display:flex;flex-direction:column">
         <div class="broker-chart-lbl">Инвесторы с активами, млн чел.</div>
-        <div style="flex:1;min-height:0;position:relative;width:100%"><canvas id="bc-clients"></canvas></div>
+        <div style="flex:1;min-height:0;position:relative;width:100%">
+          <canvas id="bc-clients"></canvas>
+        </div>
       </div>
       <div style="min-width:0;display:flex;flex-direction:column">
         <div class="broker-chart-lbl">Структура портфелей ФЛ, 1к26</div>
-        <div style="flex:1;min-height:0;position:relative;width:100%"><canvas id="bc-donut"></canvas></div>
+        <div style="flex:1;min-height:0;position:relative;width:100%">
+          <canvas id="bc-donut"></canvas>
+        </div>
       </div>
     </div>
     <div class="broker-kpis">
@@ -1248,7 +1265,7 @@
         <span style="font-size:.71rem;color:var(--gray)">Ключевая ставка ЦБ</span>
       </span>
       <span style="display:flex;align-items:center;gap:6px">
-        <span style="display:inline-block;width:18px;height:2px;background:#E61E14;border-radius:1px"></span>
+        <span style="display:inline-block;width:18px;height:2px;background:#5B7B9A;border-radius:1px"></span>
         <span style="font-size:.71rem;color:var(--gray)">Ставка по вкладам ФЛ (&gt; 1 года)</span>
       </span>
     </div>
@@ -1550,7 +1567,7 @@
         <span>Притоки в ПИФы: деньги и облигации, млн руб.</span>
         <span style="display:flex;gap:10px">
           <span style="display:flex;align-items:center;gap:4px">
-            <span style="display:inline-block;width:10px;height:10px;background:rgba(30,98,210,.68);border-radius:2px"></span>
+            <span style="display:inline-block;width:10px;height:10px;background:rgba(91,123,154,.75);border-radius:2px"></span>
             <span style="font-size:.62rem;color:var(--gray)">Денежный рынок</span>
           </span>
           <span style="display:flex;align-items:center;gap:4px">
@@ -1579,7 +1596,7 @@
             <span style="font-size:.62rem;color:var(--gray)">Отток</span>
           </span>
           <span style="display:flex;align-items:center;gap:4px">
-            <span style="display:inline-block;width:14px;height:0;border-top:2px solid #1E62D2"></span>
+            <span style="display:inline-block;width:14px;height:0;border-top:2px solid rgba(255,255,255,.55)"></span>
             <span style="font-size:.62rem;color:var(--gray)">IMOEX</span>
           </span>
         </span>
@@ -1743,7 +1760,7 @@
         <div style="height:210px;position:relative"><canvas id="biz-revenue-chart"></canvas></div>
         <div class="updated" style="display:flex;gap:18px;margin-top:6px;flex-wrap:wrap">
           <span style="display:flex;align-items:center;gap:5px">
-            <span style="display:inline-block;width:12px;height:12px;background:rgba(230,30,20,.55);border-radius:2px"></span>Выручка, млн руб.
+            <span style="display:inline-block;width:12px;height:12px;background:rgba(91,123,154,.7);border-radius:2px"></span>Выручка, млн руб.
           </span>
           <span style="display:flex;align-items:center;gap:5px">
             <span style="display:inline-block;width:18px;height:2px;background:rgba(255,255,255,.6);border-radius:1px"></span>Маржинальность, % год.
@@ -3848,7 +3865,7 @@ function renderCPI() {
 
   const rawLabels = cpiData.map(([d]) => d);
   const values    = cpiData.map(([, v]) => v);
-  const colors    = values.map(v => v < 0 ? 'rgba(230,30,20,0.35)' : '#E61E14');
+  const colors    = values.map(v => v < 0 ? '#E61E14' : '#5B7B9A');
 
   // Подпись оси X: каждые ~3 месяца, полное название + год (стиль Альфа)
   const MONTHS_FULL = ['','Январь','Февраль','Март','Апрель','Май','Июнь',
@@ -4087,14 +4104,14 @@ function renderRateCharts() {
           {
             label: 'Вклады ФЛ (> 1 года)',
             data: DEP_FL,
-            borderColor: '#E61E14',
+            borderColor: '#5B7B9A',
             borderWidth: 2.5,
             tension: 0.3,
             spanGaps: false,
             pointRadius: 0,
             pointHoverRadius: 5,
-            pointHoverBackgroundColor: '#E61E14',
-            backgroundColor: 'rgba(230,30,20,0.08)',
+            pointHoverBackgroundColor: '#5B7B9A',
+            backgroundColor: 'rgba(91,123,154,0.08)',
             fill: true,
           }
         ]
@@ -4145,7 +4162,7 @@ function renderRateCharts() {
           }
           ctx.fillStyle = 'rgba(255,255,255,0.7)';
           ctx.fillText('КС ' + String(lastCB).replace('.', ',') + '%', chartArea.right - 6, yCB);
-          ctx.fillStyle = '#E61E14';
+          ctx.fillStyle = '#5B7B9A';
           ctx.fillText('Вклады ' + String(lastFL).replace('.', ',') + '%', chartArea.right - 6, yFL);
           ctx.restore();
         }
@@ -4176,8 +4193,8 @@ function renderRateCharts() {
   if (volEl) {
     const ctx2d = volEl.getContext('2d');
     const grad = ctx2d.createLinearGradient(0, 0, 0, 180);
-    grad.addColorStop(0, 'rgba(230,30,20,0.28)');
-    grad.addColorStop(1, 'rgba(230,30,20,0.02)');
+    grad.addColorStop(0, 'rgba(91,123,154,0.28)');
+    grad.addColorStop(1, 'rgba(91,123,154,0.02)');
 
     // Референсная линия: акции ФЛ на брокерских счетах = 3.2 трлн (1к26)
     const BROKER_REF = Array(N).fill(3.2);
@@ -4190,14 +4207,14 @@ function renderRateCharts() {
           {
             label: 'Средства ФЛ в банках',
             data: FL_VOL,
-            borderColor: '#E61E14',
+            borderColor: '#5B7B9A',
             borderWidth: 2,
             backgroundColor: grad,
             fill: true,
             tension: 0.3,
             pointRadius: 0,
             pointHoverRadius: 5,
-            pointHoverBackgroundColor: '#E61E14',
+            pointHoverBackgroundColor: '#5B7B9A',
           },
           {
             label: 'Активы ФЛ на бр. счетах',
@@ -4743,7 +4760,7 @@ function renderBrokerCharts() {
       labels: ifLabels,
       datasets: [{
         data: ifData,
-        backgroundColor: ifData.map((_, i) => i === ifData.length - 1 ? '#E61E14' : 'rgba(230,30,20,0.45)'),
+        backgroundColor: ifData.map((_, i) => i === ifData.length - 1 ? '#5B7B9A' : 'rgba(91,123,154,0.42)'),
         borderRadius: 3,
         barPercentage: 0.72,
       }]
@@ -4771,11 +4788,11 @@ function renderBrokerCharts() {
       datasets: [{
         label: 'Инвесторов с активами',
         data: clData,
-        borderColor: '#E61E14',
-        backgroundColor: 'rgba(230,30,20,0.07)',
+        borderColor: '#5B7B9A',
+        backgroundColor: 'rgba(91,123,154,0.10)',
         borderWidth: 2,
         pointRadius: 3,
-        pointBackgroundColor: '#E61E14',
+        pointBackgroundColor: '#5B7B9A',
         tension: 0.35,
         fill: true,
       }]
@@ -4828,7 +4845,7 @@ function renderBrokerCharts() {
       labels: ['Облигации РФ', 'Акции РФ', 'БПИФ / Паи', 'Иностр. активы', 'Деньги и прочее'],
       datasets: [{
         data: [36, 24, 19, 14, 7],
-        backgroundColor: ['#E61E14', '#1E62D2', '#00BA38', '#F0B429', '#B6B7BA'],
+        backgroundColor: ['#E61E14', '#5B7B9A', '#00BA38', '#C4956A', '#8A8D91'],
         borderWidth: 2,
         borderColor: '#ffffff',
         hoverOffset: 6,
@@ -5259,8 +5276,8 @@ function renderBizCharts() {
   });
 
   function lineDataset(data) {
-    return { data: data, borderColor: '#E61E14', backgroundColor: 'rgba(230,30,20,.08)',
-      borderWidth: 2, pointRadius: 3, pointBackgroundColor: '#E61E14', tension: 0.35, fill: true };
+    return { data: data, borderColor: '#5B7B9A', backgroundColor: 'rgba(91,123,154,.08)',
+      borderWidth: 2, pointRadius: 3, pointBackgroundColor: '#5B7B9A', tension: 0.35, fill: true };
   }
   const baseOpts = { responsive: true, maintainAspectRatio: false, animation: { duration: 400 },
     plugins: { legend: { display: false } }, scales: BIZ_SCALE };
@@ -5343,7 +5360,7 @@ function renderBizRevenue() {
   const MARGIN  = [1.34, 2.13, 1.84, 0.86, 0.64, 2.69, 1.20];
 
   const barColors = REVENUE.map((_, i) =>
-    i === REVENUE.length - 1 ? '#E61E14' : 'rgba(230,30,20,0.5)'
+    i === REVENUE.length - 1 ? '#5B7B9A' : 'rgba(91,123,154,0.5)'
   );
 
   new Chart(el.getContext('2d'), {
@@ -7359,8 +7376,8 @@ function switchIssuer(id) {
       labels: lbl,
       datasets: [
         { label:'Денежный рынок', data:mm,
-          backgroundColor: mm.map(function(v){ return v>=0?'rgba(30,98,210,.68)':'rgba(30,98,210,.35)'; }),
-          borderColor: mm.map(function(v){ return v>=0?'#1E62D2':'rgba(30,98,210,.5)'; }),
+          backgroundColor: mm.map(function(v){ return v>=0?'rgba(91,123,154,.75)':'rgba(91,123,154,.35)'; }),
+          borderColor: mm.map(function(v){ return v>=0?'#5B7B9A':'rgba(91,123,154,.5)'; }),
           borderWidth:1, borderRadius:2, stack:'s', categoryPercentage:0.8, barPercentage:1 },
         { label:'Облигации', data:ob,
           backgroundColor:'rgba(0,186,56,.62)',
@@ -7483,8 +7500,8 @@ function switchIssuer(id) {
           yAxisID:'y' },
         { type:'line', label:'IMOEX',
           data:imoex,
-          borderColor:'#1E62D2', backgroundColor:'transparent',
-          borderWidth:2, pointRadius:0, tension:0.3,
+          borderColor:'rgba(255,255,255,.6)', backgroundColor:'transparent',
+          borderWidth:1.5, pointRadius:0, tension:0.3,
           yAxisID:'y2' }
       ]
     },
@@ -7519,7 +7536,7 @@ function switchIssuer(id) {
         y2:{
           position:'right',
           grid:{drawOnChartArea:false},
-          ticks:{color:'#1E62D2',font:{size:9},callback:function(v){return v.toFixed(0);}},
+          ticks:{color:'rgba(255,255,255,.45)',font:{size:9},callback:function(v){return v.toFixed(0);}},
           min:0
         }
       }
@@ -7730,6 +7747,32 @@ function switchIssuer(id) {
   }
   window.addEventListener('scroll', updateActive, { passive: true });
   updateActive();
+})();
+
+// ─── Знак Альфа Капитал перед заголовком каждой карточки (секции 01–04) ──
+(function(){
+  var SVG = '<svg width="15" height="14" viewBox="0 0 36 36" fill="none" style="flex-shrink:0;opacity:.82;margin-right:5px">'
+    + '<circle cx="11" cy="22" r="5" fill="#E61E14"/>'
+    + '<circle cx="20" cy="22" r="3.8" fill="#E61E14"/>'
+    + '<circle cx="27.5" cy="22" r="2.8" fill="#E61E14"/>'
+    + '<circle cx="11" cy="14" r="3.8" fill="#E61E14"/>'
+    + '<circle cx="19" cy="13" r="2.8" fill="#E61E14"/>'
+    + '<circle cx="16" cy="20" r="2.2" fill="#E61E14" opacity=".5"/>'
+    + '<circle cx="24.5" cy="16.5" r="1.8" fill="#E61E14" opacity=".5"/>'
+    + '</svg>';
+  ['sec-01','sec-02','sec-03','sec-04'].forEach(function(id){
+    var sec = document.getElementById(id); if(!sec) return;
+    sec.querySelectorAll('.card-title').forEach(function(ct){
+      if(ct.querySelector('svg')) return;
+      var fc = ct.firstElementChild;
+      if(fc && fc.tagName === 'SPAN' && fc !== ct.lastElementChild){
+        fc.insertAdjacentHTML('afterbegin', SVG);
+        if(!fc.style.display){ fc.style.display='flex'; fc.style.alignItems='center'; }
+      } else {
+        ct.insertAdjacentHTML('afterbegin', SVG);
+      }
+    });
+  });
 })();
 </script>
 </body>
