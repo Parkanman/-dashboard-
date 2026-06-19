@@ -136,6 +136,7 @@
       padding: 20px 22px;
       box-shadow: var(--shadow);
       transition: box-shadow 0.2s;
+      font-variant-numeric: tabular-nums;
     }
     .card:hover { box-shadow: 0 3px 10px rgba(30,30,30,.13), 0 8px 28px rgba(30,30,30,.10); }
 
@@ -162,6 +163,9 @@
     .f-between{ display:flex; align-items:center; justify-content:space-between; }
     .f-col-g4 { display:flex; flex-direction:column; gap:4px; }
     .f-col-g5 { display:flex; flex-direction:column; gap:5px; }
+
+    /* ── Утилиты ── */
+    .tabular-nums { font-variant-numeric: tabular-nums; }
 
     /* ── Метрика ── */
     .metric-row { display: flex; align-items: flex-end; gap: 10px; }
