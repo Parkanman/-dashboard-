@@ -3718,8 +3718,8 @@ const CPI_SEED = [
 ];
 
 // Значение годовой инфляции (обновляется вручную или через кнопку)
-let cpiAnnual = localStorage.getItem('ak-cpi-annual') || '5,63%';
-if (cpiAnnual === '5,39%' || cpiAnnual === '5,51%') { cpiAnnual = '5,63%'; localStorage.setItem('ak-cpi-annual', cpiAnnual); }
+let cpiAnnual = localStorage.getItem('ak-cpi-annual') || '6,01%';
+if (['5,39%','5,51%','5,63%','5,85%'].includes(cpiAnnual)) { cpiAnnual = '6,01%'; localStorage.setItem('ak-cpi-annual', cpiAnnual); }
 
 // Plugin: выделяет последние 52 недели (= 12 мес.) на CPI-графике
 const cpiHighlightPlugin = {
@@ -3774,7 +3774,7 @@ const cpiHighlightPlugin = {
 let cpiData    = JSON.parse(localStorage.getItem(CPI_STORAGE)       || 'null') || CPI_SEED;
 const CPI_CMT  = 'ak-cpi-comment';
 let cpiComment = JSON.parse(localStorage.getItem(CPI_CMT) || 'null') || {
-  text: 'ИНФЛЯЦИЯ В РФ С 23 ПО 29 ИЮНЯ СОСТАВИЛА 0,22% ПОСЛЕ 0,25% НЕДЕЛЕЙ РАНЕЕ — РОССТАТ · УСКОРЕНИЕ 16–22 ИЮНЯ ДО 0,25% СВЯЗАНО СО СКАЧКОМ ЦЕН НА БЕНЗИН (+3,0%)',
+  text: 'ИНФЛЯЦИЯ В РФ С 23 ПО 29 ИЮНЯ СОСТАВИЛА 0,22% ПОСЛЕ 0,25% НЕДЕЛЕЙ РАНЕЕ — РОССТАТ · ГОДОВАЯ ИНФЛЯЦИЯ НА 29 ИЮНЯ УСКОРИЛАСЬ ДО 6,01% С 5,85% НА 22 ИЮНЯ',
   date: '01.07.2026'
 };
 let cpiChart = null;
