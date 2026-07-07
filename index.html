@@ -3159,7 +3159,7 @@
 <dialog id="cpi-add-dialog">
   <h3 style="margin:0 0 12px;font-size:1rem">Добавить неделю инфляции</h3>
   <label style="display:block;font-size:.75rem;font-weight:600;color:var(--graphite);margin-bottom:4px">Дата (дд.мм.гг)</label>
-  <input type="text" id="cpi-add-date" placeholder="15.06.26" style="width:100%;margin-bottom:10px">
+  <input type="text" id="cpi-add-date" placeholder="06.07.26" style="width:100%;margin-bottom:10px">
   <label style="display:block;font-size:.75rem;font-weight:600;color:var(--graphite);margin-bottom:4px">Значение, %</label>
   <input type="number" id="cpi-add-val" step="0.01" placeholder="0.15" style="width:100%">
   <div class="dialog-actions">
@@ -3684,7 +3684,7 @@ function showHelp(key) {
 }
 
 // ─── График недельной инфляции (Росстат) ──────────────────────────────
-const CPI_STORAGE = 'ak-cpi-v6'; // v6 = добавлена неделя 15.06.26
+const CPI_STORAGE = 'ak-cpi-v7'; // v7 = добавлены недели 22.06.26 и 29.06.26
 // Приближённые данные по паттерну графика Альфа-Инвестиции
 // Ключевые пики и дефляция совпадают с реальными данными Росстат
 // ⚠️ Точные данные вводить вручную каждую среду в 19:00
@@ -3713,6 +3713,8 @@ const CPI_SEED = [
   ['01.06.26',0.15],
   ['08.06.26',0.20], // Росстат 11.06.2026: 2–8 июня ускорилась до 0,20% с 0,15%
   ['15.06.26',0.15], // Росстат 17.06.2026: 9–15 июня замедлилась до 0,15% с 0,20%
+  ['22.06.26',0.25], // Росстат 25.06.2026: 16–22 июня ускорилась до 0,25% (бензин +3,0%)
+  ['29.06.26',0.22], // Росстат 01.07.2026: 23–29 июня замедлилась до 0,22% с 0,25%
 ];
 
 // Значение годовой инфляции (обновляется вручную или через кнопку)
@@ -3772,8 +3774,8 @@ const cpiHighlightPlugin = {
 let cpiData    = JSON.parse(localStorage.getItem(CPI_STORAGE)       || 'null') || CPI_SEED;
 const CPI_CMT  = 'ak-cpi-comment';
 let cpiComment = JSON.parse(localStorage.getItem(CPI_CMT) || 'null') || {
-  text: 'ИНФЛЯЦИЯ В РФ С 9 ПО 15 ИЮНЯ ЗАМЕДЛИЛАСЬ ДО 0,15% С 0,20% НЕДЕЛЕЙ РАНЕЕ — РОССТАТ · ГОДОВАЯ ИНФЛЯЦИЯ НА 15 ИЮНЯ ВЫРОСЛА ДО 5,63% · МАЙ (ОФИЦИАЛЬНЫЙ): 5,31% — РОССТАТ',
-  date: '17.06.2026'
+  text: 'ИНФЛЯЦИЯ В РФ С 23 ПО 29 ИЮНЯ СОСТАВИЛА 0,22% ПОСЛЕ 0,25% НЕДЕЛЕЙ РАНЕЕ — РОССТАТ · УСКОРЕНИЕ 16–22 ИЮНЯ ДО 0,25% СВЯЗАНО СО СКАЧКОМ ЦЕН НА БЕНЗИН (+3,0%)',
+  date: '01.07.2026'
 };
 let cpiChart = null;
 
