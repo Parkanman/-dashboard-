@@ -1697,11 +1697,11 @@
       <div style="display:flex;flex-direction:column;justify-content:space-between;border-right:1px solid var(--silver);padding-right:20px">
         <div>
           <div style="font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:var(--gray);margin-bottom:10px">Лиды 2026</div>
-          <div style="font-size:3rem;font-weight:800;color:var(--black);letter-spacing:-.04em;line-height:1" id="leads-total">50</div>
+          <div style="font-size:3rem;font-weight:800;color:var(--black);letter-spacing:-.04em;line-height:1" id="leads-total">55</div>
           <div style="font-size:.72rem;color:var(--gray);margin-top:4px">передано всего</div>
           <div style="margin-top:14px;display:flex;align-items:flex-end;gap:8px">
-            <div style="font-size:1.8rem;font-weight:800;color:#00BA38;letter-spacing:-.02em;line-height:1" id="leads-recent">+3</div>
-            <div style="font-size:.68rem;color:var(--gray);line-height:1.4;padding-bottom:3px">за последние<br>2 недели</div>
+            <div style="font-size:1.8rem;font-weight:800;color:#00BA38;letter-spacing:-.02em;line-height:1" id="leads-recent">+5</div>
+            <div style="font-size:.68rem;color:var(--gray);line-height:1.4;padding-bottom:3px">за последние<br>4 недели</div>
           </div>
         </div>
         <div class="updated" id="leads-upd" style="margin-top:12px"></div>
@@ -5240,12 +5240,12 @@ renderMacroInds();
 renderBrokerComment();
 
 // ─── Бизнес-показатели (Pro-сегмент) ─────────────────────────────────
-const BIZ_CLIENTS_KEY = 'ak-biz-clients-v3';
+const BIZ_CLIENTS_KEY = 'ak-biz-clients-v4'; // v4 = только 2026
 const BIZ_AUM_KEY     = 'ak-biz-aum-v3';
 
 const BIZ_CLIENTS_DEF = {
-  labels: ["янв'25","фев'25","мар'25","апр'25","май'25","июн'25","июл'25","авг'25","сен'25","окт'25","ноя'25","дек'25","янв'26","фев'26","мар'26","апр'26","май'26","июн'26"],
-  data:   [23, 30, 38, 40, 40, 39, 38, 39, 41, 42, 43, 43, 44, 45, 46, 44, 44, 44]
+  labels: ["янв'26","фев'26","мар'26","апр'26","май'26","июн'26"],
+  data:   [44, 45, 46, 44, 44, 44]
 };
 const BIZ_AUM_DEF = {
   labels: ["янв'25","фев'25","мар'25","апр'25","май'25","июн'25","июл'25","авг'25","сен'25","окт'25","ноя'25","дек'25","янв'26","фев'26","мар'26","апр'26","май'26","июн'26"],
@@ -5502,8 +5502,8 @@ renderRevenuePlan();
 
 // ─── Лиды 2026 ─────────────────────────────────────────────────────────────
 const LEADS_KEY = 'ak-leads-2026';
-let leadsData = JSON.parse(localStorage.getItem(LEADS_KEY) || 'null') || { total: 50, recent: 3, date: '' };
-if (leadsData.total === 47 || leadsData.total === 49) { leadsData.total = 50; leadsData.recent = 3; localStorage.setItem(LEADS_KEY, JSON.stringify(leadsData)); }
+let leadsData = JSON.parse(localStorage.getItem(LEADS_KEY) || 'null') || { total: 55, recent: 5, date: '' };
+if ([47,49,50].includes(leadsData.total)) { leadsData.total = 55; leadsData.recent = 5; localStorage.setItem(LEADS_KEY, JSON.stringify(leadsData)); }
 
 function renderLeads() {
   document.getElementById('leads-total').textContent = leadsData.total;
