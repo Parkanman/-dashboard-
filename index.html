@@ -1107,8 +1107,8 @@
       </div>
       <div class="macro-ind-cell" onclick="openMacroIndDialog(1)" title="Нажмите для редактирования">
         <div class="macro-ind-name">Инфляция (г/г)</div>
-        <div class="macro-ind-val" id="mi-val-1">5,51%</div>
-        <div class="macro-ind-foot"><span class="badge up" id="mi-chg-1">↑ 0,20 пп</span><span class="macro-ind-src" id="mi-src-1">Росстат · июн 2026</span></div>
+        <div class="macro-ind-val" id="mi-val-1">5,61%</div>
+        <div class="macro-ind-foot"><span class="badge up" id="mi-chg-1">↑ 0,10 пп</span><span class="macro-ind-src" id="mi-src-1">Росстат · июл 2026</span></div>
       </div>
       <div class="macro-ind-cell" onclick="openMacroIndDialog(2)" title="Нажмите для редактирования">
         <div class="macro-ind-name">Безработица</div>
@@ -1171,7 +1171,7 @@
       Недельная инфляция ИПЦ, %
       <div style="display:flex;gap:6px;align-items:center">
         <span class="updated" style="display:flex;align-items:center;gap:4px;text-transform:none;letter-spacing:0;font-weight:400">
-          Год.: <b id="cpi-annual-display" style="color:var(--green)">5,51%</b>
+          Год.: <b id="cpi-annual-display" style="color:var(--green)">5,61%</b>
           <button class="edit-btn" onclick="editCPIAnnual()" style="margin:0;padding:1px 6px">✏</button>
         </span>
         <button class="edit-btn" id="cpi-add-btn">+ Неделя</button>
@@ -3684,7 +3684,7 @@ function showHelp(key) {
 }
 
 // ─── График недельной инфляции (Росстат) ──────────────────────────────
-const CPI_STORAGE = 'ak-cpi-v7'; // v7 = добавлены недели 22.06.26 и 29.06.26
+const CPI_STORAGE = 'ak-cpi-v8'; // v8 = добавлена неделя 06.07.26 (0,31%)
 // Приближённые данные по паттерну графика Альфа-Инвестиции
 // Ключевые пики и дефляция совпадают с реальными данными Росстат
 // ⚠️ Точные данные вводить вручную каждую среду в 19:00
@@ -3715,11 +3715,12 @@ const CPI_SEED = [
   ['15.06.26',0.15], // Росстат 17.06.2026: 9–15 июня замедлилась до 0,15% с 0,20%
   ['22.06.26',0.25], // Росстат 25.06.2026: 16–22 июня ускорилась до 0,25% (бензин +3,0%)
   ['29.06.26',0.22], // Росстат 01.07.2026: 23–29 июня замедлилась до 0,22% с 0,25%
+  ['06.07.26',0.31], // Росстат 09.07.2026: 30 июня – 6 июля ускорилась до 0,31% (бензин +2,11%, ДТ +3,35%)
 ];
 
 // Значение годовой инфляции (обновляется вручную или через кнопку)
-let cpiAnnual = localStorage.getItem('ak-cpi-annual') || '6,01%';
-if (['5,39%','5,51%','5,63%','5,85%'].includes(cpiAnnual)) { cpiAnnual = '6,01%'; localStorage.setItem('ak-cpi-annual', cpiAnnual); }
+let cpiAnnual = localStorage.getItem('ak-cpi-annual') || '5,61%';
+if (['5,39%','5,51%','5,63%','5,85%','6,01%'].includes(cpiAnnual)) { cpiAnnual = '5,61%'; localStorage.setItem('ak-cpi-annual', cpiAnnual); }
 
 // Plugin: выделяет последние 52 недели (= 12 мес.) на CPI-графике
 const cpiHighlightPlugin = {
@@ -5125,7 +5126,7 @@ function saveEdit() {
 const MACRO_IND_KEY = 'ak-macro-ind-v1';
 const MACRO_IND_DEF = [
   { id:'rate',   name:'Ключевая ставка ЦБ',       val:'14,5%',       chg:'без изм.',   dir:'flat', src:'ЦБ РФ',      period:'апр 2026' },
-  { id:'cpi',    name:'Инфляция (г/г)',             val:'5,51%',       chg:'↑ 0,20 пп', dir:'up',   src:'Росстат',    period:'июн 2026' },
+  { id:'cpi',    name:'Инфляция (г/г)',             val:'5,61%',       chg:'↑ 0,10 пп', dir:'up',   src:'Росстат',    period:'июл 2026' },
   { id:'unemp',  name:'Безработица',                val:'2,4%',        chg:'без изм.',   dir:'flat', src:'Росстат',    period:'апр 2026' },
   { id:'gdp',    name:'ВВП (г/г)',                  val:'+1,9%',       chg:'↓ 0,4 пп',  dir:'down', src:'Росстат',    period:'1к2026'   },
   { id:'ipp',    name:'Пром. производство (ИПП)',   val:'+2,7%',       chg:'↑ 0,3 пп',  dir:'up',   src:'Росстат',    period:'апр 2026' },
